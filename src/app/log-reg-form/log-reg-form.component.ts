@@ -11,5 +11,13 @@ export class LogRegFormComponent implements OnInit {
 
   ngOnInit() {
   }
+  btnZarejestruj(formRejestracji: any)
+  {
+    console.log(formRejestracji);
+  }
 
+  btnZaloguj(formLogowania: any)
+  {
+    console.log(formLogowania);
+  }
 }
