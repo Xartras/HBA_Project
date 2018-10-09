@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 // Dodatkowe moduly
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 
 // Import komponentow aplikacji
 import { AppComponent } from './app.component';
@@ -16,6 +17,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { WerehouseComponent } from './werehouse/werehouse.component';
 import { HomePageComponent } from './home-page/home-page.component';
+
 
 @NgModule({
   declarations: [
