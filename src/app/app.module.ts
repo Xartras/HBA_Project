@@ -15,6 +15,7 @@ import { MenuItemComponent } from './menu/menuitem.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { WerehouseComponent } from './werehouse/werehouse.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { WerehouseComponent } from './werehouse/werehouse.component';
     MenuItemComponent,
     StatisticsComponent,
     TransactionsComponent,
-    WerehouseComponent
+    WerehouseComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
