@@ -4,6 +4,13 @@ import { NgModule } from '@angular/core';
 // Dodatkowe moduly
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { 
+        MatButtonModule, MatToolbarModule, MatSidenavModule
+       ,MatIconModule, MatListModule, MatTableModule
+       ,MatPaginatorModule, MatSortModule, MatCheckboxModule
+        } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { LayoutModule } from '@angular/cdk/layout';
 
 // Import komponentow aplikacji
 import { AppComponent } from './app.component';
@@ -17,7 +24,7 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { WerehouseComponent } from './werehouse/werehouse.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-
+import { PeriodicFeesComponent } from './_data_tables/periodic-fees/periodic-fees.component';
 
 
 @NgModule({
@@ -32,11 +39,24 @@ import { RegisterComponent } from './register/register.component';
     TransactionsComponent,
     WerehouseComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    RegisterComponent,
+    PeriodicFeesComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    LayoutModule,
+    MatButtonModule, 
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule, 
+    MatListModule,
+    MatTableModule, 
+    MatPaginatorModule,
+    MatSortModule,
+    MatCheckboxModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

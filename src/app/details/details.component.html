@@ -1,3 +1,51 @@
-<p>
-  details works!
-</p>
+<div class="container">
+<!-- Sekcja z danymi uzytkownika -->
+  <div>
+    <h4>Dane użytkownika</h4>
+      <!-- Dane uzytkownika nie do zmiany -->
+    <div class="column">
+        <div class="col-md-6">
+          <div>
+            <label for="login">Login</label>
+            <span name="login">{{user.login}}</span>
+          </div>
+
+          <div>
+            <label for="okrOd">Okres od</label>
+            <span name="okrOd">{{user.periodStart}}</span>
+          </div>        
+
+        <div>
+          <label for="okrDo">Okres do</label>
+          <span name="okrDo">{{user.periodEnd}}</span>
+        </div>
+      </div>
+    </div>
+
+      <!-- Dane uzytkownika do zmiany -->
+    <div class="column">
+      <div class="col-md-6">
+
+        <div>
+          <label for="password">Hasło</label>
+          <span name="password">{{user.password}}</span>
+          <button class="btn btn-primary" (click)="btnChangePss()">Zmień</button>
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <span name="password">{{user.email}}</span>
+          <button class="btn btn-primary" (click)="btnChangeEmail()">Zmień</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Sekcja oplat okresowych -->
+  <div>
+    <h4>Opłaty okresowe</h4>
+
+    <periodic-fees></periodic-fees>
+
+  </div>
+</div>

@@ -9,7 +9,12 @@ export class LoginComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  user : any = { }
 
+  ngOnInit() { }
+
+  btnLogIn()
+  {
+    console.log(this.user)
+  }
 }
