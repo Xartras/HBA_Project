@@ -28,4 +28,19 @@ export class DetailsComponent implements OnInit {
     console.log(this.user.password)    
   }
 
+  btnAddPeriodicFee()
+  {
+    console.log('Btn Add works!')
+  }
+
+  btnRemovePeriodicFee()
+  {
+    console.log('Btn Remove works!')
+  }
+
+  btnEditPeriodicFee()
+  {
+    console.log('Btn Edit works!')
+  }
+
 }

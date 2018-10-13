@@ -1,7 +1,8 @@
 <div class="container">
 <!-- Sekcja z danymi uzytkownika -->
   <div>
-    <h4>Dane użytkownika</h4>
+      <h4>Dane użytkownika</h4>
+
       <!-- Dane uzytkownika nie do zmiany -->
     <div class="column">
         <div class="col-md-6">
@@ -43,7 +44,16 @@
 
 <!-- Sekcja oplat okresowych -->
   <div>
-    <h4>Opłaty okresowe</h4>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div>
+        <h4>Opłaty okresowe</h4>
+      </div>
+      <form class="form-inline">
+        <button (click)="btnAddPeriodicFee()">Dodaj</button>
+        <button (click)="btnEditPeriodicFee()">Edytuj</button>
+        <button (click)="btnRemovePeriodicFee()">Usuń</button>
+      </form>
+    </nav>
 
     <periodic-fees></periodic-fees>
 
