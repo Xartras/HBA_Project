@@ -18,4 +18,20 @@ export class BudgetPlanComponent implements OnInit {
   ngOnInit() {
     this.dataSource = new BudgetPlanDataSource(this.paginator, this.sort);
   }
+
+    // Metody odpowiedzialne za dodawanie / usuwanie / edytowanie wpisow planowanego budzetu
+    btnAddBudgetPlanItem()
+    {
+      console.log('Add budget plan item!')
+    }
+  
+    btnRemoveBudgetPlanItem()
+    {
+      console.log('Remove budget plan item!')
+    }
+  
+    btnEditBudgetPlanItem()
+    {
+      console.log('Edit budget plan item!')
+    }
 }

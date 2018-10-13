@@ -14,6 +14,8 @@ export class DetailsComponent implements OnInit {
   user : any = {login: "Xarq", password: "Abc1", email: "mail@mail.com"
               , periodStart: "2018-01-27", periodEnd: "2018-02-26" }
   
+
+  // Metody odpowiedzialne z zmiane adresu email oraz hasla uzytkownika
   btnChangePss()
   {
     console.log(this.user.password)
@@ -27,20 +29,4 @@ export class DetailsComponent implements OnInit {
     this.user.password = "nowyMail@mail.com"
     console.log(this.user.password)    
   }
-
-  btnAddPeriodicFee()
-  {
-    console.log('Btn Add works!')
-  }
-
-  btnRemovePeriodicFee()
-  {
-    console.log('Btn Remove works!')
-  }
-
-  btnEditPeriodicFee()
-  {
-    console.log('Btn Edit works!')
-  }
-
 }

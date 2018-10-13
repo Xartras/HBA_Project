@@ -23,4 +23,20 @@ export class PeriodicFeesComponent implements OnInit {
   {
     console.log(feeStatus)
   }
+
+  // Metody odpowiedzialne za dodawanie / usuwanie / edytowanie wpisow oplat okresowych
+  btnAddPeriodicFee()
+  {
+    console.log('Btn Add works!')
+  }
+  
+  btnRemovePeriodicFee()
+  {
+    console.log('Btn Remove works!')
+  }
+  
+  btnEditPeriodicFee()
+  {
+    console.log('Btn Edit works!')
+  }
 }
