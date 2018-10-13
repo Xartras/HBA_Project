@@ -25,6 +25,7 @@ import { WerehouseComponent } from './werehouse/werehouse.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PeriodicFeesComponent } from './_data_tables/periodic-fees/periodic-fees.component';
+import { BudgetPlanComponent } from './_data_tables/budget-plan/budget-plan.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { PeriodicFeesComponent } from './_data_tables/periodic-fees/periodic-fee
     LoginComponent,
     RegisterComponent,
     RegisterComponent,
-    PeriodicFeesComponent
+    PeriodicFeesComponent,
+    BudgetPlanComponent
   ],
   imports: [
     BrowserModule,

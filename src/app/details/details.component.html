@@ -54,8 +54,23 @@
         <button (click)="btnRemovePeriodicFee()">Usuń</button>
       </form>
     </nav>
-
+  <!-- Tabela oplat okresowych -->
     <periodic-fees></periodic-fees>
+  </div>
 
+  <!-- Sekcja planowania budzetu -->
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div>
+        <h4>Planowanie budżetu</h4>
+      </div>
+      <form class="form-inline">
+        <button (click)="btnAddBudgetPlanItem()">Dodaj</button>
+        <button (click)="btnEditBudgetPlanItem()">Edytuj</button>
+        <button (click)="btnRemoveBudgetPlanItem()">Usuń</button>
+      </form>
+    </nav>
+  <!-- Tabela oplat okresowych -->
+    <budget-plan></budget-plan>
   </div>
 </div>
