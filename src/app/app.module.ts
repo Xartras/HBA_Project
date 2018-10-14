@@ -26,6 +26,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PeriodicFeesComponent } from './_data_tables/periodic-fees/periodic-fees.component';
 import { BudgetPlanComponent } from './_data_tables/budget-plan/budget-plan.component';
+import { LogRegComponent } from './log-reg/log-reg.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { BudgetPlanComponent } from './_data_tables/budget-plan/budget-plan.comp
     RegisterComponent,
     RegisterComponent,
     PeriodicFeesComponent,
-    BudgetPlanComponent
+    BudgetPlanComponent,
+    LogRegComponent
   ],
   imports: [
     BrowserModule,
