@@ -28,6 +28,15 @@ import { PeriodicFeesComponent } from './_data_tables/periodic-fees/periodic-fee
 import { BudgetPlanComponent } from './_data_tables/budget-plan/budget-plan.component';
 import { LogRegComponent } from './log-reg/log-reg.component';
 
+const routes : Routes = 
+[
+  { path: 'details', component: DetailsComponent },
+  { path: 'transactions', component: TransactionsComponent },
+  { path: 'homebillings', component: HomeBillingsComponent },
+  { path: 'werehouse', component: WerehouseComponent },
+  { path: 'statistics', component: StatisticsComponent },
+  { path: '', redirectTo: '/details', pathMatch: 'full' }
+]
 
 @NgModule({
   declarations: [
@@ -60,7 +69,8 @@ import { LogRegComponent } from './log-reg/log-reg.component';
     MatPaginatorModule,
     MatSortModule,
     MatCheckboxModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

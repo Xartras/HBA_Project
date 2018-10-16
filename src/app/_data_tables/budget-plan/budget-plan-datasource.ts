@@ -9,14 +9,15 @@ export interface BudgetPlanItem {
   category: string;
   name: string;
   amount: number;
-  comment: string
+  comment: string;
+  actions: string;
 }
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: BudgetPlanItem[] = [
-  {type: 'Zysk', category: 'Wypłata', name: 'Wypłata - Sierpnień 2018', amount: 2500.12, comment: 'Stała wypłata'},
-  {type: 'Koszt', category: 'Opłaty', name: 'Prąd', amount: 75.92, comment: ''},
-  {type: 'Koszt', category: 'Opłaty', name: 'Gaz', amount: 22.37, comment: ''},
+  {type: 'Zysk', category: 'Wypłata', name: 'Wypłata - Sierpnień 2018', amount: 2500.12, comment: 'Stała wypłata', actions: 'Usuń;Edytuj'},
+  {type: 'Koszt', category: 'Opłaty', name: 'Prąd', amount: 75.92, comment: '', actions: 'Usuń;Edytuj'},
+  {type: 'Koszt', category: 'Opłaty', name: 'Gaz', amount: 22.37, comment: '', actions: 'Usuń;Edytuj'},
 ];
 
 /**

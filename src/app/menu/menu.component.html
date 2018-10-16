@@ -1,3 +1,11 @@
-<p>
-  menu works!
-</p>
+<div class="container">
+  <nav class="navbar navbar-dark bg-primary">
+    <a routerLink="/details" class="navbar-brand">Detale użytkownika</a>
+    <a routerLink="/transactions" class="navbar-brand">Transakcje</a>
+    <a routerLink="/homebillings" class="navbar-brand">Media</a>
+    <a routerLink="/werehouse" class="navbar-brand">Magazyn</a>
+    <a routerLink="/statistics" class="navbar-brand">Analiza budżetu</a>
+  </nav>
+
+  <router-outlet></router-outlet>
+</div>
