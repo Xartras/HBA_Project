@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
+
 
 @Component({
   selector: 'app-login',
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: Router) 
+  { }
 
   user : any = { }
 
@@ -15,6 +18,6 @@ export class LoginComponent implements OnInit {
 
   btnLogIn()
   {
-    console.log(this.user)
+    this.route.navigate(['/details'])
   }
 }

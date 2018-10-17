@@ -15,6 +15,8 @@ export class BudgetPlanComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['type', 'category', 'name', 'amount', 'comment', 'actions'];
 
+  constructor() {}
+
   ngOnInit() {
     this.dataSource = new BudgetPlanDataSource(this.paginator, this.sort);
   }
@@ -22,7 +24,7 @@ export class BudgetPlanComponent implements OnInit {
     // Metody odpowiedzialne za dodawanie wpisow planowanego budzetu
     btnAddBudgetPlanItem()
     {
-      console.log('Add budget plan item!')
+      
     }
   
     // Metody odpowiedzialne za edycje i usuwanie wpisow

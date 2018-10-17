@@ -46,7 +46,7 @@ const routes : Routes =
   { path: 'homebillings', component: HomeBillingsComponent },
   { path: 'werehouse', component: WerehouseComponent },
   { path: 'statistics', component: StatisticsComponent },
-  { path: '', redirectTo: '/details', pathMatch: 'full' }
+  { path: '', component: DetailsComponent }
 ]
 
 @NgModule({
