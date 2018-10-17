@@ -14,19 +14,30 @@ import { LayoutModule } from '@angular/cdk/layout';
 
 // Import komponentow aplikacji
 import { AppComponent } from './app.component';
+
+// Naglowek aplikacji
 import { HeaderComponent } from './header/header.component';
+
+// Poszczegolne zakladki aplikacji po zalogowaniu oraz menu
 import { DetailsComponent } from './details/details.component';
 import { HomeBillingsComponent } from './homebillings/homebillings.component';
 import { MenuComponent } from './menu/menu.component';
-import { MenuItemComponent } from './menu/menuitem.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { WerehouseComponent } from './werehouse/werehouse.component';
+
+// Komponeny strony logowania
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { LogRegComponent } from './log-reg/log-reg.component';
+
+// Komponenty zawierajace tabele
 import { PeriodicFeesComponent } from './_data_tables/periodic-fees/periodic-fees.component';
 import { BudgetPlanComponent } from './_data_tables/budget-plan/budget-plan.component';
-import { LogRegComponent } from './log-reg/log-reg.component';
+import { HomeBillingsDataComponent } from './_data_tables/home-billings/home-billings.component';
+import { WerehouseDataComponent } from './_data_tables/werehouse/werehouse.component';
+import { TransactionsDataComponent } from './_data_tables/transactions/transactions-data.component'
+
 
 const routes : Routes = 
 [
@@ -45,16 +56,17 @@ const routes : Routes =
     DetailsComponent,
     HomeBillingsComponent,
     MenuComponent,
-    MenuItemComponent,
     StatisticsComponent,
     TransactionsComponent,
     WerehouseComponent,
     LoginComponent,
     RegisterComponent,
-    RegisterComponent,
+    LogRegComponent,
     PeriodicFeesComponent,
     BudgetPlanComponent,
-    LogRegComponent
+    HomeBillingsDataComponent,
+    WerehouseDataComponent,
+    TransactionsDataComponent
   ],
   imports: [
     BrowserModule,

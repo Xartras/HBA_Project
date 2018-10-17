@@ -1,0 +1,70 @@
+<div class="mat-elevation-z8">
+  <table mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+    <!-- [Typ] -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Typ</th>
+      <td mat-cell *matCellDef="let row">{{row.type}}</td>
+    </ng-container>
+
+    <!-- [Kategoria] -->
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Kategoria</th>
+      <td mat-cell *matCellDef="let row">{{row.category}}</td>
+    </ng-container>
+
+    <!-- [Nazwa] -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazwa</th>
+      <td mat-cell *matCellDef="let row">{{row.name}}</td>
+    </ng-container>
+
+    <!-- [Kwota] -->
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Kwota</th>
+      <td mat-cell *matCellDef="let row">{{row.amount}}</td>
+    </ng-container>
+
+    <!-- [Oplacono] -->
+    <ng-container matColumnDef="accounted">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Opłacono</th>
+      <td mat-cell *matCellDef="let row">{{row.accounted}}</td>
+    </ng-container>
+
+    <!-- [Wprowadzono] -->
+    <ng-container matColumnDef="entered">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Wprowadzono</th>
+      <td mat-cell *matCellDef="let row">{{row.entered}}</td>
+    </ng-container>
+
+    <!-- [Okres] -->
+    <ng-container matColumnDef="period">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Okres</th>
+      <td mat-cell *matCellDef="let row">{{row.period}}</td>
+    </ng-container>
+
+    <!-- [Opis] -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Opis</th>
+      <td mat-cell *matCellDef="let row">{{row.actions}}</td>
+    </ng-container>
+
+    <!-- [Akcje] -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Akcje</th>
+      <td mat-cell *matCellDef="let row">
+        <button (click)="btnEditRow(row)">{{row.actions.split(";")[0]}}</button>
+        <button (click)="btnRemoveRow(row)">{{row.actions.split(";")[1]}}</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator #paginator
+    [length]="dataSource.data.length"
+    [pageIndex]="0"
+    [pageSize]="50"
+    [pageSizeOptions]="[25, 50, 100, 250]">
+  </mat-paginator>
+</div>
