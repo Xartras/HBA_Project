@@ -4,10 +4,11 @@ import { NgModule } from '@angular/core';
 // Dodatkowe moduly
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { 
+import { // obsługa tabel poszczególnych komponentów oraz okien dialogowych (dodawanie wpisów)
         MatButtonModule, MatToolbarModule, MatSidenavModule
        ,MatIconModule, MatListModule, MatTableModule
        ,MatPaginatorModule, MatSortModule, MatCheckboxModule
+       ,MatDialogModule
         } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { LayoutModule } from '@angular/cdk/layout';
@@ -36,7 +37,8 @@ import { PeriodicFeesComponent } from './_data_tables/periodic-fees/periodic-fee
 import { BudgetPlanComponent } from './_data_tables/budget-plan/budget-plan.component';
 import { HomeBillingsDataComponent } from './_data_tables/home-billings/home-billings.component';
 import { WerehouseDataComponent } from './_data_tables/werehouse/werehouse.component';
-import { TransactionsDataComponent } from './_data_tables/transactions/transactions-data.component'
+import { TransactionsDataComponent } from './_data_tables/transactions/transactions-data.component';
+import { AddPeriodicFeeDialogComponent } from './_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component'
 
 
 const routes : Routes = 
@@ -52,38 +54,29 @@ const routes : Routes =
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    DetailsComponent,
-    HomeBillingsComponent,
-    MenuComponent,
-    StatisticsComponent,
-    TransactionsComponent,
-    WerehouseComponent,
-    LoginComponent,
-    RegisterComponent,
-    LogRegComponent,
-    PeriodicFeesComponent,
-    BudgetPlanComponent,
-    HomeBillingsDataComponent,
-    WerehouseDataComponent,
-    TransactionsDataComponent
+    HeaderComponent, MenuComponent,
+
+    DetailsComponent, HomeBillingsComponent, StatisticsComponent,
+    TransactionsComponent, WerehouseComponent,
+
+    LoginComponent, RegisterComponent, LogRegComponent,
+
+    PeriodicFeesComponent, BudgetPlanComponent, HomeBillingsDataComponent,
+    WerehouseDataComponent, TransactionsDataComponent, 
+    
+    AddPeriodicFeeDialogComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    LayoutModule,
-    MatButtonModule, 
-    MatToolbarModule,
-    MatSidenavModule,
-    MatIconModule, 
-    MatListModule,
-    MatTableModule, 
-    MatPaginatorModule,
-    MatSortModule,
-    MatCheckboxModule,
-    BrowserAnimationsModule,
+    BrowserModule, BrowserAnimationsModule,
+    FormsModule, LayoutModule,
+    MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatCheckboxModule,
+    MatListModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule,    
     RouterModule.forRoot(routes)
   ],
+  entryComponents: [
+    AddPeriodicFeeDialogComponent
+  ]
+  ,
   providers: [],
   bootstrap: [AppComponent]
 })
