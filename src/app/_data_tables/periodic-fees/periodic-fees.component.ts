@@ -32,8 +32,7 @@ export class PeriodicFeesComponent implements OnInit {
   // Metody odpowiedzialne za dodawanie / usuwanie / edytowanie wpisow oplat okresowych
   btnAddPeriodicFee() : void
   {
-    let dialogRef = this.dialog.open(AddPeriodicFeeDialogComponent, 
-      {})
+    let dialogRef = this.dialog.open(AddPeriodicFeeDialogComponent, {})
 
       dialogRef.afterClosed().subscribe(
         result => {

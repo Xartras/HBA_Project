@@ -14,7 +14,7 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
   ngOnInit() {
   }
 
-  btnSaveNewFee()
+  btnSaveNewItem()
   {
     this.dialogRef.close("Just Closed");
   }

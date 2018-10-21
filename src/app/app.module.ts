@@ -38,7 +38,13 @@ import { BudgetPlanComponent } from './_data_tables/budget-plan/budget-plan.comp
 import { HomeBillingsDataComponent } from './_data_tables/home-billings/home-billings.component';
 import { WerehouseDataComponent } from './_data_tables/werehouse/werehouse.component';
 import { TransactionsDataComponent } from './_data_tables/transactions/transactions-data.component';
-import { AddPeriodicFeeDialogComponent } from './_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component'
+
+// Komponenty będące oknami dialogowymi do wprowadzania danych
+import { AddPeriodicFeeDialogComponent } from './_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component';
+import { AddBudgetPlanDialogComponent } from './_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
+import { AddTransactionDialogComponent } from './_modal_dialogs/add-transaction-dialog/add-transaction-dialog.component';
+import { AddWerehouseItemDialogComponent } from './_modal_dialogs/add-werehouse-item-dialog/add-werehouse-item-dialog.component';
+import { AddHomeBillingItemDialogComponent } from './_modal_dialogs/add-home-billing-item-dialog/add-home-billing-item-dialog.component'
 
 
 const routes : Routes = 
@@ -64,7 +70,8 @@ const routes : Routes =
     PeriodicFeesComponent, BudgetPlanComponent, HomeBillingsDataComponent,
     WerehouseDataComponent, TransactionsDataComponent, 
     
-    AddPeriodicFeeDialogComponent
+    AddPeriodicFeeDialogComponent, AddBudgetPlanDialogComponent, AddTransactionDialogComponent, 
+    AddWerehouseItemDialogComponent, AddHomeBillingItemDialogComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
@@ -74,7 +81,8 @@ const routes : Routes =
     RouterModule.forRoot(routes)
   ],
   entryComponents: [
-    AddPeriodicFeeDialogComponent
+    AddPeriodicFeeDialogComponent, AddBudgetPlanDialogComponent, AddTransactionDialogComponent, 
+    AddWerehouseItemDialogComponent, AddHomeBillingItemDialogComponent
   ]
   ,
   providers: [],
