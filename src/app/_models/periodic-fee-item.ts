@@ -8,7 +8,7 @@ export class PeriodicFeeItem
     paidFrom: Date;
     paidUntil: Date;
     paymentPeriod: string;
-    ifAlredyPaid: boolean;
+    ifAlreadyPaid: boolean;
 
     constructor(c: string, n: string, pf: Date, pu: Date, pp: string, iap: boolean)
     {
@@ -17,6 +17,6 @@ export class PeriodicFeeItem
         this.paidFrom = pf;
         this.paidUntil= pu;
         this.paymentPeriod = pp;
-        this.ifAlredyPaid = iap;
+        this.ifAlreadyPaid = iap;
     }
 }

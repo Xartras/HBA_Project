@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { PeriodicFeeItem } from '../../_models/periodic-fee-item';
 
 @Component({
   selector: 'app-add-periodic-fee-dialog',
@@ -14,8 +15,10 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
   ngOnInit() {
   }
 
+  newFee : PeriodicFeeItem = new PeriodicFeeItem("", "", null, null, "", false)
+
   btnSaveNewItem()
   {
-    this.dialogRef.close("Just Closed");
+    this.dialogRef.close(this.newFee);
   }
 }
