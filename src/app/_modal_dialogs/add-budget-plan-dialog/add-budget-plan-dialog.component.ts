@@ -23,4 +23,9 @@ export class AddBudgetPlanDialogComponent implements OnInit {
     this.dialogRef.close(this.newBudgetItem);
   }
 
+  btnCancel()
+  {
+    this.dialogRef.close();
+  }
+
 }

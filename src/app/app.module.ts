@@ -16,9 +16,6 @@ import { LayoutModule } from '@angular/cdk/layout';
 // Import komponentow aplikacji
 import { AppComponent } from './app.component';
 
-// Naglowek aplikacji
-import { HeaderComponent } from './header/header.component';
-
 // Poszczegolne zakladki aplikacji po zalogowaniu oraz menu
 import { DetailsComponent } from './details/details.component';
 import { HomeBillingsComponent } from './homebillings/homebillings.component';
@@ -26,11 +23,6 @@ import { MenuComponent } from './menu/menu.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { WerehouseComponent } from './werehouse/werehouse.component';
-
-// Komponeny strony logowania
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { LogRegComponent } from './log-reg/log-reg.component';
 
 // Komponenty zawierajace tabele
 import { PeriodicFeesComponent } from './_data_tables/periodic-fees/periodic-fees.component';
@@ -40,6 +32,8 @@ import { WerehouseDataComponent } from './_data_tables/werehouse/werehouse.compo
 import { TransactionsDataComponent } from './_data_tables/transactions/transactions-data.component';
 
 // Komponenty będące oknami dialogowymi do wprowadzania danych
+import { LoginComponent } from './_modal_dialogs/login/login.component';
+import { RegisterComponent } from './_modal_dialogs/register/register.component';
 import { AddPeriodicFeeDialogComponent } from './_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component';
 import { AddBudgetPlanDialogComponent } from './_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
 import { AddTransactionDialogComponent } from './_modal_dialogs/add-transaction-dialog/add-transaction-dialog.component';
@@ -59,13 +53,12 @@ const routes : Routes =
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent, MenuComponent,
+    AppComponent, MenuComponent,
 
     DetailsComponent, HomeBillingsComponent, StatisticsComponent,
     TransactionsComponent, WerehouseComponent,
 
-    LoginComponent, RegisterComponent, LogRegComponent,
+    LoginComponent, RegisterComponent,
 
     PeriodicFeesComponent, BudgetPlanComponent, HomeBillingsDataComponent,
     WerehouseDataComponent, TransactionsDataComponent, 
@@ -81,6 +74,7 @@ const routes : Routes =
     RouterModule.forRoot(routes)
   ],
   entryComponents: [
+    LoginComponent, RegisterComponent,
     AddPeriodicFeeDialogComponent, AddBudgetPlanDialogComponent, AddTransactionDialogComponent, 
     AddWerehouseItemDialogComponent, AddHomeBillingItemDialogComponent
   ]

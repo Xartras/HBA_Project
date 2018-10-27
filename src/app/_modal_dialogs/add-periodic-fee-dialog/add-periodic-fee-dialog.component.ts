@@ -21,4 +21,9 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
   {
     this.dialogRef.close(this.newFee);
   }
+
+  btnCancel()
+  {
+    this.dialogRef.close()
+  }
 }
