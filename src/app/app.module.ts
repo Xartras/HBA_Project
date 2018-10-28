@@ -17,6 +17,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AppComponent } from './app.component';
 
 // Poszczegolne zakladki aplikacji po zalogowaniu oraz menu
+import { HeaderComponent } from './header/header.component';
+import { LoginComponent } from './login/login.component';
 import { DetailsComponent } from './details/details.component';
 import { HomeBillingsComponent } from './homebillings/homebillings.component';
 import { MenuComponent } from './menu/menu.component';
@@ -32,28 +34,32 @@ import { WerehouseDataComponent } from './_data_tables/werehouse/werehouse.compo
 import { TransactionsDataComponent } from './_data_tables/transactions/transactions-data.component';
 
 // Komponenty będące oknami dialogowymi do wprowadzania danych
-import { LoginComponent } from './_modal_dialogs/login/login.component';
 import { RegisterComponent } from './_modal_dialogs/register/register.component';
 import { AddPeriodicFeeDialogComponent } from './_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component';
 import { AddBudgetPlanDialogComponent } from './_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
 import { AddTransactionDialogComponent } from './_modal_dialogs/add-transaction-dialog/add-transaction-dialog.component';
 import { AddWerehouseItemDialogComponent } from './_modal_dialogs/add-werehouse-item-dialog/add-werehouse-item-dialog.component';
-import { AddHomeBillingItemDialogComponent } from './_modal_dialogs/add-home-billing-item-dialog/add-home-billing-item-dialog.component'
+import { AddHomeBillingItemDialogComponent } from './_modal_dialogs/add-home-billing-item-dialog/add-home-billing-item-dialog.component';
+
+// Serwisy
+import { UserAuthGuard } from './_services/user-auth-guard.guard';
+import { UserAuthService } from './_services/user-auth-service.service';
 
 
 const routes : Routes = 
 [
-  { path: 'details', component: DetailsComponent },
-  { path: 'transactions', component: TransactionsComponent },
-  { path: 'homebillings', component: HomeBillingsComponent },
-  { path: 'werehouse', component: WerehouseComponent },
-  { path: 'statistics', component: StatisticsComponent },
-  { path: '', component: DetailsComponent }
+  { path: 'details', component: DetailsComponent, canActivate: [UserAuthGuard] },
+  { path: 'transactions', component: TransactionsComponent, canActivate: [UserAuthGuard] },
+  { path: 'homebillings', component: HomeBillingsComponent, canActivate: [UserAuthGuard] },
+  { path: 'werehouse', component: WerehouseComponent, canActivate: [UserAuthGuard] },
+  { path: 'statistics', component: StatisticsComponent, canActivate: [UserAuthGuard] },
+  { path: '', component: DetailsComponent, canActivate: [UserAuthGuard]},
+  { path: 'login', component: LoginComponent}
 ]
 
 @NgModule({
   declarations: [
-    AppComponent, MenuComponent,
+    AppComponent, MenuComponent, HeaderComponent,
 
     DetailsComponent, HomeBillingsComponent, StatisticsComponent,
     TransactionsComponent, WerehouseComponent,
@@ -70,16 +76,17 @@ const routes : Routes =
     BrowserModule, BrowserAnimationsModule,
     FormsModule, LayoutModule,
     MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatCheckboxModule,
-    MatListModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule,    
+    MatListModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule,
+    
     RouterModule.forRoot(routes)
   ],
   entryComponents: [
-    LoginComponent, RegisterComponent,
+    RegisterComponent,
     AddPeriodicFeeDialogComponent, AddBudgetPlanDialogComponent, AddTransactionDialogComponent, 
     AddWerehouseItemDialogComponent, AddHomeBillingItemDialogComponent
   ]
   ,
-  providers: [],
+  providers: [UserAuthGuard, UserAuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

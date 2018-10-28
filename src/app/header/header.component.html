@@ -1,0 +1,15 @@
+<div class="container">
+  <div>
+    <span>Home Budget Analyzer</span>
+  </div>
+  <nav class="navbar navbar-dark bg-primary" *ngIf="isUsrLoggedIn$ | async as isUsrLoggedIn">
+      <a routerLink="/details" class="navbar-brand" *ngIf="isUsrLoggedIn">Detale użytkownika</a>
+      <a routerLink="/transactions" class="navbar-brand" *ngIf="isUsrLoggedIn">Transakcje</a>
+      <a routerLink="/homebillings" class="navbar-brand" *ngIf="isUsrLoggedIn">Media</a>
+      <a routerLink="/werehouse" class="navbar-brand" *ngIf="isUsrLoggedIn">Magazyn</a>
+      <a routerLink="/statistics" class="navbar-brand" *ngIf="isUsrLoggedIn">Analiza budżetu</a>
+      <button (click)="btnSgnOut()" *ngIf="isUsrLoggedIn">Wyloguj się</button>
+  </nav>
+</div>
+
+<router-outlet></router-outlet>

@@ -29,7 +29,6 @@ export class BudgetPlanComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(
     result => {
-                console.log("Dialog closed");
                 console.log(result);
               }
           )      
