@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() { }
 
   // metoda odpowiada za obsługę przycisku logowania
+  // metoda walidujaca dane odpowiada rowniez za przekierowanie do glownej aplikacji
   btnLogIn()
   {
     let name = this.user.login == null ? "" : this.user.login.trim();

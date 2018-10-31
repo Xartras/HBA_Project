@@ -10,9 +10,11 @@ export class UserAuthService {
 
   constructor(private router: Router) { }
 
-  // Zmienna odpowiadajaca za monitorowanie statusu uzytkownika: zalogowany (true) lub niezalogowany (false)
+  // Zmienne odpowiadajaca za monitorowanie statusu uzytkownika: zalogowany (true) lub niezalogowany (false)
+  // oraz za przechowywanie danych o uzytkowniku
   // BehaviorSubject przechowuje ostatnio zapisana w pamieci Cache wartosc
   private userLogStatus = new BehaviorSubject<Boolean>(false);
+  public loggedUser = new BehaviorSubject<User>(null);
 
   // Metoda publiczna pozwalajaca na pobranie informacji odnosnie statusu uzytkownika
   get isUserLoggedIn()
@@ -21,12 +23,15 @@ export class UserAuthService {
   }
 
   // Metoda odpowiedzialna za walidacje danych logowania
+  // Po poprawnej walidacji ustawiana jest zmienna zawierajaca dane uzytkownika
+  // Nastepnie nastepuje przekierowanie do glownej strony aplikacji
   validateLogin(user: User)
   {
     let dbUser = this.getUser(user.login);
 
     if(user.login == dbUser.login && user.password == dbUser.password)
     {
+      this.loggedUser.next(dbUser);
       this.userLogStatus.next(true);
       this.router.navigate(['/']);
     }
@@ -55,7 +60,7 @@ export class UserAuthService {
 
     if(login == "admin")
     {
-      selectedUser = new User("admin", "admin", "", "", "");
+      selectedUser = new User("admin", "admin", "admin@mail.com", "2016-10-01", "2016-10-30");
     }
 
     return selectedUser;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { UserAuthService } from '../_services/user-auth-service.service'
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-details',
@@ -8,26 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userAuth: UserAuthService) { }
 
-  ngOnInit() { }
-
-  user : any = {login: "Xarq", password: "Abc1", email: "mail@mail.com"
-              , periodStart: "2018-01-27", periodEnd: "2018-02-26" }
   
-
+  ngOnInit() { }
+ 
+  private user: User = this.userAuth.loggedUser.value;
+  
   // Metody odpowiedzialne z zmiane adresu email oraz hasla uzytkownika
   btnChangePss()
   {
-    console.log(this.user.password)
-    this.user.password = "XYZ2"
-    console.log(this.user.password)
+    console.log(this.user)
   }
 
   btnChangeEmail()
-  {
-    console.log(this.user.email)
-    this.user.password = "nowyMail@mail.com"
-    console.log(this.user.password)    
+  {  
   }
 }
