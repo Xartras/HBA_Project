@@ -4,24 +4,43 @@ import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { BudgetPlanItem } from '../../_models/budget-plan-item'
 
-// TODO: replace this with real data from your application
-const EXAMPLE_DATA: BudgetPlanItem[] = [
-  {type: 'Zysk', category: 'Wypłata', name: 'Wypłata - Sierpnień 2018', amount: 2500.12, comment: 'Stała wypłata', actions: 'Edytuj;Usuń'},
-  {type: 'Koszt', category: 'Opłaty', name: 'Prąd', amount: 75.92, comment: '', actions: 'Edytuj;Usuń'},
-  {type: 'Koszt', category: 'Opłaty', name: 'Gaz', amount: 22.37, comment: '', actions: 'Edytuj;Usuń'},
-];
-
 /**
  * Data source for the BudgetPlan view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
-  data: Array<BudgetPlanItem> = EXAMPLE_DATA;
+export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> { 
 
-  constructor(private paginator: MatPaginator, private sort: MatSort) {
-    super();
+  constructor(private paginator: MatPaginator, private sort: MatSort) { super(); }
 
+  // Metoda pobierajaca dane
+  getData() : Array<BudgetPlanItem>
+  {
+    let item : BudgetPlanItem;
+    let budgetPlan: Array<BudgetPlanItem> = [
+      new BudgetPlanItem("Zysk", "Wypłata", "Wypłata - Sierpnień 2018", 2500.12, "Stała wypłata"),
+      new BudgetPlanItem("Koszt", "Opłaty", "Prąd", 75.92, ""),
+      new BudgetPlanItem("Koszt", "Opłaty", "Gaz", 22.37, "")
+    ]
+
+    return budgetPlan;
+  }
+
+  data: Array<BudgetPlanItem> = this.getData();
+
+  addItem(bpi)
+  {
+    this.data.push(bpi);
+  }
+
+  removeItem(bpi)
+  {
+    this.data.splice(this.data.indexOf(bpi), 1);
+  }
+
+  editItem(oldItem, newItem)
+  {
+    this.data[this.data.indexOf(oldItem)] = newItem;
   }
 
   /**
@@ -56,7 +75,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: Array<BudgetPlanItem>) {
+  private getPagedData(data:  Array<BudgetPlanItem>) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }

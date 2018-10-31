@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import { BudgetPlanItem } from '../../_models/budget-plan-item'
 
 @Component({
@@ -16,7 +16,6 @@ export class AddBudgetPlanDialogComponent implements OnInit {
   }
 
   newBudgetItem : BudgetPlanItem = new BudgetPlanItem("", "", "", 0, "")
-
 
   btnSaveNewItem()
   {
