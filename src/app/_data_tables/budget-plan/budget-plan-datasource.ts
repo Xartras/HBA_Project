@@ -2,16 +2,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-
-// TODO: Replace this with your own data model type
-export interface BudgetPlanItem {
-  type: string;
-  category: string;
-  name: string;
-  amount: number;
-  comment: string;
-  actions: string;
-}
+import { BudgetPlanItem } from '../../_models/budget-plan-item'
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: BudgetPlanItem[] = [
@@ -26,10 +17,11 @@ const EXAMPLE_DATA: BudgetPlanItem[] = [
  * (including sorting, pagination, and filtering).
  */
 export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
-  data: BudgetPlanItem[] = EXAMPLE_DATA;
+  data: Array<BudgetPlanItem> = EXAMPLE_DATA;
 
   constructor(private paginator: MatPaginator, private sort: MatSort) {
     super();
+
   }
 
   /**
@@ -37,7 +29,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<BudgetPlanItem[]> {
+  connect(): Observable<Array<BudgetPlanItem>> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -64,7 +56,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: BudgetPlanItem[]) {
+  private getPagedData(data: Array<BudgetPlanItem>) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -73,7 +65,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: BudgetPlanItem[]) {
+  private getSortedData(data: Array<BudgetPlanItem>) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }

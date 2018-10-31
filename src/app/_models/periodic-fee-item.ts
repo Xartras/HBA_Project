@@ -5,12 +5,12 @@ export class PeriodicFeeItem
 {
     category: string;
     name: string;
-    paidFrom: Date;
-    paidUntil: Date;
+    paidFrom: string;
+    paidUntil: string;
     paymentPeriod: string;
     ifAlreadyPaid: boolean;
 
-    constructor(c: string, n: string, pf: Date, pu: Date, pp: string, iap: boolean)
+    constructor(c: string, n: string, pf: string, pu: string, pp: string, iap: boolean)
     {
         this.category = c;
         this.name = n;

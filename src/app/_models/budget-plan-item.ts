@@ -9,6 +9,7 @@ export class BudgetPlanItem
     name: string;
     amount: number;
     comment: string;
+    actions: string;
 
     constructor(t: string, ct: string, n: string, a: number, cm: string)
     {
@@ -17,5 +18,6 @@ export class BudgetPlanItem
         this.name = n;
         this.amount = a;
         this.comment = cm;
+        this.actions = "Edytuj;Usuń";
     }
 }

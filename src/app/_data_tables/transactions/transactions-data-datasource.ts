@@ -2,27 +2,15 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-
-// TODO: Replace this with your own data model type
-export interface TransactionsDataItem {
-  type: string;
-  category: string;
-  name: string;
-  amount: number;
-  accounted: string;
-  entered: string;
-  period: string;
-  description: string;
-  actions: string;
-}
+import { TransactionItem } from '../../_models/transaction-item';
 
 // TODO: replace this with real data from your application
-const EXAMPLE_DATA: TransactionsDataItem[] = 
+const EXAMPLE_DATA: TransactionItem[] = 
 [
-  { type: "Zysk", category: "Wypłata", name: "Wypłata 10.2018", amount: 2550, accounted: "2018-10-27", entered: "2018-10-28", period: "11", description: "", actions: "Edytuj;Usuń" },
-  { type: "Zysk", category: "Dodatkowe", name: "Inne", amount: 750, accounted: "2018-10-31", entered: "2018-10-31", period: "11", description: "", actions: "Edytuj;Usuń" },
-  { type: "Koszt", category: "Opaty", name: "Gaz", amount: 25, accounted: "2018-11-05", entered: "2018-11-05", period: "11", description: "", actions: "Edytuj;Usuń" },
-  { type: "Koszt", category: "Opaty", name: "Prąd", amount: 120, accounted: "2018-11-05", entered: "2018-11-05", period: "11", description: "", actions: "Edytuj;Usuń" },
+  { type: "Zysk", category: "Wypłata", name: "Wypłata 10.2018", amount: 2550, accounted: "2018-10-27", entered: "2018-10-28", period: "11", description: ""  },
+  { type: "Zysk", category: "Dodatkowe", name: "Inne", amount: 750, accounted: "2018-10-31", entered: "2018-10-31", period: "11", description: "" },
+  { type: "Koszt", category: "Opaty", name: "Gaz", amount: 25, accounted: "2018-11-05", entered: "2018-11-05", period: "11", description: "" },
+  { type: "Koszt", category: "Opaty", name: "Prąd", amount: 120, accounted: "2018-11-05", entered: "2018-11-05", period: "11", description: "" },
 ];
 
 /**
@@ -30,8 +18,8 @@ const EXAMPLE_DATA: TransactionsDataItem[] =
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class TransactionsDataDataSource extends DataSource<TransactionsDataItem> {
-  data: TransactionsDataItem[] = EXAMPLE_DATA;
+export class TransactionsDataDataSource extends DataSource<TransactionItem> {
+  data: TransactionItem[] = EXAMPLE_DATA;
 
   constructor(private paginator: MatPaginator, private sort: MatSort) {
     super();
@@ -42,7 +30,7 @@ export class TransactionsDataDataSource extends DataSource<TransactionsDataItem>
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<TransactionsDataItem[]> {
+  connect(): Observable<TransactionItem[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -69,7 +57,7 @@ export class TransactionsDataDataSource extends DataSource<TransactionsDataItem>
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: TransactionsDataItem[]) {
+  private getPagedData(data: TransactionItem[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -78,7 +66,7 @@ export class TransactionsDataDataSource extends DataSource<TransactionsDataItem>
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: TransactionsDataItem[]) {
+  private getSortedData(data: TransactionItem[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }

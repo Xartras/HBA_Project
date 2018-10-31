@@ -13,7 +13,7 @@ export class TransactionsDataComponent implements OnInit {
   dataSource: TransactionsDataDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['type', 'category', 'name', 'amount', 'accounted', 'entered', 'period', 'description', 'actions'];
+  displayedColumns = ['type', 'category', 'name', 'amount', 'accounted', 'entered', 'period', 'description'];
 
   ngOnInit() {
     this.dataSource = new TransactionsDataDataSource(this.paginator, this.sort);

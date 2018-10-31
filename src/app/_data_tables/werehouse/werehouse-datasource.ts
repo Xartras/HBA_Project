@@ -2,14 +2,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-
-// TODO: Replace this with your own data model type
-export interface WerehouseItem {
-  category: string;
-  name: string;
-  state: string;
-  actions: string;
-}
+import { WerehouseItem } from '../../_models/werehouse-item';
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: WerehouseItem[] = 

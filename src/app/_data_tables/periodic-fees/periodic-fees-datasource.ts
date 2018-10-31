@@ -2,19 +2,10 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-
-// TODO: Replace this with your own data model type
-export interface PeriodicFeesItem {
-  category: string;
-  name: string;
-  paidFrom: string;
-  paidUntil: string;
-  paymentPeriod: string;
-  ifAlreadyPaid: boolean;
-}
+import { PeriodicFeeItem } from '../../_models/periodic-fee-item';
 
 // TODO: replace this with real data from your application
-const EXAMPLE_DATA: PeriodicFeesItem[] = 
+const EXAMPLE_DATA: PeriodicFeeItem[] = 
 [
   {category: 'Opłaty', name: 'Prąd', paidFrom: '2018-01-01', paidUntil: '2018-12-31', paymentPeriod: '2 miesiące', ifAlreadyPaid: true },
   {category: 'Opłaty', name: 'Gaz', paidFrom: '2018-01-01', paidUntil: '2018-12-31', paymentPeriod: '2 miesiące', ifAlreadyPaid: false }
@@ -25,8 +16,8 @@ const EXAMPLE_DATA: PeriodicFeesItem[] =
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class PeriodicFeesDataSource extends DataSource<PeriodicFeesItem> {
-  data: PeriodicFeesItem[] = EXAMPLE_DATA;
+export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
+  data: PeriodicFeeItem[] = EXAMPLE_DATA;
 
   constructor(private paginator: MatPaginator, private sort: MatSort) {
     super();
@@ -37,7 +28,7 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeesItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<PeriodicFeesItem[]> {
+  connect(): Observable<PeriodicFeeItem[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -64,7 +55,7 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeesItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: PeriodicFeesItem[]) {
+  private getPagedData(data: PeriodicFeeItem[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -73,7 +64,7 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeesItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: PeriodicFeesItem[]) {
+  private getSortedData(data: PeriodicFeeItem[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }

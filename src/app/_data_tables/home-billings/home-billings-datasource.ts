@@ -2,18 +2,10 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-
-// TODO: Replace this with your own data model type
-export interface HomeBillingsItem {
-  name: string;
-  period: string;
-  actualState: number;
-  difference: number;
-  actions: string;
-}
+import { HomeBillingItem } from '../../_models/home-billing-item';
 
 // TODO: replace this with real data from your application
-const EXAMPLE_DATA: HomeBillingsItem[] = 
+const EXAMPLE_DATA: HomeBillingItem[] = 
 [
   { name: "Woda", period: "2018-10", actualState: 107, difference: 2.3, actions: "Edytuj;Usuń" },
   { name: "Prąd", period: "2018-10", actualState: 172.34, difference: 8.2, actions: "Edytuj;Usuń" },
@@ -25,8 +17,8 @@ const EXAMPLE_DATA: HomeBillingsItem[] =
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class HomeBillingsDataSource extends DataSource<HomeBillingsItem> {
-  data: HomeBillingsItem[] = EXAMPLE_DATA;
+export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
+  data: HomeBillingItem[] = EXAMPLE_DATA;
 
   constructor(private paginator: MatPaginator, private sort: MatSort) {
     super();
@@ -37,7 +29,7 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingsItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<HomeBillingsItem[]> {
+  connect(): Observable<HomeBillingItem[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -64,7 +56,7 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingsItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: HomeBillingsItem[]) {
+  private getPagedData(data: HomeBillingItem[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -73,7 +65,7 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingsItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: HomeBillingsItem[]) {
+  private getSortedData(data: HomeBillingItem[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }
