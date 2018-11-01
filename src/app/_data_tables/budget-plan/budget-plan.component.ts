@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { BudgetPlanDataSource } from './budget-plan-datasource';
 import { AddBudgetPlanDialogComponent } from '../../_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
 
@@ -18,8 +18,6 @@ export class BudgetPlanComponent implements OnInit {
 
   constructor(public dialog: MatDialog) {}
 
-  dialogTitle : AddBudgetPlanDialogComponent;
-
   ngOnInit() {
     this.dataSource = new BudgetPlanDataSource(this.paginator, this.sort);
   }
@@ -27,7 +25,10 @@ export class BudgetPlanComponent implements OnInit {
   // Metody odpowiedzialne za dodawanie wpisow planowanego budzetu
   btnAddBudgetPlanItem()
   {
-    let dialogRef = this.dialog.open(AddBudgetPlanDialogComponent, {})
+    let dialogRef = this.dialog.open(AddBudgetPlanDialogComponent, 
+      {
+        data: {type: "", category: "", name: "", amount: 0, comment: ""}
+      })
   
     dialogRef.afterClosed().subscribe(
     result => {
@@ -48,7 +49,16 @@ export class BudgetPlanComponent implements OnInit {
   // TO DO: autofill form with item values
   btnEditRow(element)
   {
-    let dialogRef = this.dialog.open(AddBudgetPlanDialogComponent, { })
+    let dialogRef = this.dialog.open(AddBudgetPlanDialogComponent, 
+      {
+        data: {
+                type: element.type, 
+                category: element.category, 
+                name: element.name,
+                amount: element.amount,
+                comment: element.comment
+              }
+      })
     dialogRef.afterClosed().subscribe(
       result => {
                   this.dataSource.editItem(element, result);
