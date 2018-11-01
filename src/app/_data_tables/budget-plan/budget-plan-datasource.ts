@@ -13,10 +13,9 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
 
   constructor(private paginator: MatPaginator, private sort: MatSort) { super(); }
 
-  // Metoda pobierajaca dane
+  // Pobranie danych
   getData() : Array<BudgetPlanItem>
   {
-    let item : BudgetPlanItem;
     let budgetPlan: Array<BudgetPlanItem> = [
       new BudgetPlanItem("Zysk", "Wypłata", "Wypłata - Sierpnień 2018", 2500.12, "Stała wypłata"),
       new BudgetPlanItem("Koszt", "Opłaty", "Prąd", 75.92, ""),
@@ -28,16 +27,19 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
 
   data: Array<BudgetPlanItem> = this.getData();
 
-  addItem(bpi)
+  // Dodawanie wpisu
+  addItem(item)
   {
-    this.data.push(bpi);
+    this.data.push(item);
   }
 
-  removeItem(bpi)
+  // Usuwanie wpisu
+  removeItem(item)
   {
-    this.data.splice(this.data.indexOf(bpi), 1);
+    this.data.splice(this.data.indexOf(item), 1);
   }
 
+  // Edycja wpisu
   editItem(oldItem, newItem)
   {
     this.data[this.data.indexOf(oldItem)] = newItem;
@@ -48,7 +50,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<Array<BudgetPlanItem>> {
+  connect(): Observable<BudgetPlanItem[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -75,7 +77,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data:  Array<BudgetPlanItem>) {
+  private getPagedData(data:  BudgetPlanItem[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -84,7 +86,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: Array<BudgetPlanItem>) {
+  private getSortedData(data: BudgetPlanItem[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }

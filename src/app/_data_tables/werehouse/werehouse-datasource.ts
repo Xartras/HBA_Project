@@ -4,26 +4,49 @@ import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { WerehouseItem } from '../../_models/werehouse-item';
 
-// TODO: replace this with real data from your application
-const EXAMPLE_DATA: WerehouseItem[] = 
-[
-  { category: "Chemia", name: "Cif", state: "2 butelki", actions: "Edytuj;Usuń" },
-  { category: "Chemia", name: "Płyn do prania", state: "8 butelek", actions: "Edytuj;Usuń" },
-  { category: "Spożywcze", name: "Mąka", state: "3 kg", actions: "Edytuj;Usuń" },
-  { category: "Spożywcze", name: "Cukier", state: "2 kg", actions: "Edytuj;Usuń" },
-  { category: "Spożywcze", name: "Cola", state: "2 litry", actions: "Edytuj;Usuń" },
-];
-
 /**
  * Data source for the Werehouse view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
 export class WerehouseDataSource extends DataSource<WerehouseItem> {
-  data: WerehouseItem[] = EXAMPLE_DATA;
+  
 
   constructor(private paginator: MatPaginator, private sort: MatSort) {
     super();
+  }
+  data: Array<WerehouseItem> = this.getData()
+
+  // Pobranie danych
+  getData() : Array<WerehouseItem>
+  {
+    let werehouse : Array<WerehouseItem> = [
+      new WerehouseItem("Chemia", "Cif", "2 butelki"),
+      new WerehouseItem("Chemia", "Płyn do prania", "8 butelek"),
+      new WerehouseItem("Spożywcze", "Mąka", "3 kg"),
+      new WerehouseItem("Spożywcze", "Cukier", "2 kg"),
+      new WerehouseItem("Spożywcze", "Cola",  "2 litry")
+      ]   
+  
+    return werehouse;
+  }
+    
+  // Dodawanie wpisu
+  addItem(item)
+  {
+    this.data.push(item);
+  }
+  
+  // Usuwanie wpisu
+  removeItem(item)
+  {
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+  
+  // Edycja wpisu
+  editItem(oldItem, newItem)
+  {
+    this.data[this.data.indexOf(oldItem)] = newItem;
   }
 
   /**
@@ -31,7 +54,7 @@ export class WerehouseDataSource extends DataSource<WerehouseItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<WerehouseItem[]> {
+  connect(): Observable<Array<WerehouseItem>> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -58,7 +81,7 @@ export class WerehouseDataSource extends DataSource<WerehouseItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: WerehouseItem[]) {
+  private getPagedData(data: Array<WerehouseItem>) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -67,7 +90,7 @@ export class WerehouseDataSource extends DataSource<WerehouseItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: WerehouseItem[]) {
+  private getSortedData(data: Array<WerehouseItem>) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }

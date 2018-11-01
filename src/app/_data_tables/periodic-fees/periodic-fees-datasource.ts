@@ -4,23 +4,45 @@ import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { PeriodicFeeItem } from '../../_models/periodic-fee-item';
 
-// TODO: replace this with real data from your application
-const EXAMPLE_DATA: PeriodicFeeItem[] = 
-[
-  {category: 'Opłaty', name: 'Prąd', paidFrom: '2018-01-01', paidUntil: '2018-12-31', paymentPeriod: '2 miesiące', ifAlreadyPaid: true },
-  {category: 'Opłaty', name: 'Gaz', paidFrom: '2018-01-01', paidUntil: '2018-12-31', paymentPeriod: '2 miesiące', ifAlreadyPaid: false }
-];
-
 /**
  * Data source for the PeriodicFees view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
 export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
-  data: PeriodicFeeItem[] = EXAMPLE_DATA;
-
+  
   constructor(private paginator: MatPaginator, private sort: MatSort) {
     super();
+  }
+
+  data: Array<PeriodicFeeItem> = this.getData()
+
+  // Pobranie danych
+  getData() : Array<PeriodicFeeItem>
+  {
+    let periodicFees : Array<PeriodicFeeItem> = [
+      new PeriodicFeeItem('Opłaty', 'Prąd', '2018-01-01', '2018-12-31', '2 miesiące', true ),
+      new PeriodicFeeItem('Opłaty', 'Gaz', '2018-01-01', '2018-12-31', '2 miesiące', false )
+    ]   
+
+    return periodicFees;
+  }
+  // Dodawanie wpisu
+  addItem(item)
+  {
+    this.data.push(item);
+  }
+
+  // Usuwanie wpisu
+  removeItem(item)
+  {
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+
+  // Edycja wpisu
+  editItem(oldItem, newItem)
+  {
+    this.data[this.data.indexOf(oldItem)] = newItem;
   }
 
   /**
@@ -28,7 +50,7 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<PeriodicFeeItem[]> {
+  connect(): Observable<Array<PeriodicFeeItem>> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -55,7 +77,7 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: PeriodicFeeItem[]) {
+  private getPagedData(data: Array<PeriodicFeeItem>) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -64,7 +86,7 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: PeriodicFeeItem[]) {
+  private getSortedData(data: Array<PeriodicFeeItem>) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }

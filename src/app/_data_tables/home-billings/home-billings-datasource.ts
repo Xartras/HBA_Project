@@ -4,24 +4,48 @@ import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { HomeBillingItem } from '../../_models/home-billing-item';
 
-// TODO: replace this with real data from your application
-const EXAMPLE_DATA: HomeBillingItem[] = 
-[
-  { name: "Woda", period: "2018-10", actualState: 107, difference: 2.3, actions: "Edytuj;Usuń" },
-  { name: "Prąd", period: "2018-10", actualState: 172.34, difference: 8.2, actions: "Edytuj;Usuń" },
-  { name: "Gaz", period: "2018-10", actualState: 233, difference: 15.7, actions: "Edytuj;Usuń" },
-];
-
 /**
  * Data source for the HomeBillings view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
 export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
-  data: HomeBillingItem[] = EXAMPLE_DATA;
+  
 
   constructor(private paginator: MatPaginator, private sort: MatSort) {
     super();
+  }
+
+  data: HomeBillingItem[] = this.getData();
+
+  // Pobranie danych
+  getData() : Array<HomeBillingItem>
+  {
+    let homeBillings: Array<HomeBillingItem> = [
+      new HomeBillingItem("Woda", "2018-10-01", 120, 2.5),
+      new HomeBillingItem("Prąd", "2018-10-01", 130, 1.1),
+      new HomeBillingItem("Czynsz", "2018-10-01", 230, 15)
+    ]
+
+    return homeBillings
+  }
+
+  // Dodanie wpisu
+  addItem(item)
+  {
+    this.data.push(item);
+  }
+
+  // Usuwanie wpisu
+  removeItem(item)
+  {
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+
+  // Edycja wpisu
+  editItem(oldItem, newItem)
+  {
+    this.data[this.data.indexOf(oldItem)] = newItem;
   }
 
   /**
@@ -29,7 +53,7 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<HomeBillingItem[]> {
+  connect(): Observable<Array<HomeBillingItem>> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -56,7 +80,7 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: HomeBillingItem[]) {
+  private getPagedData(data: Array<HomeBillingItem>) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -65,7 +89,7 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: HomeBillingItem[]) {
+  private getSortedData(data: Array<HomeBillingItem>) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }

@@ -20,6 +20,12 @@ export class AddBudgetPlanDialogComponent implements OnInit {
 
   btnSaveNewItem()
   {
+    this.newBudgetItem =  new BudgetPlanItem(
+        this.newBudgetItemDialog.type, this.newBudgetItemDialog.category,
+        this.newBudgetItemDialog.name, this.newBudgetItemDialog.amount, 
+        this.newBudgetItemDialog.comment
+        )
+        
     this.dialogRef.close(this.newBudgetItem);
   }
 

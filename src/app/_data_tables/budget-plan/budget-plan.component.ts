@@ -32,6 +32,7 @@ export class BudgetPlanComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(
     result => {
+      console.log(result);
                 this.dataSource.addItem(result);
                 this.dataSource.connect();
               }
