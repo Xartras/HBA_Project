@@ -14,7 +14,7 @@ export class PeriodicFeesComponent implements OnInit {
   dataSource: PeriodicFeesDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['category', 'name', 'paidFrom', 'paidUntil', 'paymentPeriod', 'ifAlreadyPaid'];
+  displayedColumns = ['category', 'name', 'paidFrom', 'paidUntil', 'paymentPeriod', 'ifAlreadyPaid', 'actions'];
 
   constructor(public dialog: MatDialog) {}
 
@@ -29,28 +29,50 @@ export class PeriodicFeesComponent implements OnInit {
     console.log(feeStatus)
   }
 
-  // Dodanie wpisu
-  btnAddPeriodicFee() : void
+  // Metody odpowiedzialne za dodawanie wpisow planowanego budzetu
+  btnAddPeriodicFee()
   {
-    let dialogRef = this.dialog.open(AddPeriodicFeeDialogComponent, {})
+    let dialogRef = this.dialog.open(AddPeriodicFeeDialogComponent, 
+      {
+        data: {category: "", name: "", paidFrom: "", paidUntil: "", paymentPeriod: "", ifAlreadyPaid: false, title: "Dodaj opłatę okresową"}
+      })
+  
+    dialogRef.afterClosed().subscribe(
+    result => {
+      console.log(result);
+                this.dataSource.addItem(result);
+                this.dataSource.connect();
+              }
+          )        
+    }
+  
+  // Usuwanie wpisow
+  btnRemoveRow(item)
+  {
+    this.dataSource.removeItem(item);
+    this.dataSource.connect();
+  }
 
-      dialogRef.afterClosed().subscribe(
-        result => {
-                    console.log("Dialog closed");
-                    console.log(result);
-                  }
-        )
-  }
-  
-  // Usuniecie wpisu
-  btnRemovePeriodicFee()
+  // Edycja wpisow
+  btnEditRow(item)
   {
-    console.log('Btn Remove works!')
-  }
-  
-  // Edycja wpisu
-  btnEditPeriodicFee()
-  {
-    console.log('Btn Edit works!')
+    let dialogRef = this.dialog.open(AddPeriodicFeeDialogComponent, 
+      {
+        data: {
+                category: item.category,
+                name: item.name,
+                paidFrom: item.paidFrom,
+                paidUntil: item.paidUntil,
+                paymentPeriod: item.paymentPeriod,
+                ifAlreadyPaid: item.ifAlreadyPaid,
+                title: "Edytuj opłatę okresową"
+              }
+      })
+    dialogRef.afterClosed().subscribe(
+      result => {
+                  this.dataSource.editItem(item, result);
+                  this.dataSource.connect();
+                }
+            )   
   }
 }

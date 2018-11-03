@@ -27,7 +27,7 @@ export class BudgetPlanComponent implements OnInit {
   {
     let dialogRef = this.dialog.open(AddBudgetPlanDialogComponent, 
       {
-        data: {type: "", category: "", name: "", amount: 0, comment: ""}
+        data: {type: "", category: "", name: "", amount: 0, comment: "", title: "Dodaj wpis"}
       })
   
     dialogRef.afterClosed().subscribe(
@@ -40,29 +40,29 @@ export class BudgetPlanComponent implements OnInit {
     }
   
   // Usuwanie wpisow
-  btnRemoveRow(element)
+  btnRemoveRow(item)
   {
-    this.dataSource.removeItem(element);
+    this.dataSource.removeItem(item);
     this.dataSource.connect();
   }
 
   // Edycja wpisow
-  // TO DO: autofill form with item values
-  btnEditRow(element)
+  btnEditRow(item)
   {
     let dialogRef = this.dialog.open(AddBudgetPlanDialogComponent, 
       {
         data: {
-                type: element.type, 
-                category: element.category, 
-                name: element.name,
-                amount: element.amount,
-                comment: element.comment
+                type: item.type, 
+                category: item.category, 
+                name: item.name,
+                amount: item.amount,
+                comment: item.comment,
+                title: "Edytuj wpis"
               }
       })
     dialogRef.afterClosed().subscribe(
       result => {
-                  this.dataSource.editItem(element, result);
+                  this.dataSource.editItem(item, result);
                   this.dataSource.connect();
                 }
             )   

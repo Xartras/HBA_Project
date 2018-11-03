@@ -12,6 +12,7 @@ export class TransactionItem
     entered: string;
     period: string;
     description: string;
+    actions: string;
 
     constructor(t: string, c: string, n: string, a: number, act: string, ent: string, p: string, d: string)
     {
@@ -23,5 +24,6 @@ export class TransactionItem
         this.entered = ent;
         this.period = p;
         this.description = d;
+        this.actions = "Edytuj;Usuń";
     }
 }

@@ -19,13 +19,14 @@ export class WerehouseDataComponent implements OnInit {
     this.dataSource = new WerehouseDataSource(this.paginator, this.sort);
   }
 
-  btnEditRow(element)
+  btnEditRow(item)
   {
-    console.log(element)
+    console.log(item)
   }
 
-  btnRemoveRow(element)
+  btnRemoveRow(item)
   {
-    console.log(element)
+    this.dataSource.removeItem(item);
+    this.dataSource.connect();
   }
 }

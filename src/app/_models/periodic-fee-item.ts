@@ -9,6 +9,7 @@ export class PeriodicFeeItem
     paidUntil: string;
     paymentPeriod: string;
     ifAlreadyPaid: boolean;
+    actions: string;
 
     constructor(c: string, n: string, pf: string, pu: string, pp: string, iap: boolean)
     {
@@ -18,5 +19,6 @@ export class PeriodicFeeItem
         this.paidUntil= pu;
         this.paymentPeriod = pp;
         this.ifAlreadyPaid = iap;
+        this.actions = "Edytuj;Usuń";
     }
 }

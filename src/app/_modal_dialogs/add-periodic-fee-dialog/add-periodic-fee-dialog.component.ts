@@ -9,7 +9,8 @@ import { PeriodicFeeItem } from '../../_models/periodic-fee-item';
 })
 export class AddPeriodicFeeDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<AddPeriodicFeeDialogComponent>
+  constructor(public dialogRef: MatDialogRef<AddPeriodicFeeDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public newPeriodicFeeDialog: any
              ) { }
 
   ngOnInit() {
@@ -19,6 +20,12 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
 
   btnSaveNewItem()
   {
+    this.newFee = new PeriodicFeeItem(
+       this.newPeriodicFeeDialog.category, this.newPeriodicFeeDialog.name
+      ,this.newPeriodicFeeDialog.paidFrom, this.newPeriodicFeeDialog.paidUntil
+      ,this.newPeriodicFeeDialog.paymentPeriod, this.newPeriodicFeeDialog.ifAlreadyPaid
+    )
+    
     this.dialogRef.close(this.newFee);
   }
 

@@ -5,8 +5,6 @@
     </div>
     <form class="form-inline">
       <button (click)="btnAddPeriodicFee()">Dodaj</button>
-      <button (click)="btnEditPeriodicFee()">Edytuj</button>
-      <button (click)="btnRemovePeriodicFee()">Usuń</button>
     </form>
   </nav>
 </div>
@@ -48,6 +46,15 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Czy opłacono</th>
       <td mat-cell *matCellDef="let row">
           <mat-checkbox [(ngModel)]="row.ifAlreadyPaid" (click)="btnChangeFeeStatus(!row.ifAlreadyPaid)"></mat-checkbox>
+      </td>
+    </ng-container>
+
+        <!-- [Akcje] -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Akcje</th>
+      <td mat-cell *matCellDef="let row">
+        <button (click)="btnEditRow(row)">{{row.actions.split(";")[0]}}</button>
+        <button (click)="btnRemoveRow(row)">{{row.actions.split(";")[1]}}</button>
       </td>
     </ng-container>
 

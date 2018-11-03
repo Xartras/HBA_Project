@@ -19,13 +19,16 @@ export class HomeBillingsDataComponent implements OnInit {
     this.dataSource = new HomeBillingsDataSource(this.paginator, this.sort);
   }
 
-  btnEditRow(element)
+  // Edycja wpisu
+  btnEditRow(item)
   {
-    console.log(element)
+    console.log(item)
   }
 
-  btnRemoveRow(element)
+  // Usuwanie wpisu
+  btnRemoveRow(item)
   {
-    console.log(element)
+    this.dataSource.removeItem(item);
+    this.dataSource.connect();
   }
 }
