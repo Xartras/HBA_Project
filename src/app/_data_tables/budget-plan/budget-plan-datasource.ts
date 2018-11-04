@@ -94,6 +94,9 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
+        case 'type': return compare(a.name, b.name, isAsc);
+        case 'category': return compare(a.name, b.name, isAsc);
+        case 'amount': return compare(a.name, b.name, isAsc);
         case 'name': return compare(a.name, b.name, isAsc);
         default: return 0;
       }

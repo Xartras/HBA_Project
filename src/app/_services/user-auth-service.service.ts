@@ -38,7 +38,7 @@ export class UserAuthService {
   }
 
   // Metoda odpowiedzialna za walidacje danych rejestracji
-  validateRegister(user: User)
+  validateRegistration(user: User)
   {
     if(user.login != "" && user.password != "" && user.email != "" && user.periodStart != "" && user.periodEnd != "")
     {

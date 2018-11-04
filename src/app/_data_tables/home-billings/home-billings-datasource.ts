@@ -98,6 +98,9 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
+        case 'period': return compare(a.name, b.name, isAsc);
+        case 'actualState': return compare(a.name, b.name, isAsc);
+        case 'difference': return compare(a.name, b.name, isAsc);
         default: return 0;
       }
     });

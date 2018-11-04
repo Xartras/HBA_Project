@@ -94,8 +94,12 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
+        case 'category': return compare(a.category, b.category, isAsc);
         case 'name': return compare(a.category, b.category, isAsc);
-        case 'id': return compare(+a.name, +b.name, isAsc);
+        case 'paidFrom': return compare(a.category, b.category, isAsc);
+        case 'paidUntil': return compare(a.category, b.category, isAsc);
+        case 'paymentPeriod': return compare(a.category, b.category, isAsc);
+        case 'ifAlreadyPaid': return compare(a.category, b.category, isAsc);
         default: return 0;
       }
     });
