@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
     let pass = this.user.password == null ? "" : this.user.password.trim();
 
     this.user = new User(name, pass, "", "", "");
-    console.log("1) Form"); console.log(this.user);
     this.userAuth.validateLogin(this.user);
   }
 

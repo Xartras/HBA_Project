@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
+import { UserAuthService } from '../../_services/user-auth-service.service'
 
 @Component({
   selector: 'app-register',
@@ -8,17 +9,26 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<RegisterComponent>) { }
+  constructor(public dialogRef: MatDialogRef<RegisterComponent>
+             ,private userAuth: UserAuthService
+             ) { }
 
   user : any = { }
 
   ngOnInit() { }
 
+  // Walidacja danych rejestracji
   btnAuthRegistration()
   {
-    this.dialogRef.close(this.user);
+    let isUserCorrect = this.userAuth.validateRegistration(this.user);
+
+    if (isUserCorrect == true)
+    {
+      this.dialogRef.close(this.user);
+    }
   }
 
+  // Anulowanie rejestracji uzytkownika
   btnCancel()
   {
     this.dialogRef.close()

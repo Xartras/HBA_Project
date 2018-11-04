@@ -15,6 +15,7 @@ export class UserAuthService {
   // BehaviorSubject przechowuje ostatnio zapisana w pamieci Cache wartosc
   private userLogStatus = new BehaviorSubject<Boolean>(false);
   public loggedUser = new BehaviorSubject<User>(null);
+  private allUsers : Array<User> = [new User("admin", "admin", "admin@mail.com", "2016-10-01", "2016-10-30")]
 
   // Metoda publiczna pozwalajaca na pobranie informacji odnosnie statusu uzytkownika
   get isUserLoggedIn()
@@ -27,7 +28,7 @@ export class UserAuthService {
   // Nastepnie nastepuje przekierowanie do glownej strony aplikacji
   validateLogin(user: User)
   {
-    let dbUser = this.getUser(user.login);
+    let dbUser = this.getUser(user.login, "log");
 
     if(user.login == dbUser.login && user.password == dbUser.password)
     {
@@ -38,12 +39,13 @@ export class UserAuthService {
   }
 
   // Metoda odpowiedzialna za walidacje danych rejestracji
-  validateRegistration(user: User)
+  validateRegistration(user: User) : boolean
   {
-    if(user.login != "" && user.password != "" && user.email != "" && user.periodStart != "" && user.periodEnd != "")
-    {
-      console.log("OK");
-    }
+    let checkUser: User = this.getUser(user.login, "reg");
+    let isUserValid: boolean = checkUser == null ? true : false;
+
+    if (isUserValid == true) { this.allUsers.push(user)}
+    return isUserValid;
   }
 
   // Metoda odpowiedzialna za akcje przy wylogowywaniu sie uzytkownika
@@ -54,14 +56,17 @@ export class UserAuthService {
   }
 
   // Metoda sluzaca do pobrania danych uzytkownika przy logowaniu
-  getUser(login: string) : User
+  getUser(login: string, option: string) : User
   {
     let selectedUser: User = null;
 
-    if(login == "admin")
-    {
-      selectedUser = new User("admin", "admin", "admin@mail.com", "2016-10-01", "2016-10-30");
-    }
+    this.allUsers.forEach(user => {
+      if(user.login == login)
+      {
+        if(option=="log") { selectedUser = user; return; };
+        if(option=="reg") { selectedUser = new User(user.login, "", "", "", ""); return; }
+      }      
+    });
 
     return selectedUser;
   }
