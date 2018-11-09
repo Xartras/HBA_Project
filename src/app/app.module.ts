@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 // Dodatkowe moduly
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { // obsługa tabel poszczególnych komponentów oraz okien dialogowych (dodawanie wpisów)
         MatButtonModule, MatToolbarModule, MatSidenavModule
@@ -74,7 +74,7 @@ const routes : Routes =
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
-    FormsModule, LayoutModule,
+    FormsModule, ReactiveFormsModule, LayoutModule,
     MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatCheckboxModule,
     MatListModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule,
     

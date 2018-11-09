@@ -24,18 +24,58 @@ export class UserAuthService {
   }
 
   // Metoda odpowiedzialna za walidacje danych logowania
-  // Po poprawnej walidacji ustawiana jest zmienna zawierajaca dane uzytkownika
-  // Nastepnie nastepuje przekierowanie do glownej strony aplikacji
-  validateLogin(user: User)
-  {
-    let dbUser = this.getUser(user.login, "log");
+  // Zwracane wartości: 
+  //   - logujący się użytkownik oraz flaga błędu: true => niepoprawny / false => poprawny
 
-    if(user.login == dbUser.login && user.password == dbUser.password)
-    {
-      this.loggedUser.next(dbUser);
-      this.userLogStatus.next(true);
-      this.router.navigate(['/']);
+  validateLogin(user: User) : any[]
+  {
+    // pierwszy element to użytkownik, a drugi odpowiada za informacje, czy dane logowania sa poprawne
+    let loginValidation = [];
+    let dbUser : User;
+    
+    // Przy rejestracji sprawdzana jest dlugość loginu i hasła, jeśli podano "zbyt krótkie" dane
+    // wtedy nie ma potrzeby sprawdzania danych logowania
+    if(user.login.length < 4 || user.password.length < 4)
+    { 
+      loginValidation[0] = null; 
+      loginValidation[1] = true; 
     }
+    else
+    {
+      dbUser = this.getUser(user.login, "log"); // próba pobrania danych użytkownika
+
+      // Jeśli mamy null to znaczy, że użytkownik nie istnieje (zły login) => dalej nie sprawdzamy
+      if(dbUser == null) 
+      {
+        loginValidation[0] = null; 
+        loginValidation[1] = true; 
+      } 
+      else
+      {
+        // Sprawdzamy czy hasło się zgadza, jeśli nie to kończymy działanie
+        if(dbUser.password != user.password)
+        {
+          loginValidation[0] = null; 
+          loginValidation[1] = true;
+        }
+        else
+        {
+          // Dane poprawne, zwracamy użytkownika oraz ustawiamy flagę błędu na fałsz (użytkownik poprawny)
+          loginValidation[0] = dbUser;
+          loginValidation[1] = false;
+        }
+      }
+    }    
+
+    return loginValidation;
+  }
+
+  // Metoda przenosi użytkownika do głównej aplikacji po popawnym zalogowaniu
+  logIn(user: User)
+  {
+    this.loggedUser.next(user);
+    this.userLogStatus.next(true);
+    this.router.navigate(['/']);
   }
 
   // Metoda odpowiedzialna za walidacje danych rejestracji
