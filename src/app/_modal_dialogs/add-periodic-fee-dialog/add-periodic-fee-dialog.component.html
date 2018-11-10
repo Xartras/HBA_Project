@@ -1,36 +1,72 @@
 <h2 mat-dialog-title>{{newPeriodicFeeDialog.title}}</h2>
 
 <mat-dialog-content> 
-  <form name="newPFI" #f="ngForm">
+  <form [formGroup]="addPeriodicFeeForm">
 
     <div class="form-group">
       <label for="category">Kategoria</label>
-      <input type="text" name = "category" [(ngModel)]="newPeriodicFeeDialog.category" #category="ngModel" required>
+      <input type = "text" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cCategory.errors }"
+             formControlName = "cCategory" class = "form-control" name = "category"
+             [value]="newPeriodicFeeDialog.category">
+      
+      <div *ngIf="isFormSubmitted && formInput.cCategory.errors.required" class="alert alert-danger">
+        Pole wymagane!
+      </div>
     </div>
 
     <div class="form-group">
       <label for="name">Nazwa</label>
-      <input type="text" name = "name" [(ngModel)]="newPeriodicFeeDialog.name" #name="ngModel" required>
+      <input type="text" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cName.errors }"
+      formControlName = "cName" class = "form-control" name = "name"
+      [value]="newPeriodicFeeDialog.name">
+
+      <div *ngIf="isFormSubmitted && formInput.cName.errors.required" class="alert alert-danger">
+        Pole wymagane!
+      </div>
     </div>  
 
     <div class="form-group">
       <label for="paidFrom">Płatne od</label>
-      <input type="date" name = "paidFrom" [(ngModel)]="newPeriodicFeeDialog.paidFrom" #paidFrom="ngModel" required>
+      <input type="date" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cPaidFrom.errors }"
+      formControlName = "cPaidFrom" class = "form-control" name = "paidFrom"
+      [value]="newPeriodicFeeDialog.paidFrom">
+
+      <div *ngIf="isFormSubmitted && formInput.cPaidFrom.errors.required" class="alert alert-danger">
+        Pole wymagane!
+      </div>
     </div>
 
     <div class="form-group">
       <label for="paidUntil">Płatne do</label>
-      <input type="date" name = "paidUntil" [(ngModel)]="newPeriodicFeeDialog.paidUntil" #paidUntil="ngModel" required>
+      <input type="date" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cPaidUntil.errors }"
+      formControlName = "cPaidUntil" class = "form-control" name = "paidUntil"
+      [value]="newPeriodicFeeDialog.paidUntil">
+
+      <div *ngIf="isFormSubmitted && formInput.cPaidUntil.errors.required" class="alert alert-danger">
+        Pole wymagane!
+      </div>
     </div>
 
     <div class="form-group">
       <label for="paymentPeriod">Płatne co</label>
-      <input type="text" name = "paymentPeriod" [(ngModel)]="newPeriodicFeeDialog.paymentPeriod" #paymentPeriod="ngModel" required>
+      <input type="text" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cPaymentPeriod.errors }"
+      formControlName = "cPaymentPeriod" class = "form-control" name = "paymentPeriod"
+      [value]="newPeriodicFeeDialog.paymentPeriod">
+    
+      <div *ngIf="isFormSubmitted && formInput.cPaymentPeriod.errors.required" class="alert alert-danger">
+        Pole wymagane!
+      </div>
     </div>
 
     <div class="form-group">
       <label for="ifAlreadyPaid">Czy opłacono</label>
-      <input type="checkbox" name = "ifAlreadyPaid" [(ngModel)]="newPeriodicFeeDialog.ifAlreadyPaid" #ifAlreadyPaid="ngModel" required>
+      <input type="checkbox" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cIfAlreadyPaid.errors }"
+      formControlName = "cIfAlreadyPaid" class = "form-control" name = "ifAlreadyPaid"
+      [value]="newPeriodicFeeDialog.ifAlreadyPaid">
+    
+      <div *ngIf="isFormSubmitted && formInput.cIfAlreadyPaid.errors.required" class="alert alert-danger">
+        Pole wymagane!
+      </div>
     </div>
 
   </form>
