@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { PeriodicFeeItem } from '../../_models/periodic-fee-item';
 
+
 /**
  * Data source for the PeriodicFees view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
@@ -21,15 +22,38 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
   getData() : Array<PeriodicFeeItem>
   {
     let periodicFees : Array<PeriodicFeeItem> = [
-      new PeriodicFeeItem('Opłaty', 'Prąd', '2018-01-01', '2018-12-31', '2 miesiące', true ),
-      new PeriodicFeeItem('Opłaty', 'Gaz', '2018-01-01', '2018-12-31', '2 miesiące', false )
+      new PeriodicFeeItem('Opłaty_Prąd_1', 'Opłaty', 'Prąd', '2018-01-01', '2018-12-31', '2 miesiące', true ),
+      new PeriodicFeeItem('Opłaty_Gaz_1', 'Opłaty', 'Gaz', '2018-01-01', '2018-12-31', '2 miesiące', false )
     ]   
 
     return periodicFees;
   }
+
+  // Generowanie ID dla nowego wpisu
+  private calculateNewId(item) : string
+  {
+    let newID : string = item.category+"_"+item.name+'_';
+    let newIdNum : number = 0;
+
+    for(let i = 0; i < this.data.length; i++)
+    {
+      if(this.data[i].category == item.category && this.data[i].name == item.name)
+      { 
+        if(parseInt(this.data[i].id.split("_")[2])  > newIdNum  )
+        { newIdNum = parseInt(this.data[i].id.split("_")[2]) }
+      }
+      else
+      { continue; }
+    }  
+
+    newIdNum++;
+    return newID+newIdNum.toString();
+  }
+  
   // Dodawanie wpisu
   addItem(item)
   {
+    item.id = this.calculateNewId(item);
     this.data.push(item);
   }
 

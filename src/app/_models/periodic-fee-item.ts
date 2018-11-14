@@ -3,22 +3,24 @@
 */
 export class PeriodicFeeItem 
 {
-    category: string;
-    name: string;
-    paidFrom: string;
-    paidUntil: string;
+    id:            string;
+    category:      string;
+    name:          string;
+    paidFrom:      string;
+    paidUntil:     string;
     paymentPeriod: string;
     ifAlreadyPaid: boolean;
-    actions: string;
+    actions:       string;
 
-    constructor(c: string, n: string, pf: string, pu: string, pp: string, iap: boolean)
+    constructor(i: string, ct: string, n: string, pf: string, pu: string, pp: string, iap: boolean)
     {
-        this.category = c;
-        this.name = n;
-        this.paidFrom = pf;
-        this.paidUntil= pu;
+        this.id            = i;
+        this.category      = ct.substring(0,1).toUpperCase() + ct.substring(1, ct.length).toLowerCase();
+        this.name          = n.substring(0,1).toUpperCase() + n.substring(1, n.length).toLowerCase();
+        this.paidFrom      = pf;
+        this.paidUntil     = pu;
         this.paymentPeriod = pp;
         this.ifAlreadyPaid = iap;
-        this.actions = "Edytuj;Usuń";
+        this.actions       = "Edytuj;Usuń";
     }
 }

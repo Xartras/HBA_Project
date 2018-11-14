@@ -22,17 +22,39 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
   getData() : Array<HomeBillingItem>
   {
     let homeBillings: Array<HomeBillingItem> = [
-      new HomeBillingItem("Woda", "2018-10-01", 120, 2.5),
-      new HomeBillingItem("Prąd", "2018-10-01", 130, 1.1),
-      new HomeBillingItem("Czynsz", "2018-10-01", 230, 15)
+      new HomeBillingItem("Woda_1", "Woda", "2018-10-01", 120, 2.5),
+      new HomeBillingItem("Prąd_1", "Prąd", "2018-10-01", 130, 1.1),
+      new HomeBillingItem("Czynsz_1", "Czynsz", "2018-10-01", 230, 15)
     ]
 
     return homeBillings
   }
 
+  // Generowanie ID dla nowego wpisu
+  private calculateNewId(item) : string
+  {
+    let newID : string = item.category+"_"+item.name+'_';
+    let newIdNum : number = 0;
+
+    for(let i = 0; i < this.data.length; i++)
+    {
+      if(this.data[i].name == item.name)
+      { 
+        if(parseInt(this.data[i].id.split("_")[1])  > newIdNum  )
+        { newIdNum = parseInt(this.data[i].id.split("_")[1]) }
+      }
+      else
+      { continue; }
+    }  
+
+    newIdNum++;
+    return newID+newIdNum.toString();
+  }
+
   // Dodanie wpisu
   addItem(item)
   {
+    item.id = this.calculateNewId(item);
     this.data.push(item);
   }
 

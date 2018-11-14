@@ -4,18 +4,20 @@
 
 export class HomeBillingItem 
 {
-    name: string;
-    period: string;
+    id:          string;
+    name:        string;
+    period:      string;
     actualState: number;
-    difference: number;
-    actions: string;
+    difference:  number;
+    actions:     string;
 
-    constructor(n: string, p: string, as: number, d: number)
+    constructor(i: string, n: string, p: string, as: number, d: number)
     {
-        this.name = n;
-        this.period = p;
+        this.id          = i;
+        this.name        = n.substring(0,1).toUpperCase() + n.substring(1, n.length).toLowerCase();
+        this.period      = p;
         this.actualState = as;
-        this.difference = d;
-        this.actions = "Edytuj;Usuń";
+        this.difference  = d;
+        this.actions     = "Edytuj;Usuń";
     }
 }

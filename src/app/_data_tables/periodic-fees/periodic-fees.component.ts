@@ -39,7 +39,6 @@ export class PeriodicFeesComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(
     result => {
-      console.log(result);
                 this.dataSource.addItem(result);
                 this.dataSource.connect();
               }
@@ -56,6 +55,7 @@ export class PeriodicFeesComponent implements OnInit {
   // Edycja wpisow
   btnEditRow(item)
   {
+    console.log(item);
     let dialogRef = this.dialog.open(AddPeriodicFeeDialogComponent, 
       {
         data: {

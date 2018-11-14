@@ -47,7 +47,7 @@ export class AddBudgetPlanDialogComponent implements OnInit {
       this.newBudgetItemDialog.amount   = this.addPlanItemForm.controls.cAmount.value;
       this.newBudgetItemDialog.comment  = this.addPlanItemForm.controls.cComment.value == null ? "" : this.addPlanItemForm.controls.cComment.value;
 
-      this.newBudgetItem =  new BudgetPlanItem(
+      this.newBudgetItem =  new BudgetPlanItem('',
         this.newBudgetItemDialog.type, this.newBudgetItemDialog.category,
         this.newBudgetItemDialog.name, this.newBudgetItemDialog.amount, 
         this.newBudgetItemDialog.comment

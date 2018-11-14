@@ -50,8 +50,8 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
       this.newPeriodicFeeDialog.paymentPeriod = this.addPeriodicFeeForm.controls.cPaymentPeriod.value;
       this.newPeriodicFeeDialog.ifAlreadyPaid = this.addPeriodicFeeForm.controls.cIfAlreadyPaid.value == null ? false : true;
 
-      this.newFee = new PeriodicFeeItem(
-        this.newPeriodicFeeDialog.category, this.newPeriodicFeeDialog.name
+      this.newFee = new PeriodicFeeItem(''
+       ,this.newPeriodicFeeDialog.category, this.newPeriodicFeeDialog.name
        ,this.newPeriodicFeeDialog.paidFrom, this.newPeriodicFeeDialog.paidUntil
        ,this.newPeriodicFeeDialog.paymentPeriod, this.newPeriodicFeeDialog.ifAlreadyPaid
       )

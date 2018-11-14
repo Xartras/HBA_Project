@@ -4,16 +4,18 @@
 
 export class WerehouseItem 
 {
-    public category: string;
-    public name: string;
-    public state: string;
-    public actions: string
+    id:       string;
+    category: string;
+    name:     string;
+    state:    string;
+    actions:  string;
 
-    public constructor(c: string, n: string, s: string)
+    public constructor(c: string, ct: string, n: string, s: string)
     {
-        this.category = c;
-        this.name = n;
-        this.state;
-        this.actions = "Edytuj;Usuń";
+        this.id       = c;
+        this.category = ct.substring(0,1).toUpperCase() + ct.substring(1, ct.length).toLowerCase();
+        this.name     = n.substring(0,1).toUpperCase() + n.substring(1, n.length).toLowerCase();
+        this.state    = s;
+        this.actions  = "Edytuj;Usuń";
     }
 }

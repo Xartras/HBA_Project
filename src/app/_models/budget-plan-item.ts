@@ -4,20 +4,22 @@
 
 export class BudgetPlanItem 
 {
-    type: string;
+    id:       string;
+    type:     string;
     category: string;
-    name: string;
-    amount: number;
-    comment: string;
-    actions: string;
+    name:     string;
+    amount:   number;
+    comment:  string;
+    actions:  string;
 
-    constructor(t: string, ct: string, n: string, a: number, cm: string)
+    constructor(i: string, t: string, ct: string, n: string, a: number, cm: string)
     {
-        this.type = t;
-        this.category = ct;
-        this.name = n;
-        this.amount = a;
-        this.comment = cm;
-        this.actions = "Edytuj;Usuń";
+        this.id       = i;
+        this.type     = t;
+        this.category = ct.substring(0,1).toUpperCase() + ct.substring(1, ct.length).toLowerCase();
+        this.name     = n.substring(0,1).toUpperCase() + n.substring(1, n.length).toLowerCase();
+        this.amount   = a;
+        this.comment  = cm;
+        this.actions  = "Edytuj;Usuń";
     }
 }

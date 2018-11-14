@@ -21,11 +21,11 @@ export class WerehouseDataSource extends DataSource<WerehouseItem> {
   getData() : Array<WerehouseItem>
   {
     let werehouse : Array<WerehouseItem> = [
-      new WerehouseItem("Chemia", "Cif", "2 butelki"),
-      new WerehouseItem("Chemia", "Płyn do prania", "8 butelek"),
-      new WerehouseItem("Spożywcze", "Mąka", "3 kg"),
-      new WerehouseItem("Spożywcze", "Cukier", "2 kg"),
-      new WerehouseItem("Spożywcze", "Cola",  "2 litry")
+      new WerehouseItem("Chemia_Cif", "Chemia", "Cif", "2 butelki"),
+      new WerehouseItem("Chemia_Płyn_do_prania", "Chemia", "Płyn do prania", "8 butelek"),
+      new WerehouseItem("Spożywcze_Mąka", "Spożywcze", "Mąka", "3 kg"),
+      new WerehouseItem("Spożywcze_Cukier", "Spożywcze", "Cukier", "2 kg"),
+      new WerehouseItem("Spożywcze_Cola", "Spożywcze", "Cola",  "2 litry")
       ]   
   
     return werehouse;
