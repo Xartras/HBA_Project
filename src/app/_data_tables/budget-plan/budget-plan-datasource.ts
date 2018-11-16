@@ -17,7 +17,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
   getData() : Array<BudgetPlanItem>
   {
     let budgetPlan: Array<BudgetPlanItem> = [
-      new BudgetPlanItem("Zysk_Stałe_Wypłata_1", "Zysk", "Stałe", "Wypłata", 2500.12, "Wypłata za sierpień 2018"),
+      new BudgetPlanItem("Zysk_Stałe_Wypłata_1", "Zysk", "Kasa", "Wypłata", 2500.12, "Wypłata za sierpień 2018"),
       new BudgetPlanItem("Koszt_Opłaty_Prąd_1", "Koszt", "Opłaty", "Prąd", 75.92, ""),
       new BudgetPlanItem("Koszt_Opłaty_Gaz_1", "Koszt", "Opłaty", "Gaz", 22.37, "")
     ]

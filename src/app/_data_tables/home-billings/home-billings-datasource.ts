@@ -22,39 +22,55 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
   getData() : Array<HomeBillingItem>
   {
     let homeBillings: Array<HomeBillingItem> = [
-      new HomeBillingItem("Woda_1", "Woda", "2018-10-01", 120, 2.5),
-      new HomeBillingItem("Prąd_1", "Prąd", "2018-10-01", 130, 1.1),
-      new HomeBillingItem("Czynsz_1", "Czynsz", "2018-10-01", 230, 15)
+      new HomeBillingItem("Woda_201810", "Woda", "2018-10-01", 120),
+      new HomeBillingItem("Prąd_201810", "Prąd", "2018-10-01", 130),
+      new HomeBillingItem("Czynsz_201810", "Czynsz", "2018-10-01", 230)
     ]
 
     return homeBillings
   }
 
-  // Generowanie ID dla nowego wpisu
-  private calculateNewId(item) : string
+  // Obliczanie roznicy pomiedzy okresami
+  private calculateDiff(item)
   {
-    let newID : string = item.category+"_"+item.name+'_';
-    let newIdNum : number = 0;
+    let previousTotal: number;
+    let previousItemID: string = item.period.split("-")[1] == "01" 
+                        // jesli obecny okres to styczen
+                               ? item.name + "_" + (<number>item.id.split("_")[1]-89).toString()
+                        // dla pozostalych miesiecy
+                               : item.name + "_" + (<number>item.id.split("_")[1]-1).toString();
 
-    for(let i = 0; i < this.data.length; i++)
-    {
-      if(this.data[i].name == item.name)
-      { 
-        if(parseInt(this.data[i].id.split("_")[1])  > newIdNum  )
-        { newIdNum = parseInt(this.data[i].id.split("_")[1]) }
-      }
-      else
-      { continue; }
-    }  
+    this.data.forEach(element => {
+      if(element.id == previousItemID) { previousTotal = element.actualState; return; }
+    })
 
-    newIdNum++;
-    return newID+newIdNum.toString();
+    item.difference = item.actualState - previousTotal;
+  }
+
+  // Aktualizacja roznic po edycji elementu
+  private updateDifferencesOnEdit(item)
+  {
+    this.calculateDiff(item);
+
+    this.data.forEach(element => 
+      {
+        /* 
+          Po pierwszym wystapieniu przerywamy dzialanie, bo roznica pomiedzy okresami 
+          zmieni sie tylko w 2 przypadkach:
+          - element zedytowanym w porownaniu z poprzednim co jest rozwiazywane na poczatku funkcji
+          - elementem zedytowanym w porownaniu z nastepnym
+        */
+        if(element.name == item.name && <number><any>element.id.split("_")[1] > <number><any>item.id.split("_")[1])
+        { this.calculateDiff(element); return; }
+      })
   }
 
   // Dodanie wpisu
   addItem(item)
   {
-    item.id = this.calculateNewId(item);
+    item.id = item.name + "_" + item.period.substring(0, 7).replace("-", "");
+    this.calculateDiff(item);
+    console.log(item);
     this.data.push(item);
   }
 
@@ -67,7 +83,9 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
   // Edycja wpisu
   editItem(oldItem, newItem)
   {
+    newItem.id = oldItem.id;
     this.data[this.data.indexOf(oldItem)] = newItem;
+    this.updateDifferencesOnEdit(newItem);
   }
 
   /**

@@ -1,3 +1,45 @@
-<p>
-  add-werehouse-item-dialog works!
-</p>
+<h2 mat-dialog-title>{{newWerehouseItemDialog.title}}</h2>
+
+<mat-dialog-content> 
+  <form [formGroup]="addWerehouseItemForm">
+
+    <div class="form-group">
+      <label for="category">Kategoria</label>
+      <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cCategory.errors }"
+             formControlName = "cCategory" class = "form-control" name = "category" 
+             [value]="newWerehouseItemDialog.category">
+
+      <div *ngIf="isFormSubmitted && formInput.cCategory.errors.required" class="alert alert-danger">
+        Pole wymagane!
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Nazwa</label>
+      <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cName.errors }"
+             formControlName = "cName" class = "form-control" name = "name"
+             [value]="newWerehouseItemDialog.name">
+
+      <div *ngIf="isFormSubmitted && formInput.cName.errors.required" class="alert alert-danger">
+        Pole wymagane!
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Stan</label>
+      <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cState.errors }"
+             formControlName = "cState" class = "form-control" name = "name"
+             [value]="newWerehouseItemDialog.state">
+
+      <div *ngIf="isFormSubmitted && formInput.cName.errors.required" class="alert alert-danger">
+        Pole wymagane!
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-reisedbutton (click)="btnSaveNewItem()">Zapisz</button>
+  <button mat-button (click)="btnCancel()">Anuluj</button>
+</mat-dialog-actions>

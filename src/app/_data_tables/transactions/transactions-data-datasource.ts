@@ -20,10 +20,10 @@ export class TransactionsDataDataSource extends DataSource<TransactionItem> {
   getData() : Array<TransactionItem>
   {
     let periodicFees : Array<TransactionItem> = [
-      new TransactionItem("Zysk", "Wypłata", "Wypłata 10.2018", 2550, "2018-10-27", "2018-10-28", "11", ""),
+      new TransactionItem("Zysk", "Kasa", "Wypłata", 2550, "2018-10-27", "2018-10-28", "11", ""),
       new TransactionItem("Zysk", "Dodatkowe", "Inne", 750, "2018-10-31", "2018-10-31", "11", ""),
-      new TransactionItem("Koszt", "Opłaty", "Gaz", 25, "2018-11-05", "2018-11-05", "11", ""),
-      new TransactionItem("Koszt", "Opłaty", "Prąd", 120, "2018-11-05", "2018-11-05", "11", "")    
+      new TransactionItem("Koszt", "Kasa", "Opłaty", 25, "2018-11-05", "2018-11-05", "11", ""),
+      new TransactionItem("Koszt", "Kasa", "Opłaty", 120, "2018-11-05", "2018-11-05", "11", "")    
     ]   
 
     return periodicFees;

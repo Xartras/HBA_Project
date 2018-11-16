@@ -11,13 +11,12 @@ export class HomeBillingItem
     difference:  number;
     actions:     string;
 
-    constructor(i: string, n: string, p: string, as: number, d: number)
+    constructor(i: string, n: string, p: string, as: number)
     {
         this.id          = i;
         this.name        = n.substring(0,1).toUpperCase() + n.substring(1, n.length).toLowerCase();
         this.period      = p;
         this.actualState = as;
-        this.difference  = d;
         this.actions     = "Edytuj;Usuń";
     }
 }

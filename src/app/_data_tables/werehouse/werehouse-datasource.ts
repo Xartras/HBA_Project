@@ -34,6 +34,7 @@ export class WerehouseDataSource extends DataSource<WerehouseItem> {
   // Dodawanie wpisu
   addItem(item)
   {
+    item.id = item.category + "_" + item.name;
     this.data.push(item);
   }
   

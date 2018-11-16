@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { WerehouseDataSource } from './werehouse-datasource';
+import { AddWerehouseItemDialogComponent } from '../../_modal_dialogs/add-werehouse-item-dialog/add-werehouse-item-dialog.component'
 
 @Component({
   selector: 'app-werehouse-data',
@@ -15,14 +16,47 @@ export class WerehouseDataComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['category', 'name', 'state', 'actions'];
 
+  constructor(public dialog: MatDialog) {}
+
   ngOnInit() {
     this.dataSource = new WerehouseDataSource(this.paginator, this.sort);
   }
 
+
+  // Dodawanie wpisu
+  btnAddWerehouseItem()
+  {
+    let dialogRef = this.dialog.open(AddWerehouseItemDialogComponent, 
+      {
+        data: {category: "", name: "", state: "", title: "Dodaj wpis"}
+      })
+    
+    dialogRef.afterClosed().subscribe(
+    result => {
+                this.dataSource.addItem(result);
+                this.dataSource.connect();
+              })        
+  }
+
   btnEditRow(item)
   {
-    console.log(item)
+    let dialogRef = this.dialog.open(AddWerehouseItemDialogComponent, 
+      {
+        data: { 
+                category: item.category, 
+                name: item.name,
+                state: item.state,
+                title: "Edytuj wpis"
+              }
+      })
+
+    dialogRef.afterClosed().subscribe(
+      result => {
+                  this.dataSource.editItem(item, result);
+                  this.dataSource.connect();
+                })   
   }
+  
 
   btnRemoveRow(item)
   {

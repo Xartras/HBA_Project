@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { BudgetPlanDataSource } from './budget-plan-datasource';
 import { AddBudgetPlanDialogComponent } from '../../_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
 
@@ -14,7 +14,7 @@ export class BudgetPlanComponent implements OnInit {
   dataSource: BudgetPlanDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['type', 'category', 'name', 'amount', 'comment', 'actions'];
+  displayedColumns = ['type', 'category', 'name', 'plannedAmount', 'currentAmount', 'difference', 'comment', 'actions'];
 
   constructor(public dialog: MatDialog) {}
 
@@ -22,7 +22,7 @@ export class BudgetPlanComponent implements OnInit {
     this.dataSource = new BudgetPlanDataSource(this.paginator, this.sort);
   }
 
-  // Metody odpowiedzialne za dodawanie wpisow planowanego budzetu
+  // Dodawanie wpisu
   btnAddBudgetPlanItem()
   {
     let dialogRef = this.dialog.open(AddBudgetPlanDialogComponent, 
@@ -34,9 +34,8 @@ export class BudgetPlanComponent implements OnInit {
     result => {
                 this.dataSource.addItem(result);
                 this.dataSource.connect();
-              }
-          )        
-    }
+              })        
+  }
   
   // Usuwanie wpisow
   btnRemoveRow(item)
@@ -63,7 +62,6 @@ export class BudgetPlanComponent implements OnInit {
       result => {
                   this.dataSource.editItem(item, result);
                   this.dataSource.connect();
-                }
-            )   
+                })   
   }
 }
