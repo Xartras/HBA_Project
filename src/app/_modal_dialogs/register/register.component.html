@@ -7,47 +7,47 @@
         <form [formGroup] = "regForm" (ngSubmit)="btnRegister()">
           <div class="row">
             
-            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.login.errors }">
+            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.login.invalid }">
               <label for="login">Login</label>
               <input type="text" formControlName="login" class="form-control"/>
 
-              <div *ngIf="isFormSubmitted && formInput.login.errors.required" class="alert alert-danger">
+              <div *ngIf="isFormSubmitted && formInput.login.invalid" class="alert alert-danger">
                 Pole wymagane!
               </div>
             </div>
 
-            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.periodBegin.errors }">
+            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.periodBegin.invalid }">
               <label for="periodBegin">Okres od</label>
               <input type="date" formControlName="periodBegin" class="form-control"/>
 
-              <div *ngIf="isFormSubmitted && formInput.periodBegin.errors.required" class="alert alert-danger">
+              <div *ngIf="isFormSubmitted && formInput.periodBegin.invalid" class="alert alert-danger">
                 Pole wymagane!
               </div>
             </div>
           </div>
 
           <div class="row">
-            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.password.errors }">
+            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.password.invalid }">
               <label for="password">Hasło</label>
               <input type="password" formControlName="password" class="form-control"/>
 
-              <div *ngIf="isFormSubmitted && formInput.password.errors.required" class="alert alert-danger">
+              <div *ngIf="isFormSubmitted && formInput.password.invalid" class="alert alert-danger">
                 Pole wymagane!
               </div>
             </div>
           
-            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.periodEnd.errors }">
+            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.periodEnd.invalid }">
               <label for="periodEnd">Okres do</label>
               <input type="date" formControlName="periodEnd" class="form-control"/>
 
-              <div *ngIf="isFormSubmitted && formInput.periodEnd.errors.required" class="alert alert-danger">
+              <div *ngIf="isFormSubmitted && formInput.periodEnd.invalid" class="alert alert-danger">
                 Pole wymagane!
               </div>
             </div>         
           </div>
 
           <div class="row">
-            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.email.errors }">
+            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.email.invalid }">
               <label for="email">Email</label>
               <input type="text" formControlName="email" class="form-control"/>
 

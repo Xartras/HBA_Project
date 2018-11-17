@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BudgetPlanItem } from '../../_models/budget-plan-item';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -19,20 +19,25 @@ export class AddBudgetPlanDialogComponent implements OnInit {
   addPlanItemForm : FormGroup;
   newBudgetItem : BudgetPlanItem;
   isFormSubmitted = false;
+  cType: FormControl;
+
+  types = [{type: "Zysk"}, {type: "Koszt"}, {type: ""}]
 
   get formInput() { return this.addPlanItemForm.controls }
 
   ngOnInit() 
   {
+    // this.cType = new FormControl( '', Validators.compose([Validators.required] ))
     this.addPlanItemForm = this.formBuilder.group(
       {
-        cType:     new FormControl( '', Validators.compose([Validators.required] )),
+        cType: new FormControl( this.newBudgetItemDialog.type, Validators.compose([Validators.required] )),
         cCategory: new FormControl( '', Validators.compose([Validators.required] )),
         cName:     new FormControl( '', Validators.compose([Validators.required] )),
         cAmount:   new FormControl( '', Validators.compose([Validators.required] )),
         cComment:  new FormControl()
-      }
+      }      
     )
+    //this.cType.setValue(this.newBudgetItemDialog.type)
   }  
  
   btnSaveNewItem()
