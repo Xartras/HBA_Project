@@ -23,8 +23,7 @@
     <div class="form-group">
       <label for="category">Kategoria</label>
       <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cCategory.invalid}"
-             formControlName = "cCategory" class = "form-control" name = "category" 
-             [value]="newBudgetItemDialog.category">
+             formControlName = "cCategory" class = "form-control" name = "category">
 
       <div *ngIf="isFormSubmitted && formInput.cCategory.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -34,8 +33,7 @@
     <div class="form-group">
       <label for="name">Nazwa</label>
       <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cName.invalid }"
-             formControlName = "cName" class = "form-control" name = "name"
-             [value]="newBudgetItemDialog.name">
+             formControlName = "cName" class = "form-control" name = "name">
 
       <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -45,8 +43,7 @@
     <div class="form-group">
       <label for="amount">Kwota</label>
       <input type = "number" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cAmount.invalid }"
-             formControlName = "cAmount" class = "form-control" name = "amount"
-             [value]="newBudgetItemDialog.amount">
+             formControlName = "cAmount" class = "form-control" name = "amount">
 
       <div *ngIf="isFormSubmitted && formInput.cAmount.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -55,14 +52,13 @@
 
     <div class="form-group">
       <label for="comment">Komentarz</label>
-      <input type = "text" formControlName = "cComment" class = "form-control" name = "comment"
-             [value] = "newBudgetItemDialog.comment">
+      <input type = "text" formControlName = "cComment" class = "form-control" name = "comment">
     </div>
 
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-reisedbutton (click)="btnSaveNewItem()">Zapisz</button>
-  <button mat-button (click)="btnCancel()">Anuluj</button>
+  <button  mat-reisedbutton (click)="btnSaveNewItem()">Zapisz</button>
+  <button  mat-button (click)="btnCancel()">Anuluj</button>
 </mat-dialog-actions>

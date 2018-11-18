@@ -27,17 +27,15 @@ export class AddBudgetPlanDialogComponent implements OnInit {
 
   ngOnInit() 
   {
-    // this.cType = new FormControl( '', Validators.compose([Validators.required] ))
     this.addPlanItemForm = this.formBuilder.group(
       {
-        cType: new FormControl( this.newBudgetItemDialog.type, Validators.compose([Validators.required] )),
-        cCategory: new FormControl( '', Validators.compose([Validators.required] )),
-        cName:     new FormControl( '', Validators.compose([Validators.required] )),
-        cAmount:   new FormControl( '', Validators.compose([Validators.required] )),
-        cComment:  new FormControl()
+        cType:     new FormControl( this.newBudgetItemDialog.type, Validators.compose([Validators.required] )),
+        cCategory: new FormControl( this.newBudgetItemDialog.category, Validators.compose([Validators.required] )),
+        cName:     new FormControl( this.newBudgetItemDialog.name, Validators.compose([Validators.required] )),
+        cAmount:   new FormControl( this.newBudgetItemDialog.amount, Validators.compose([Validators.required] )),
+        cComment:  new FormControl( this.newBudgetItemDialog.comment)
       }      
     )
-    //this.cType.setValue(this.newBudgetItemDialog.type)
   }  
  
   btnSaveNewItem()
@@ -46,16 +44,14 @@ export class AddBudgetPlanDialogComponent implements OnInit {
     if(this.addPlanItemForm.invalid) { return; }
     else
     {
-      this.newBudgetItemDialog.type     = this.addPlanItemForm.controls.cType.value;
-      this.newBudgetItemDialog.category = this.addPlanItemForm.controls.cCategory.value;
-      this.newBudgetItemDialog.name     = this.addPlanItemForm.controls.cName.value;
-      this.newBudgetItemDialog.amount   = this.addPlanItemForm.controls.cAmount.value;
-      this.newBudgetItemDialog.comment  = this.addPlanItemForm.controls.cComment.value == null ? "" : this.addPlanItemForm.controls.cComment.value;
-
-      this.newBudgetItem =  new BudgetPlanItem('',
-        this.newBudgetItemDialog.type, this.newBudgetItemDialog.category,
-        this.newBudgetItemDialog.name, this.newBudgetItemDialog.amount, 
-        this.newBudgetItemDialog.comment
+      this.newBudgetItem =  
+        new BudgetPlanItem
+        ('',
+          this.addPlanItemForm.controls.cType.value,
+          this.addPlanItemForm.controls.cCategory.value,
+          this.addPlanItemForm.controls.cName.value,
+          this.addPlanItemForm.controls.cAmount.value,
+          this.addPlanItemForm.controls.cComment.value == null ? "" : this.addPlanItemForm.controls.cComment.value
         )
         
       this.dialogRef.close(this.newBudgetItem);

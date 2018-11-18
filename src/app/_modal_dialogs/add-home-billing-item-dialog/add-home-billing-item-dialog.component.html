@@ -6,8 +6,7 @@
     <div class="form-group">
       <label for="name">Nazwa</label>
       <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cName.invalid }"
-             formControlName = "cName" class = "form-control" name = "name"
-             [value]="newHomeBillingItemDialog.name">
+             formControlName = "cName" class = "form-control" name = "name">
 
       <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -17,8 +16,7 @@
     <div class="form-group">
       <label for="name">Okres</label>
       <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cPeriod.invalid }"
-             formControlName = "cPeriod" class = "form-control" name = "period"
-             [value]="newHomeBillingItemDialog.period">
+             formControlName = "cPeriod" class = "form-control" name = "period">
 
       <div *ngIf="isFormSubmitted && formInput.cPeriod.errors.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -28,8 +26,7 @@
     <div class="form-group">
       <label for="name">Stan aktualny</label>
       <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cActualState.invalid }"
-             formControlName = "cActualState" class = "form-control" name = "period"
-             [value]="newHomeBillingItemDialog.actualState">
+             formControlName = "cActualState" class = "form-control" name = "period">
 
       <div *ngIf="isFormSubmitted && formInput.cActualState.errors.invalid" class="alert alert-danger">
         Pole wymagane!

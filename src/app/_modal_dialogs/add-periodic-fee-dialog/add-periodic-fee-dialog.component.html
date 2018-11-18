@@ -6,8 +6,7 @@
     <div class="form-group">
       <label for="category">Kategoria</label>
       <input type = "text" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cCategory.invalid }"
-             formControlName = "cCategory" class = "form-control" name = "category"
-             [value]="newPeriodicFeeDialog.category">
+             formControlName = "cCategory" class = "form-control" name = "category">
       
       <div *ngIf="isFormSubmitted && formInput.cCategory.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -17,8 +16,7 @@
     <div class="form-group">
       <label for="name">Nazwa</label>
       <input type="text" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cName.invalid }"
-      formControlName = "cName" class = "form-control" name = "name"
-      [value]="newPeriodicFeeDialog.name">
+      formControlName = "cName" class = "form-control" name = "name">
 
       <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -28,8 +26,7 @@
     <div class="form-group">
       <label for="paidFrom">Płatne od</label>
       <input type="date" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cPaidFrom.invalid }"
-      formControlName = "cPaidFrom" class = "form-control" name = "paidFrom"
-      [value]="newPeriodicFeeDialog.paidFrom">
+      formControlName = "cPaidFrom" class = "form-control" name = "paidFrom">
 
       <div *ngIf="isFormSubmitted && formInput.cPaidFrom.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -39,8 +36,7 @@
     <div class="form-group">
       <label for="paidUntil">Płatne do</label>
       <input type="date" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cPaidUntil.invalid }"
-      formControlName = "cPaidUntil" class = "form-control" name = "paidUntil"
-      [value]="newPeriodicFeeDialog.paidUntil">
+      formControlName = "cPaidUntil" class = "form-control" name = "paidUntil">
 
       <div *ngIf="isFormSubmitted && formInput.cPaidUntil.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -50,8 +46,7 @@
     <div class="form-group">
       <label for="paymentPeriod">Płatne co</label>
       <input type="text" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cPaymentPeriod.invalid }"
-      formControlName = "cPaymentPeriod" class = "form-control" name = "paymentPeriod"
-      [value]="newPeriodicFeeDialog.paymentPeriod">
+      formControlName = "cPaymentPeriod" class = "form-control" name = "paymentPeriod">
     
       <div *ngIf="isFormSubmitted && formInput.cPaymentPeriod.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -61,8 +56,7 @@
     <div class="form-group">
       <label for="ifAlreadyPaid">Czy opłacono</label>
       <input type="checkbox" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cIfAlreadyPaid.invalid }"
-      formControlName = "cIfAlreadyPaid" class = "form-control" name = "ifAlreadyPaid"
-      [value]="newPeriodicFeeDialog.ifAlreadyPaid">
+      formControlName = "cIfAlreadyPaid" class = "form-control" name = "ifAlreadyPaid">
     
       <div *ngIf="isFormSubmitted && formInput.cIfAlreadyPaid.invalid" class="alert alert-danger">
         Pole wymagane!

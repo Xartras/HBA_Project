@@ -40,7 +40,7 @@ export class PeriodicFeesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
     result => {
                 this.dataSource.addItem(result);
-                this.dataSource.connect();
+                this.dataSource.connect()
               }
           )        
     }

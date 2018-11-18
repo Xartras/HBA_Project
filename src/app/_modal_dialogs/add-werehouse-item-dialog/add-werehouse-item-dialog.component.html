@@ -6,8 +6,7 @@
     <div class="form-group">
       <label for="category">Kategoria</label>
       <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cCategory.invalid }"
-             formControlName = "cCategory" class = "form-control" name = "category" 
-             [value]="newWerehouseItemDialog.category">
+             formControlName = "cCategory" class = "form-control" name = "category">
 
       <div *ngIf="isFormSubmitted && formInput.cCategory.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -17,8 +16,7 @@
     <div class="form-group">
       <label for="name">Nazwa</label>
       <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cName.invalid }"
-             formControlName = "cName" class = "form-control" name = "name"
-             [value]="newWerehouseItemDialog.name">
+             formControlName = "cName" class = "form-control" name = "name">
 
       <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
         Pole wymagane!
@@ -28,8 +26,7 @@
     <div class="form-group">
       <label for="name">Stan</label>
       <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cState.inalid }"
-             formControlName = "cState" class = "form-control" name = "name"
-             [value]="newWerehouseItemDialog.state">
+             formControlName = "cState" class = "form-control" name = "name">
 
       <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
         Pole wymagane!

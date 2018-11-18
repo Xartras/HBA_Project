@@ -25,9 +25,9 @@ export class AddWerehouseItemDialogComponent implements OnInit {
   {
     this.addWerehouseItemForm = this.formBuilder.group(
       {
-        cCategory: new FormControl('', Validators.compose([Validators.required])),
-        cName:     new FormControl('', Validators.compose([Validators.required])),
-        cState:    new FormControl('', Validators.compose([Validators.required])),
+        cCategory: new FormControl(this.newWerehouseItemDialog.category, Validators.compose([Validators.required])),
+        cName:     new FormControl(this.newWerehouseItemDialog.name, Validators.compose([Validators.required])),
+        cState:    new FormControl(this.newWerehouseItemDialog.state, Validators.compose([Validators.required])),
       })
   }
 
@@ -37,15 +37,14 @@ export class AddWerehouseItemDialogComponent implements OnInit {
     if(this.addWerehouseItemForm.invalid) { return; }
     else
     {
-      this.newWerehouseItemDialog.category = this.addWerehouseItemForm.controls.cCategory.value;
-      this.newWerehouseItemDialog.name     = this.addWerehouseItemForm.controls.cName.value;
-      this.newWerehouseItemDialog.state    = this.addWerehouseItemForm.controls.cState.value;
-
-      this.newWerehouseItem =  new WerehouseItem('',
-        this.newWerehouseItemDialog.category,
-        this.newWerehouseItemDialog.name, 
-        this.newWerehouseItemDialog.state, 
-        )
+      this.newWerehouseItem =  
+      new WerehouseItem
+      (
+      ''
+      ,this.addWerehouseItemForm.controls.cCategory.value
+      ,this.addWerehouseItemForm.controls.cName.value
+      ,this.addWerehouseItemForm.controls.cState.value 
+      )
         
       this.dialogRef.close(this.newWerehouseItem);
     }

@@ -25,12 +25,12 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
   {
     this.addPeriodicFeeForm = this.formBuilder.group(
       {
-        cCategory:      new FormControl('', Validators.compose([Validators.required])),
-        cName:          new FormControl('', Validators.compose([Validators.required])),
-        cPaidFrom:      new FormControl('', Validators.compose([Validators.required])),
-        cPaidUntil:     new FormControl('', Validators.compose([Validators.required])),
-        cPaymentPeriod: new FormControl('', Validators.compose([Validators.required])),
-        cIfAlreadyPaid: new FormControl(),
+        cCategory:      new FormControl(this.newPeriodicFeeDialog.category , Validators.compose([Validators.required])),
+        cName:          new FormControl(this.newPeriodicFeeDialog.name, Validators.compose([Validators.required])),
+        cPaidFrom:      new FormControl(this.newPeriodicFeeDialog.paidFrom , Validators.compose([Validators.required])),
+        cPaidUntil:     new FormControl(this.newPeriodicFeeDialog.paidUntil, Validators.compose([Validators.required])),
+        cPaymentPeriod: new FormControl(this.newPeriodicFeeDialog.paymentPeriod, Validators.compose([Validators.required])),
+        cIfAlreadyPaid: new FormControl(this.newPeriodicFeeDialog.ifAlreadyPaid),
       }
     )
   }
@@ -43,17 +43,14 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
     if(this.addPeriodicFeeForm.invalid) { return; }
     else
     {
-      this.newPeriodicFeeDialog.category      = this.addPeriodicFeeForm.controls.cCategory.value;
-      this.newPeriodicFeeDialog.name          = this.addPeriodicFeeForm.controls.cName.value;
-      this.newPeriodicFeeDialog.paidFrom      = this.addPeriodicFeeForm.controls.cPaidFrom.value;
-      this.newPeriodicFeeDialog.paidUntil     = this.addPeriodicFeeForm.controls.cPaidUntil.value;
-      this.newPeriodicFeeDialog.paymentPeriod = this.addPeriodicFeeForm.controls.cPaymentPeriod.value;
-      this.newPeriodicFeeDialog.ifAlreadyPaid = this.addPeriodicFeeForm.controls.cIfAlreadyPaid.value == null ? false : true;
-
-      this.newFee = new PeriodicFeeItem(''
-       ,this.newPeriodicFeeDialog.category, this.newPeriodicFeeDialog.name
-       ,this.newPeriodicFeeDialog.paidFrom, this.newPeriodicFeeDialog.paidUntil
-       ,this.newPeriodicFeeDialog.paymentPeriod, this.newPeriodicFeeDialog.ifAlreadyPaid
+      this.newFee = new PeriodicFeeItem
+      (''
+      ,this.addPeriodicFeeForm.controls.cCategory.value
+      ,this.addPeriodicFeeForm.controls.cName.value
+      ,this.addPeriodicFeeForm.controls.cPaidFrom.value
+      ,this.addPeriodicFeeForm.controls.cPaidUntil.value
+      ,this.addPeriodicFeeForm.controls.cPaymentPeriod.value
+      ,this.addPeriodicFeeForm.controls.cIfAlreadyPaid.value == null ? false : true
       )
 
       this.dialogRef.close(this.newFee);
