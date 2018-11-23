@@ -37,12 +37,12 @@ export class RegisterComponent implements OnInit {
   btnAuthRegistration()
   {
     this.isFormSubmitted = true;
-    //let isUserCorrect = this.userAuth.validateRegistration(this.user);
+    let isUserCorrect = this.userAuth.validateRegistration(this.user);
 
-    //if (isUserCorrect == true)
-    //{
-    //  this.dialogRef.close(this.user);
-    //}
+    if (isUserCorrect == true)
+    {
+      this.dialogRef.close(this.user);
+    }
   }
 
   // Anulowanie rejestracji uzytkownika

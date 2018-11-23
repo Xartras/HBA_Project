@@ -35,37 +35,30 @@ export class UserAuthService {
     
     // Przy rejestracji sprawdzana jest dlugość loginu i hasła, jeśli podano "zbyt krótkie" dane
     // wtedy nie ma potrzeby sprawdzania danych logowania
-    if(user.login.length < 4 || user.password.length < 4)
-    { 
+
+    dbUser = this.getUser(user.login, "log"); // próba pobrania danych użytkownika
+
+    // Jeśli mamy null to znaczy, że użytkownik nie istnieje (zły login) => dalej nie sprawdzamy
+    if(dbUser == null) 
+    {
       loginValidation[0] = null; 
       loginValidation[1] = true; 
-    }
+    } 
     else
     {
-      dbUser = this.getUser(user.login, "log"); // próba pobrania danych użytkownika
-
-      // Jeśli mamy null to znaczy, że użytkownik nie istnieje (zły login) => dalej nie sprawdzamy
-      if(dbUser == null) 
+      // Sprawdzamy czy hasło się zgadza, jeśli nie to kończymy działanie
+      if(dbUser.password != user.password)
       {
         loginValidation[0] = null; 
-        loginValidation[1] = true; 
-      } 
+        loginValidation[1] = true;
+      }
       else
       {
-        // Sprawdzamy czy hasło się zgadza, jeśli nie to kończymy działanie
-        if(dbUser.password != user.password)
-        {
-          loginValidation[0] = null; 
-          loginValidation[1] = true;
-        }
-        else
-        {
-          // Dane poprawne, zwracamy użytkownika oraz ustawiamy flagę błędu na fałsz (użytkownik poprawny)
-          loginValidation[0] = dbUser;
-          loginValidation[1] = false;
-        }
+        // Dane poprawne, zwracamy użytkownika oraz ustawiamy flagę błędu na fałsz (użytkownik poprawny)
+        loginValidation[0] = dbUser;
+        loginValidation[1] = false;
       }
-    }    
+    }        
 
     return loginValidation;
   }

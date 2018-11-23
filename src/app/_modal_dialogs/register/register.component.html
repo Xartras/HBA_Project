@@ -7,32 +7,38 @@
         <form [formGroup] = "regForm" (ngSubmit)="btnRegister()">
           <div class="row">
             
-            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.login.invalid }">
+            <div class="form-group col-sm-6">
               <label for="login">Login</label>
               <input type="text" formControlName="login" class="form-control"/>
 
-              <div *ngIf="isFormSubmitted && formInput.login.invalid" class="alert alert-danger">
-                Pole wymagane!
+              <div *ngIf="formInput.login.invalid && (formInput.login.dirty || formInput.login.touched)">
+                <div *ngIf="formInput.login.errors.required" class="alert alert-danger">
+                  Pole wymagane!
+                </div>
               </div>
             </div>
 
-            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.periodBegin.invalid }">
+            <div class="form-group col-sm-6">
               <label for="periodBegin">Okres od</label>
               <input type="date" formControlName="periodBegin" class="form-control"/>
 
-              <div *ngIf="isFormSubmitted && formInput.periodBegin.invalid" class="alert alert-danger">
-                Pole wymagane!
+              <div *ngIf="formInput.periodBegin.invalid && (formInput.periodBegin.dirty || formInput.periodBegin.touched)">
+                <div *ngIf="formInput.periodBegin.errors.required" class="alert alert-danger">
+                  Pole wymagane!
+                </div>
               </div>
             </div>
           </div>
 
           <div class="row">
-            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.password.invalid }">
+            <div class="form-group col-sm-6">
               <label for="password">Hasło</label>
               <input type="password" formControlName="password" class="form-control"/>
 
-              <div *ngIf="isFormSubmitted && formInput.password.invalid" class="alert alert-danger">
-                Pole wymagane!
+              <div *ngIf="formInput.password.invalid && (formInput.password.dirty || formInput.password.touched)">
+                <div *ngIf="formInput.password.errors.required" class="alert alert-danger">
+                  Pole wymagane!
+                </div>
               </div>
             </div>
           
@@ -40,8 +46,10 @@
               <label for="periodEnd">Okres do</label>
               <input type="date" formControlName="periodEnd" class="form-control"/>
 
-              <div *ngIf="isFormSubmitted && formInput.periodEnd.invalid" class="alert alert-danger">
-                Pole wymagane!
+              <div *ngIf="formInput.periodEnd.invalid && (formInput.periodEnd.dirty || formInput.periodEnd.touched)">
+                <div *ngIf="formInput.periodEnd.errors.required" class="alert alert-danger">
+                  Pole wymagane!
+                </div>
               </div>
             </div>         
           </div>
@@ -51,11 +59,13 @@
               <label for="email">Email</label>
               <input type="text" formControlName="email" class="form-control"/>
 
-              <div *ngIf="isFormSubmitted && formInput.email.errors.required" class="alert alert-danger">
-                Pole wymagane!
-              </div>
-              <div *ngIf="isFormSubmitted && formInput.email.errors.email" class="alert alert-danger">
-                Należy podać poprawny adres e-mail!
+              <div *ngIf="formInput.email.invalid && (formInput.email.dirty || formInput.email.touched)">
+                <div *ngIf="isFormSubmitted && formInput.email.errors.required" class="alert alert-danger">
+                  Pole wymagane!
+                </div>
+                <div *ngIf="isFormSubmitted && formInput.email.errors.email" class="alert alert-danger">
+                  Należy podać poprawny adres e-mail!
+                </div>
               </div>
             </div>
           </div>
