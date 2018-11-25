@@ -12,125 +12,65 @@ import { PeriodicFeeItem } from '../../_models/periodic-fee-item';
  */
 export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
   
-  constructor(private paginator: MatPaginator, private sort: MatSort) {
+  constructor(private periodicFees: Observable<PeriodicFeeItem[]>) {
     super();
   }
-
-  data: Array<PeriodicFeeItem> = this.getData()
 
   // Pobranie danych
   getData() : Array<PeriodicFeeItem>
   {
     let periodicFees : Array<PeriodicFeeItem> = [
-      new PeriodicFeeItem('Opłaty_Prąd_1', 'Opłaty', 'Prąd', '2018-01-01', '2018-12-31', '2 miesiące', true ),
-      new PeriodicFeeItem('Opłaty_Gaz_1', 'Opłaty', 'Gaz', '2018-01-01', '2018-12-31', '2 miesiące', false )
+      new PeriodicFeeItem('Mieszkanie_Prąd', 'Mieszkanie', 'Prąd', '13 dnia miesiąca', '2 miesiące', '', ''),
+      new PeriodicFeeItem('Mieszkanie_Gaz', 'Mieszkanie', 'Gaz', '20 dnia miesiąca', '2 miesiące', '', ''),
+      new PeriodicFeeItem('Bank_Kredyt', 'Bank', 'Kredyt', '5 dnia miesiąca', '1 miesiąc', '17.11.2019', 'Kredyt na remont domu')
     ]   
 
     return periodicFees;
   }
-
-  // Generowanie ID dla nowego wpisu
-  private calculateNewId(item) : string
-  {
-    let newID : string = item.category+"_"+item.name+'_';
-    let newIdNum : number = 0;
-
-    for(let i = 0; i < this.data.length; i++)
-    {
-      if(this.data[i].category == item.category && this.data[i].name == item.name)
-      { 
-        if(parseInt(this.data[i].id.split("_")[2])  > newIdNum  )
-        { newIdNum = parseInt(this.data[i].id.split("_")[2]) }
-      }
-      else
-      { continue; }
-    }  
-
-    newIdNum++;
-    return newID+newIdNum.toString();
-  }
   
   // Dodawanie wpisu
-  addItem(item)
+  addItem(data: PeriodicFeeItem[], item)
   {
-    item.id = this.calculateNewId(item);
-    this.data.push(item);
+    item.id = item.category + "_" + item.name;
+    data.push(item);
   }
 
   // Usuwanie wpisu
-  removeItem(item)
+  removeItem(data: PeriodicFeeItem[], item)
   {
-    this.data.splice(this.data.indexOf(item), 1);
+    data.splice(data.indexOf(item), 1);
   }
 
   // Edycja wpisu
-  editItem(oldItem, newItem)
+  editItem(data: PeriodicFeeItem[], oldItem, newItem)
   {
-    this.data[this.data.indexOf(oldItem)] = newItem;
+    data[data.indexOf(oldItem)] = newItem;
   }
 
-  /**
-   * Connect this data source to the table. The table will only update when
-   * the returned stream emits new items.
-   * @returns A stream of the items to be rendered.
-   */
-  connect(): Observable<Array<PeriodicFeeItem>> {
-    // Combine everything that affects the rendered data into one update
-    // stream for the data-table to consume.
-    const dataMutations = [
-      observableOf(this.data),
-      this.paginator.page,
-      this.sort.sortChange
-    ];
-
-    // Set the paginators length
-    this.paginator.length = this.data.length;
-
-    return merge(...dataMutations).pipe(map(() => {
-      return this.getPagedData(this.getSortedData([...this.data]));
-    }));
+  // Sortowanie danych
+  // od opłat, które trzeba dokonać najwcześniej (najmniejszy numer dnia)
+  // do opłat, które trzeba dokonać najpóźniej (największy numer dnia)
+  sortData(data: PeriodicFeeItem[])
+  {
+    return data.sort(
+      (a, b) => 
+      {
+        return <number><any>a.paidUntil.split(" ")[0] - <number><any>b.paidUntil.split(" ")[0]
+      })
   }
 
-  /**
-   *  Called when the table is being destroyed. Use this function, to clean up
-   * any open connections or free any held resources that were set up during connect.
-   */
+  // Sprawdzenie czy dana opłata nie została już zapisana
+  isFeeAlreadyRegistered(data: PeriodicFeeItem[], item: PeriodicFeeItem) : boolean
+  {
+    return data.indexOf(item) != null ? true : false;
+  }
+
+
+  // Metoda zwraca dane, które powinny zostać wyświetlone
+  connect(): Observable<PeriodicFeeItem[]> 
+  { return this.periodicFees; }
+
+  // Metoda do usuwania tabeli
   disconnect() {}
 
-  /**
-   * Paginate the data (client-side). If you're using server-side pagination,
-   * this would be replaced by requesting the appropriate data from the server.
-   */
-  private getPagedData(data: Array<PeriodicFeeItem>) {
-    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-    return data.splice(startIndex, this.paginator.pageSize);
-  }
-
-  /**
-   * Sort the data (client-side). If you're using server-side sorting,
-   * this would be replaced by requesting the appropriate data from the server.
-   */
-  private getSortedData(data: Array<PeriodicFeeItem>) {
-    if (!this.sort.active || this.sort.direction === '') {
-      return data;
-    }
-
-    return data.sort((a, b) => {
-      const isAsc = this.sort.direction === 'asc';
-      switch (this.sort.active) {
-        case 'category': return compare(a.category, b.category, isAsc);
-        case 'name': return compare(a.category, b.category, isAsc);
-        case 'paidFrom': return compare(a.category, b.category, isAsc);
-        case 'paidUntil': return compare(a.category, b.category, isAsc);
-        case 'paymentPeriod': return compare(a.category, b.category, isAsc);
-        case 'ifAlreadyPaid': return compare(a.category, b.category, isAsc);
-        default: return 0;
-      }
-    });
-  }
-}
-
-/** Simple sort comparator for example ID/Name columns (for client-side sorting). */
-function compare(a, b, isAsc) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

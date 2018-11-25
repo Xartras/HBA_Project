@@ -32,6 +32,7 @@ export class AddBudgetPlanDialogComponent implements OnInit {
         cType:     new FormControl( this.newBudgetItemDialog.type, Validators.compose([Validators.required] )),
         cCategory: new FormControl( this.newBudgetItemDialog.category, Validators.compose([Validators.required] )),
         cName:     new FormControl( this.newBudgetItemDialog.name, Validators.compose([Validators.required] )),
+        cPeriod:   new FormControl( this.newBudgetItemDialog.period, Validators.compose([Validators.required] )),
         cAmount:   new FormControl( this.newBudgetItemDialog.amount, Validators.compose([Validators.required] )),
         cComment:  new FormControl( this.newBudgetItemDialog.comment)
       }      
@@ -40,6 +41,7 @@ export class AddBudgetPlanDialogComponent implements OnInit {
  
   btnSaveNewItem()
   {
+    console.log(this.addPlanItemForm.controls.cPeriod.value)
     this.isFormSubmitted = true;
     if(this.addPlanItemForm.invalid) { return; }
     else
@@ -50,6 +52,7 @@ export class AddBudgetPlanDialogComponent implements OnInit {
           this.addPlanItemForm.controls.cType.value,
           this.addPlanItemForm.controls.cCategory.value,
           this.addPlanItemForm.controls.cName.value,
+          this.addPlanItemForm.controls.cPeriod.value,
           this.addPlanItemForm.controls.cAmount.value,
           this.addPlanItemForm.controls.cComment.value == null ? "" : this.addPlanItemForm.controls.cComment.value
         )

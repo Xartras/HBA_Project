@@ -29,19 +29,25 @@
       <td mat-cell *matCellDef="let row">{{row.name}}</td>
     </ng-container>
 
-    <!-- [Kwota] -->
+    <!-- [Okres] -->
+    <ng-container matColumnDef="period">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Okres</th>
+      <td mat-cell *matCellDef="let row">{{row.period}}</td>
+    </ng-container>    
+
+    <!-- [Kwota planowana] -->
     <ng-container matColumnDef="plannedAmount">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Kwota Planowana</th>
       <td mat-cell *matCellDef="let row">{{row.amount}}</td>
     </ng-container>
 
-    <!-- [Kwota] -->
+    <!-- [Stan aktualny] -->
     <ng-container matColumnDef="currentAmount">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Stan Aktualny</th>
       <td mat-cell *matCellDef="let row">{{row.amount- 40}}</td>
     </ng-container>
 
-    <!-- [Kwota] -->
+    <!-- [Roznica pomiedzy planem, a stanem faktycznym] -->
     <ng-container matColumnDef="difference">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Różnica</th>
       <td mat-cell *matCellDef="let row">{{row.amount - (row.amount - 40)}}</td>
@@ -65,11 +71,4 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-
-  <mat-paginator #paginator
-    [length]="dataSource.data.length"
-    [pageIndex]="0"
-    [pageSize]="50"
-    [pageSizeOptions]="[25, 50, 100, 250]">
-  </mat-paginator>
 </div>

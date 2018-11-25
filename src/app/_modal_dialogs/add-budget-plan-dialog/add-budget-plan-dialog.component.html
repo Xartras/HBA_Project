@@ -41,6 +41,16 @@
     </div>
 
     <div class="form-group">
+      <label for="name">Okres</label>
+      <input type = "date" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cPeriod.invalid }"
+             formControlName = "cPeriod" class = "form-control" name = "period">
+
+      <div *ngIf="isFormSubmitted && formInput.cPeriod.invalid" class="alert alert-danger">
+        Pole wymagane!
+      </div>
+    </div>
+
+    <div class="form-group">
       <label for="amount">Kwota</label>
       <input type = "number" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cAmount.invalid }"
              formControlName = "cAmount" class = "form-control" name = "amount">

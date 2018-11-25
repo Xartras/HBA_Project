@@ -1,8 +1,10 @@
 import { DataSource } from '@angular/cdk/collections';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { BudgetPlanItem } from '../../_models/budget-plan-item'
+import { formatDate } from '@angular/common';
+
 
 /**
  * Data source for the BudgetPlan view. This class should
@@ -11,15 +13,15 @@ import { BudgetPlanItem } from '../../_models/budget-plan-item'
  */
 export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> { 
 
-  constructor(private paginator: MatPaginator, private sort: MatSort) { super(); }
+  constructor(private sort: MatSort) { super(); }
 
   // Pobranie danych
   getData() : Array<BudgetPlanItem>
   {
     let budgetPlan: Array<BudgetPlanItem> = [
-      new BudgetPlanItem("Zysk_Stałe_Wypłata_1", "Zysk", "Kasa", "Wypłata", 2500.12, "Wypłata za sierpień 2018"),
-      new BudgetPlanItem("Koszt_Opłaty_Prąd_1", "Koszt", "Opłaty", "Prąd", 75.92, ""),
-      new BudgetPlanItem("Koszt_Opłaty_Gaz_1", "Koszt", "Opłaty", "Gaz", 22.37, "")
+      new BudgetPlanItem("Zysk_Stałe_Wypłata_1", "Zysk", "Kasa", "Wypłata", <Date><any>formatDate("2018-10-01", "yyyy-MM-dd", "en-US"), 2500.12, "Wypłata za sierpień 2018"),
+      new BudgetPlanItem("Koszt_Opłaty_Prąd_1", "Koszt", "Opłaty", "Prąd", <Date><any>formatDate("2018-10-02", "yyyy-MM-dd", "en-US"), 75.92, ""),
+      new BudgetPlanItem("Koszt_Opłaty_Gaz_1", "Koszt", "Opłaty", "Gaz", <Date><any>formatDate("2018-10-05", "yyyy-MM-dd", "en-US"), 22.37, "")
     ]
 
     return budgetPlan;
@@ -84,6 +86,22 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
     this.data[this.data.indexOf(oldItem)] = newItem;
   }
 
+  // Podsumowanie zyskow i kosztow
+  calculateReveCost(data: BudgetPlanItem[])
+  {
+    let summarizedPlan = data.reduce(
+      (prev, crnt) =>
+      {
+        if(!prev[crnt["type"]]) { prev[crnt["type"]] = [crnt] }
+        else { prev[crnt["type"]].push(crnt) }
+
+        return prev;
+      }      
+    )
+
+    return Object.keys(summarizedPlan).map(key => ({key, value: summarizedPlan[key]}));
+  }
+
   /**
    * Connect this data source to the table. The table will only update when
    * the returned stream emits new items.
@@ -94,37 +112,21 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
     // stream for the data-table to consume.
     const dataMutations = [
       observableOf(this.data),
-      this.paginator.page,
       this.sort.sortChange
     ];
 
-    // Set the paginators length
-    this.paginator.length = this.data.length;
-
     return merge(...dataMutations).pipe(map(() => {
-      return this.getPagedData(this.getSortedData([...this.data]));
+      return this.getSortedData([...this.data]);
     }));
   }
 
   /**
    *  Called when the table is being destroyed. Use this function, to clean up
-   * any open connections or free any held resources that were set up during connect.
+   *  any open connections or free any held resources that were set up during connect.
    */
   disconnect() {}
 
-  /**
-   * Paginate the data (client-side). If you're using server-side pagination,
-   * this would be replaced by requesting the appropriate data from the server.
-   */
-  private getPagedData(data:  BudgetPlanItem[]) {
-    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-    return data.splice(startIndex, this.paginator.pageSize);
-  }
-
-  /**
-   * Sort the data (client-side). If you're using server-side sorting,
-   * this would be replaced by requesting the appropriate data from the server.
-   */
+  // Sortowanie po nagłówkach
   private getSortedData(data: BudgetPlanItem[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
@@ -143,7 +145,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
   }
 }
 
-/** Simple sort comparator for example ID/Name columns (for client-side sorting). */
+/** Porównywanie wpisów, używane przy sortowaniu po nagłówkach  */
 function compare(a, b, isAsc) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

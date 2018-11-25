@@ -6,10 +6,10 @@
       <form [formGroup]="logForm" (ngSubmit)="btnLogIn()">
         
         <div class="form-group">
-          <div *ngIf=" isFormSubmitted && (
+          <div *ngIf=" isFormSubmitted && ( isUserIncorrect ||
                       (formInput.login.invalid && (formInput.login.dirty || formInput.login.touched))
                    || (formInput.password.invalid && (formInput.password.dirty || formInput.password.touched)))">
-            <div *ngIf="formInput.login.errors.minlength || formInput.password.errors.minlength" class="alert alert-danger">
+            <div *ngIf="isUserIncorrect || formInput.login.errors.minlength || formInput.password.errors.minlength" class="alert alert-danger">
                 Niepoprawny login lub hasło
             </div> 
           </div>
