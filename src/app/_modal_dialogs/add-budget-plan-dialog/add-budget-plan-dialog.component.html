@@ -8,55 +8,71 @@
  <!--    <input type = "text" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cType.errors }"
              formControlName = "cType" class = "form-control" name = "type" 
              [value]="newBudgetItemDialog.type"> --> 
-      <select type = "text" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cType.invalid }"
-                  formControlName = "cType" class = "form-control" name = "type">
+      <select type = "text" formControlName = "cType" class = "form-control" name = "type">
         <option *ngFor="let t of types" [value]="t.type">
           {{t.type}}
         </option>
       </select>
 
       <div *ngIf="isFormSubmitted && formInput.cType.invalid" class="alert alert-danger">
-        Pole wymagane!
+        <div *ngIf="formInput.cType.errors.required" >
+          Pole wymagane!
+        </div>
       </div>
     </div>
 
     <div class="form-group">
       <label for="category">Kategoria</label>
-      <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cCategory.invalid}"
-             formControlName = "cCategory" class = "form-control" name = "category">
+      <input type = "text" formControlName = "cCategory" class = "form-control" name = "category">
 
       <div *ngIf="isFormSubmitted && formInput.cCategory.invalid" class="alert alert-danger">
-        Pole wymagane!
+        <div *ngIf="formInput.cCategory.errors.required" >
+          Pole wymagane!
+        </div>
       </div>
     </div>
 
     <div class="form-group">
       <label for="name">Nazwa</label>
-      <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cName.invalid }"
-             formControlName = "cName" class = "form-control" name = "name">
+      <input type = "text" [ngClass] formControlName = "cName" class = "form-control" name = "name">
 
       <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
-        Pole wymagane!
+        <div *ngIf="formInput.cName.errors.required" >
+          Pole wymagane!
+        </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="name">Okres</label>
-      <input type = "date" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cPeriod.invalid }"
-             formControlName = "cPeriod" class = "form-control" name = "period">
+      <label for="name">Okres Od</label>
+      <input type = "date" formControlName = "cPeriodBegin" class = "form-control" name = "period">
 
-      <div *ngIf="isFormSubmitted && formInput.cPeriod.invalid" class="alert alert-danger">
-        Pole wymagane!
+      <div *ngIf="isFormSubmitted && formInput.cPeriodBegin.invalid" class="alert alert-danger">
+        <div *ngIf="formInput.cPeriodBegin.errors.required" >
+          Pole wymagane!
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Okres Do</label>
+      <input type = "date" formControlName = "cPeriodEnd" class = "form-control" name = "period">
+
+      <div *ngIf="isFormSubmitted && formInput.cPeriodEnd.invalid" class="alert alert-danger">
+        <div *ngIf="formInput.cPeriodEnd.errors.required" >
+          Pole wymagane!
+        </div>
       </div>
     </div>
 
     <div class="form-group">
       <label for="amount">Kwota</label>
-      <input type = "number" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cAmount.invalid }"
-             formControlName = "cAmount" class = "form-control" name = "amount">
+      <input type = "number" formControlName = "cAmount" class = "form-control" name = "amount">
 
       <div *ngIf="isFormSubmitted && formInput.cAmount.invalid" class="alert alert-danger">
-        Pole wymagane!
+        <div *ngIf="formInput.cAmount.errors.required" >
+          Pole wymagane!
+        </div>
       </div>
     </div>
 
