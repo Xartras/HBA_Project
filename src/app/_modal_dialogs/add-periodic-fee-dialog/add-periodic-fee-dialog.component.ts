@@ -29,7 +29,7 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
       {
         cCategory:        new FormControl(this.newPeriodicFeeDialog.category , Validators.compose([Validators.required])),
         cName:            new FormControl(this.newPeriodicFeeDialog.name, Validators.compose([Validators.required])),
-        cPaidUntil:       new FormControl(this.newPeriodicFeeDialog.paidUntil, Validators.compose([Validators.required])),
+        cPaidUntil:       new FormControl(<number>this.newPeriodicFeeDialog.paidUntil.split(" ")[0], Validators.compose([Validators.required, Validators.min(1), Validators.max(31)])),
         cPaymentPeriod:   new FormControl(this.newPeriodicFeeDialog.paymentPeriod, Validators.compose([Validators.required])),
         cPaymentDeadline: new FormControl(this.newPeriodicFeeDialog.paymentDeadline),
         cWarnings:        new FormControl(this.newPeriodicFeeDialog.warnings),
@@ -47,7 +47,7 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
       (''
       ,this.addPeriodicFeeForm.controls.cCategory.value
       ,this.addPeriodicFeeForm.controls.cName.value
-      ,this.addPeriodicFeeForm.controls.cPaidUntil.value
+      ,this.addPeriodicFeeForm.controls.cPaidUntil.value.toString() + " dnia miesiąca"
       ,this.addPeriodicFeeForm.controls.cPaymentPeriod.value
       ,this.addPeriodicFeeForm.controls.cPaymentDeadline.value
       ,this.addPeriodicFeeForm.controls.cWarnings.value

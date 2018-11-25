@@ -34,15 +34,18 @@ export class PeriodicFeesComponent implements OnInit {
       {
         data: 
         { category: "",  name: "", paidFrom: "", 
-          paidUntil: "", paymentPeriod: "", paymentDeadline: "", warnings: "", 
+          paidUntil: "0 ", paymentPeriod: "", paymentDeadline: "", warnings: "", 
           title: "Dodaj opłatę okresową"}
       })
   
     dialogRef.afterClosed().subscribe(
     result => {
+                if(result != null)
+                {
                 this.dataSource.addItem(this.dataTable, result);
                 this.dataSource.sortData(this.dataTable);
                 this.dataBS.next(this.dataTable);
+                }
               }
           )        
     }
