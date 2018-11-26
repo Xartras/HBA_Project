@@ -13,8 +13,8 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
 
   constructor(private budgetPlan: Observable<BudgetPlanItem[]>) { super(); }
 
-  // Pobranie danych
-  getData() : BudgetPlanItem[]
+  // Pobranie wszystkich danych
+  private getData() : BudgetPlanItem[]
   {
     let budgetPlan: Array<BudgetPlanItem> = [
       new BudgetPlanItem("Zysk_Stałe_Wypłata_1", "Zysk", "Kasa", "Wypłata", <Date><any>formatDate("2018-10-27", "yyyy-MM-dd", "en-US"), <Date><any>formatDate("2018-11-26", "yyyy-MM-dd", "en-US"),2500.12, "Wypłata za sierpień 2018"),
@@ -23,6 +23,17 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
     ]
 
     return budgetPlan;
+  }
+
+  // Pobranie danych za dany okres
+  getFilteredData(start: Date, end: Date) : BudgetPlanItem[]
+  {
+    let filteredData: BudgetPlanItem[] = this.getData().filter(
+      result => result.periodBegin >= start
+      && result.periodEnd <= end
+    )
+
+    return filteredData;
   }
 
   // Generowanie ID dla nowego wpisu
@@ -120,8 +131,6 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
 
   // Metoda do usuwania tabeli
   disconnect() {}
-
-
 }
 
 

@@ -5,7 +5,8 @@ import { AddBudgetPlanDialogComponent } from '../../_modal_dialogs/add-budget-pl
 import { MatDialog } from '@angular/material';
 import { BehaviorSubject } from 'rxjs'
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { UserAuthService } from '../../_services/user-auth-service.service'
+import { UserAuthService } from '../../_services/user-auth-service.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'budget-plan',
@@ -13,17 +14,20 @@ import { UserAuthService } from '../../_services/user-auth-service.service'
   styleUrls: ['./budget-plan.component.css']
 })
 export class BudgetPlanComponent implements OnInit {
-  dataSource: BudgetPlanDataSource = new BudgetPlanDataSource(null);
-  dataTable: BudgetPlanItem[] = this.dataSource.getData();
-  dataBS = new BehaviorSubject(this.dataTable)
-
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['type', 'category', 'name', 'periodBegin', 'periodEnd', 'plannedAmount', 'currentAmount', 'difference', 'comment', 'actions'];
 
   constructor(private formBuilder: FormBuilder
              ,public dialog: MatDialog
              ,private userAuth: UserAuthService) {}
 
+  private 
+  dataSource: BudgetPlanDataSource = new BudgetPlanDataSource(null);
+  dataTable: BudgetPlanItem[] = this.dataSource.getFilteredData(
+                                     <Date><any>formatDate("2018-10-27", "yyyy-MM-dd", "en-US")
+                                    ,<Date><any>formatDate("2018-11-26", "yyyy-MM-dd", "en-US"));
+
+  dataBS = new BehaviorSubject(this.dataTable)        
+  displayedColumns = ['type', 'category', 'name', 'periodBegin', 'periodEnd', 'plannedAmount', 'currentAmount', 'difference', 'comment', 'actions'];
+           
   addPlanItemForm : FormGroup;
   get formInput() { return this.addPlanItemForm.controls }
 
@@ -98,8 +102,12 @@ export class BudgetPlanComponent implements OnInit {
 
   getFilteredData()
   {
-    console.log(this.dataSource.calculateReveCost(this.dataTable))
-    console.log(this.addPlanItemForm.controls.cPrdStart.value)
-    console.log(this.addPlanItemForm.controls.cPrdEnd.value)
+    if(this.addPlanItemForm.controls.cPrdStart != null && this.addPlanItemForm.controls.cPrdEnd != null)
+    {
+      this.dataTable = this.dataSource.getFilteredData(
+            <Date><any>formatDate(this.addPlanItemForm.controls.cPrdStart.value.toString(), "yyyy-MM-dd", "en-US")
+          , <Date><any>formatDate(this.addPlanItemForm.controls.cPrdEnd.value.toString(), "yyyy-MM-dd", "en-US"))
+      this.dataBS.next(this.dataTable);
+    }
   }
 }
