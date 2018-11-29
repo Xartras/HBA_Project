@@ -3,7 +3,7 @@ import { BudgetPlanItem } from 'src/app/_models/budget-plan-item';
 import { BudgetPlanDataSource } from './budget-plan-datasource';
 import { AddBudgetPlanDialogComponent } from '../../_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
 import { MatDialog } from '@angular/material';
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, Observable } from 'rxjs'
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { UserAuthService } from '../../_services/user-auth-service.service';
 import { formatDate } from '@angular/common';
@@ -19,23 +19,31 @@ export class BudgetPlanComponent implements OnInit {
              ,public dialog: MatDialog
              ,private userAuth: UserAuthService) {}
 
-  private 
   dataSource: BudgetPlanDataSource = new BudgetPlanDataSource(null);
   dataTable: BudgetPlanItem[] = this.dataSource.getFilteredData(
                                      <Date><any>formatDate("2018-10-27", "yyyy-MM-dd", "en-US")
                                     ,<Date><any>formatDate("2018-11-26", "yyyy-MM-dd", "en-US"));
+  dataBS = new BehaviorSubject(this.dataTable);
 
-  dataBS = new BehaviorSubject(this.dataTable)        
+  dataPivotTable = this.dataSource.calculateReveCost(this.dataTable);
+  dataPivotSumm  = [{type: "Zysk", plannedTotal: this.dataPivotTable.Zysk, aktualTotal: 0}
+                  , {type: "Koszt", plannedTotal: this.dataPivotTable.Koszt, aktualTotal: 0}]
+  
+
+  
   displayedColumns = ['type', 'category', 'name', 'periodBegin', 'periodEnd', 'plannedAmount', 'currentAmount', 'difference', 'comment', 'actions'];
-           
-  addPlanItemForm : FormGroup;
-  get formInput() { return this.addPlanItemForm.controls }
+    
+  addPeriodForm : FormGroup;
+  periods = ["01_2018", "02_2018", "03_2018"]
+  periodBegin = "27-11-2018"
+  periodEnd = "26-12-2018"
 
-  ngOnInit() {
-    this.addPlanItemForm = this.formBuilder.group(
+  get formInput() { return this.addPeriodForm.controls }
+
+  ngOnInit() { 
+    this.addPeriodForm = this.formBuilder.group(
       {
-        cPrdStart: new FormControl(this.userAuth.loggedUser.value.periodStart),
-        cPrdEnd:   new FormControl(this.userAuth.loggedUser.value.periodStart)
+        cPeriods: new FormControl('02_2018'),
       }
     )
     this.dataSource.sortData(this.dataTable);
@@ -102,12 +110,6 @@ export class BudgetPlanComponent implements OnInit {
 
   getFilteredData()
   {
-    if(this.addPlanItemForm.controls.cPrdStart != null && this.addPlanItemForm.controls.cPrdEnd != null)
-    {
-      this.dataTable = this.dataSource.getFilteredData(
-            <Date><any>formatDate(this.addPlanItemForm.controls.cPrdStart.value.toString(), "yyyy-MM-dd", "en-US")
-          , <Date><any>formatDate(this.addPlanItemForm.controls.cPrdEnd.value.toString(), "yyyy-MM-dd", "en-US"))
-      this.dataBS.next(this.dataTable);
-    }
+
   }
 }

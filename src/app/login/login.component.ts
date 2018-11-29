@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
       let name = this.formInput.login.value == null ? "" : this.formInput.login.value.trim();
       let pass = this.formInput.password.value == null ? "" : this.formInput.password.value.trim();
   
-      this.user = new User(name, pass, "", "", "");
+      this.user = new User(name, pass, "");
       this.loginValidation = this.userAuth.validateLogin(this.user);
 
       if(this.loginValidation[1] == false)

@@ -15,7 +15,7 @@ export class UserAuthService {
   // BehaviorSubject przechowuje ostatnio zapisana w pamieci Cache wartosc
   private userLogStatus = new BehaviorSubject<Boolean>(false);
   public loggedUser = new BehaviorSubject<User>(null);
-  private allUsers : Array<User> = [new User("admin", "admin", "admin@mail.com", "2016-10-01", "2016-10-30")]
+  private allUsers : Array<User> = [new User("admin", "admin", "admin@mail.com")]
 
   // Metoda publiczna pozwalajaca na pobranie informacji odnosnie statusu uzytkownika
   get isUserLoggedIn()
@@ -97,7 +97,7 @@ export class UserAuthService {
       if(user.login == login)
       {
         if(option=="log") { selectedUser = user; return; };
-        if(option=="reg") { selectedUser = new User(user.login, "", "", "", ""); return; }
+        if(option=="reg") { selectedUser = new User(user.login, "", ""); return; }
       }      
     });
 

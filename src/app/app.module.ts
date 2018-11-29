@@ -12,6 +12,7 @@ import { // obsługa tabel poszczególnych komponentów oraz okien dialogowych (
         } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { LayoutModule } from '@angular/cdk/layout';
+import { HttpClientModule } from '@angular/common/http';
 
 // Import komponentow aplikacji
 import { AppComponent } from './app.component';
@@ -74,7 +75,7 @@ const routes : Routes =
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
-    FormsModule, ReactiveFormsModule, LayoutModule,
+    FormsModule, ReactiveFormsModule, LayoutModule, HttpClientModule,
     MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatCheckboxModule,
     MatListModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule,
     

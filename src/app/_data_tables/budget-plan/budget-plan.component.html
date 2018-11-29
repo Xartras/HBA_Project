@@ -4,15 +4,18 @@
       <h4>Planowanie budżetu</h4>
     </div>
 
-    <form [formGroup]="addPlanItemForm" class="form-inline">
-      <div class="formGroup"> 
-        <label for="prdStart">Okres od:</label>
-        <input type="date" formControlName = "cPrdStart" class = "form-control" name = "prdStart">
-      </div>
+    <div>
+      <button (click)="btnAddBudgetPlanItem()">Dodaj</button>
+    </div>
 
-      <div>
-        <label for="prdEnd">Okres do:</label>
-        <input type="date" formControlName = "cPrdEnd" class = "form-control" name = "prdEnd">
+    <form [formGroup]="addPeriodForm" class="form-inline">
+      <div class="form-group">
+        <label for="period">Okres:</label>
+        <select type="text" formControlName = "cPeriods" class = "form-control">
+          <option *ngFor="let prd of periods" [value]="prd">
+            {{prd}}
+          </option>
+        </select>
       </div>
 
       <button (click)="getFilteredData()">Filtruj</button>
@@ -20,8 +23,39 @@
   </nav>
 </div>
 
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <h6>Podsumowanie</h6>
+
+    <div> 
+        <span>Okres od: {{periodBegin}}</span>
+        <span>Okres do: {{periodEnd}}</span>
+      </div>
+  </nav>
+
+  <div>
+    <table>
+      <tr>
+        <th>Rodzaj</th>
+        <th>Zaplanowano</th>
+        <th>Realizacja</th>
+      </tr>
+      <tr>
+        <th>{{dataPivotSumm[0].type}}</th>
+        <th>{{dataPivotSumm[0].plannedTotal}}</th>
+        <th>{{dataPivotSumm[0].aktualTotal}}</th>
+      </tr>
+      <tr>
+          <th>{{dataPivotSumm[1].type}}</th>
+          <th>{{dataPivotSumm[1].plannedTotal}}</th>
+          <th>{{dataPivotSumm[1].aktualTotal}}</th>
+      </tr>
+    </table>
+  </div>
+</div>
+
 <div class="mat-elevation-z8">
-  <table mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+  <table mat-table #table [dataSource]="dataSource" aria-label="Elements">
     <!-- [Rodzaj] -->
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Rodzaj</th>

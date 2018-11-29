@@ -12,29 +12,29 @@
         </div>
   
         <div class="col-sm-12">
-          <label for="okrOd">Okres od</label>
-          <span name="okrOd">{{user.periodStart}}</span>
+          <label for="password">Hasło</label>
+          <span name="password">{{user.password}}</span>
         </div>        
   
         <div class="col-sm-12">
-          <label for="okrDo">Okres do</label>
-          <span name="okrDo">{{user.periodEnd}}</span>
+          <label for="email">Email</label>
+          <span name="password">{{user.email}}</span>
         </div>
       </div>
 
 <!-- Dane uzytkownika do zmiany -->
       <div class="col-sm-6">    
-        <div class="col-sm-12">
-          <label for="password">Hasło</label>
-          <span name="password">{{user.password}}</span>
-          <button class="btn btn-primary" (click)="btnChangePss()">Zmień</button>
-        </div>
-    
-        <div class="col-sm-12">
-          <label for="email">Email</label>
-          <span name="password">{{user.email}}</span>
-          <button class="btn btn-primary" (click)="btnChangeEmail()">Zmień</button>
-        </div>
+        <form [formGroup]="addPeriodForm">
+          <button (click)="btnAddPeriod()">Dodaj nowy okres</button>
+          <div class="form-group">
+            <label for="periodBegin">Od:</label>
+            <input type="date" formControlName = "cPeriodBegin" class = "form-control" name = "periodBegin">
+          </div>
+          <div class="form-group">
+            <label for="periodEnd">Do:</label>
+            <input type="date" formControlName = "cPeriodEnd" class = "form-control" name = "periodEnd">
+          </div>
+        </form>
       </div>
     </div>
   </div>

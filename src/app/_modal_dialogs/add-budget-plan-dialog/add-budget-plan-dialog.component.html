@@ -34,7 +34,7 @@
 
     <div class="form-group">
       <label for="name">Nazwa</label>
-      <input type = "text" [ngClass] formControlName = "cName" class = "form-control" name = "name">
+      <input type = "text" formControlName = "cName" class = "form-control" name = "name">
 
       <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
         <div *ngIf="formInput.cName.errors.required" >

@@ -7,15 +7,13 @@ export class User
     public login: string;
     public password: string;
     public email: string;
-    public periodStart: string;
-    public periodEnd: string;
+    public registerDate: Date
 
-    public constructor(l: string, p: string, e: string, ps: string, pe: string)
+    public constructor(l: string, p: string, e: string)
     {
         this.login = l;
         this.password = p;
         this.email = e;
-        this.periodStart = ps;
-        this.periodEnd = pe;
+        this.registerDate = <Date><any>Date.now();
     }
 }
