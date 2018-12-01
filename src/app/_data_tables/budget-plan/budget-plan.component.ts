@@ -3,10 +3,9 @@ import { BudgetPlanItem } from 'src/app/_models/budget-plan-item';
 import { BudgetPlanDataSource } from './budget-plan-datasource';
 import { AddBudgetPlanDialogComponent } from '../../_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
 import { MatDialog } from '@angular/material';
-import { BehaviorSubject, Observable } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { UserAuthService } from '../../_services/user-auth-service.service';
-import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'budget-plan',
@@ -19,35 +18,35 @@ export class BudgetPlanComponent implements OnInit {
              ,public dialog: MatDialog
              ,private userAuth: UserAuthService) {}
 
+  periodRange = [];
   dataSource: BudgetPlanDataSource = new BudgetPlanDataSource(null);
-  dataTable: BudgetPlanItem[] = this.dataSource.getFilteredData(
-                                     <Date><any>formatDate("2018-10-27", "yyyy-MM-dd", "en-US")
-                                    ,<Date><any>formatDate("2018-11-26", "yyyy-MM-dd", "en-US"));
+  dataTable: BudgetPlanItem[] = this.dataSource.getFilteredData("01_2018");
   dataBS = new BehaviorSubject(this.dataTable);
 
   dataPivotTable = this.dataSource.calculateReveCost(this.dataTable);
   dataPivotSumm  = [{type: "Zysk", plannedTotal: this.dataPivotTable.Zysk, aktualTotal: 0}
                   , {type: "Koszt", plannedTotal: this.dataPivotTable.Koszt, aktualTotal: 0}]
   
-
-  
-  displayedColumns = ['type', 'category', 'name', 'periodBegin', 'periodEnd', 'plannedAmount', 'currentAmount', 'difference', 'comment', 'actions'];
+  displayedColumns = ['type', 'category', 'name', 'plannedAmount', 'currentAmount', 'difference', 'comment', 'actions'];
     
-  addPeriodForm : FormGroup;
-  periods = ["01_2018", "02_2018", "03_2018"]
-  periodBegin = "27-11-2018"
-  periodEnd = "26-12-2018"
+  filterPlanForm : FormGroup;
+  periods = [{period: "01_2018", from: "27-09-2018", to: "26-10-2018"}
+            ,{period: "02_2018", from: "27-10-2018", to: "26-11-2018"}
+            ,{period: "03_2018", from: "27-11-2018", to: "26-12-2018"}]
 
-  get formInput() { return this.addPeriodForm.controls }
+
+  get formInput() { return this.filterPlanForm.controls }
 
   ngOnInit() { 
-    this.addPeriodForm = this.formBuilder.group(
+    this.filterPlanForm = this.formBuilder.group(
       {
-        cPeriods: new FormControl('02_2018'),
+        cPeriods: new FormControl('01_2018'),
       }
     )
     this.dataSource.sortData(this.dataTable);
     this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable());
+
+    this.periodRange = this.getPeriodRange(this.periods, this.filterPlanForm.controls.cPeriods.value);
   }
 
 
@@ -56,7 +55,7 @@ export class BudgetPlanComponent implements OnInit {
   {
     let dialogRef = this.dialog.open(AddBudgetPlanDialogComponent, 
       {
-        data: {type: "", category: "", name: "",periodBegin: "", periodEnd: "", amount: 0, comment: "", title: "Dodaj wpis"}
+        data: {type: "", category: "", name: "", period: "", amount: 0, comment: "", title: "Dodaj wpis"}
       })
   
     dialogRef.afterClosed().subscribe(
@@ -87,8 +86,7 @@ export class BudgetPlanComponent implements OnInit {
                 type: item.type, 
                 category: item.category, 
                 name: item.name,
-                periodBegin: item.periodBegin,
-                periodEnd: item.periodEnd,
+                period: item.period,
                 amount: item.amount,
                 comment: item.comment,
                 title: "Edytuj wpis"
@@ -110,6 +108,23 @@ export class BudgetPlanComponent implements OnInit {
 
   getFilteredData()
   {
+    this.periodRange = this.getPeriodRange(this.periods, this.filterPlanForm.controls.cPeriods.value);
+    this.dataTable = this.dataSource.getFilteredData(this.filterPlanForm.controls.cPeriods.value)
+    this.dataBS.next(this.dataTable);
+  }
 
+  private getPeriodRange(allPeriods, selectedPeriod: string)
+  {
+    let currentPeriodRange = []
+
+    allPeriods.forEach(element => {
+      if(element.period == selectedPeriod)
+      { 
+        currentPeriodRange[0] = element.from
+        currentPeriodRange[1] = element.to
+      }
+    });
+
+    return currentPeriodRange;
   }
 }

@@ -17,20 +17,19 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
   private getData() : BudgetPlanItem[]
   {
     let budgetPlan: Array<BudgetPlanItem> = [
-      new BudgetPlanItem("Zysk_Stałe_Wypłata_1", "Zysk", "Kasa", "Wypłata", <Date><any>formatDate("2018-10-27", "yyyy-MM-dd", "en-US"), <Date><any>formatDate("2018-11-26", "yyyy-MM-dd", "en-US"),2500.12, "Wypłata za sierpień 2018"),
-      new BudgetPlanItem("Koszt_Opłaty_Prąd_1", "Koszt", "Opłaty", "Prąd", <Date><any>formatDate("2018-10-27", "yyyy-MM-dd", "en-US"), <Date><any>formatDate("2018-11-26", "yyyy-MM-dd", "en-US"),75.92, ""),
-      new BudgetPlanItem("Koszt_Opłaty_Gaz_1", "Koszt", "Opłaty", "Gaz", <Date><any>formatDate("2018-10-27", "yyyy-MM-dd", "en-US"), <Date><any>formatDate("2018-11-26", "yyyy-MM-dd", "en-US"),22.37, "")
+      new BudgetPlanItem("Zysk_Stałe_Wypłata_1", "Zysk", "Kasa", "Wypłata", "01_2018", 2500.12, "Wypłata za sierpień 2018"),
+      new BudgetPlanItem("Koszt_Opłaty_Prąd_1", "Koszt", "Opłaty", "Prąd", "01_2018", 75.92, ""),
+      new BudgetPlanItem("Koszt_Opłaty_Gaz_1", "Koszt", "Opłaty", "Gaz", "01_2018", 22.37, "")
     ]
 
     return budgetPlan;
   }
 
   // Pobranie danych za dany okres
-  getFilteredData(start: Date, end: Date) : BudgetPlanItem[]
+  getFilteredData(selectedPeriod: string) : BudgetPlanItem[]
   {
     let filteredData: BudgetPlanItem[] = this.getData().filter(
-      result => result.periodBegin >= start
-      && result.periodEnd <= end
+      result => { if(result.period == selectedPeriod) return result }
     )
 
     return filteredData;
@@ -114,7 +113,6 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
     let summarizedPlan = data.reduce(
       (groupedCategories, element) =>
       {
-        console.log(element);
         groupedCategories[element.type] += <number>element.amount;
 
         return groupedCategories;

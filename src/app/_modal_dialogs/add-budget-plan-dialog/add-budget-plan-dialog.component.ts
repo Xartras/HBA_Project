@@ -21,7 +21,10 @@ export class AddBudgetPlanDialogComponent implements OnInit {
   isFormSubmitted = false;
   cType: FormControl;
 
-  types = [{type: "Zysk"}, {type: "Koszt"}, {type: ""}]
+  types = ["Zysk", "Koszt", ""]
+  periods = [{period: "01_2018", from: "27-09-2018", to: "26-10-2018"}, {period: "02_2018", from: "27-10-2018", to: "26-11-2018"}]
+  periodFrom: string;
+  periodTo: string;
 
   get formInput() { return this.addPlanItemForm.controls }
 
@@ -32,12 +35,14 @@ export class AddBudgetPlanDialogComponent implements OnInit {
         cType:        new FormControl( this.newBudgetItemDialog.type, Validators.compose([Validators.required] )),
         cCategory:    new FormControl( this.newBudgetItemDialog.category, Validators.compose([Validators.required] )),
         cName:        new FormControl( this.newBudgetItemDialog.name, Validators.compose([Validators.required] )),
-        cPeriodBegin: new FormControl( this.newBudgetItemDialog.periodBegin, Validators.compose([Validators.required] )),
-        cPeriodEnd:   new FormControl( this.newBudgetItemDialog.periodEnd, Validators.compose([Validators.required] )),
+        cPeriod:      new FormControl( this.newBudgetItemDialog.period, Validators.compose([Validators.required] )),
         cAmount:      new FormControl( this.newBudgetItemDialog.amount, Validators.compose([Validators.required] )),
         cComment:     new FormControl( this.newBudgetItemDialog.comment)
       }      
     )
+
+    this.periodFrom = "27-09-2018"
+    this.periodTo = "26-10-2018";
   }  
  
   btnSaveNewItem()
@@ -52,8 +57,7 @@ export class AddBudgetPlanDialogComponent implements OnInit {
           this.addPlanItemForm.controls.cType.value,
           this.addPlanItemForm.controls.cCategory.value,
           this.addPlanItemForm.controls.cName.value,
-          this.addPlanItemForm.controls.cPeriodBegin.value,
-          this.addPlanItemForm.controls.cPeriodEnd.value,
+          this.addPlanItemForm.controls.cPeriod.value,
           this.addPlanItemForm.controls.cAmount.value,
           this.addPlanItemForm.controls.cComment.value == null ? "" : this.addPlanItemForm.controls.cComment.value
         )

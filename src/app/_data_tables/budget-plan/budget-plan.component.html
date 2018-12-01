@@ -8,12 +8,12 @@
       <button (click)="btnAddBudgetPlanItem()">Dodaj</button>
     </div>
 
-    <form [formGroup]="addPeriodForm" class="form-inline">
+    <form [formGroup]="filterPlanForm" class="form-inline">
       <div class="form-group">
         <label for="period">Okres:</label>
         <select type="text" formControlName = "cPeriods" class = "form-control">
-          <option *ngFor="let prd of periods" [value]="prd">
-            {{prd}}
+          <option *ngFor="let prd of periods" [value]="prd.period">
+            {{prd.period}}
           </option>
         </select>
       </div>
@@ -28,8 +28,8 @@
     <h6>Podsumowanie</h6>
 
     <div> 
-        <span>Okres od: {{periodBegin}}</span>
-        <span>Okres do: {{periodEnd}}</span>
+        <span>Okres od: {{periodRange[0]}}</span>
+        <span>Okres do: {{periodRange[1]}}</span>
       </div>
   </nav>
 
@@ -73,18 +73,6 @@
       <th mat-header-cell *matHeaderCellDef>Nazwa</th>
       <td mat-cell *matCellDef="let row">{{row.name}}</td>
     </ng-container>
-
-    <!-- [Poczatek okresu] -->
-    <ng-container matColumnDef="periodBegin">
-      <th mat-header-cell *matHeaderCellDef>Okres Od</th>
-      <td mat-cell *matCellDef="let row">{{row.periodBegin}}</td>
-    </ng-container>
-    
-    <!-- [Koniec okres] -->
-    <ng-container matColumnDef="periodEnd">
-      <th mat-header-cell *matHeaderCellDef>Okres Do</th>
-      <td mat-cell *matCellDef="let row">{{row.periodEnd}}</td>
-    </ng-container>    
 
     <!-- [Kwota planowana] -->
     <ng-container matColumnDef="plannedAmount">
