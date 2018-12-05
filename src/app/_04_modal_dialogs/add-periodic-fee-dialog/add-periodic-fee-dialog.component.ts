@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PeriodicFeeItem } from '../../_models/periodic-fee-item';
-import { PeriodicFeesDataSource } from '../../_data_tables/periodic-fees/periodic-fees-datasource'
+import { PeriodicFeeItem } from '../../_01_models/periodic-fee-item';
+
 
 @Component({
   selector: 'app-add-periodic-fee-dialog',

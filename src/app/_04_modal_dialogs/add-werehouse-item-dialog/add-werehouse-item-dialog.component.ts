@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { WerehouseItem } from '../../_models/werehouse-item'
+import { WerehouseItem } from '../../_01_models/werehouse-item'
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({

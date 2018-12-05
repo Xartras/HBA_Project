@@ -2,90 +2,52 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-import { HomeBillingItem } from '../../_models/home-billing-item';
+import { WerehouseItem } from '../../_01_models/werehouse-item';
 
 /**
- * Data source for the HomeBillings view. This class should
+ * Data source for the Werehouse view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
+export class WerehouseDataSource extends DataSource<WerehouseItem> {
   
 
   constructor(private paginator: MatPaginator, private sort: MatSort) {
     super();
   }
-
-  data: HomeBillingItem[] = this.getData();
+  data: Array<WerehouseItem> = this.getData()
 
   // Pobranie danych
-  getData() : Array<HomeBillingItem>
+  getData() : Array<WerehouseItem>
   {
-    let homeBillings: Array<HomeBillingItem> = [
-      new HomeBillingItem("Woda_201810", "Woda", "2018-10-01", 120),
-      new HomeBillingItem("Prąd_201810", "Prąd", "2018-10-01", 130),
-      new HomeBillingItem("Czynsz_201810", "Czynsz", "2018-10-01", 230)
-    ]
-
-    return homeBillings
+    let werehouse : Array<WerehouseItem> = [
+      new WerehouseItem("Chemia_Cif", "Chemia", "Cif", "2 butelki"),
+      new WerehouseItem("Chemia_Płyn_do_prania", "Chemia", "Płyn do prania", "8 butelek"),
+      new WerehouseItem("Spożywcze_Mąka", "Spożywcze", "Mąka", "3 kg"),
+      new WerehouseItem("Spożywcze_Cukier", "Spożywcze", "Cukier", "2 kg"),
+      new WerehouseItem("Spożywcze_Cola", "Spożywcze", "Cola",  "2 litry")
+      ]   
+  
+    return werehouse;
   }
-
-  // Obliczanie roznicy pomiedzy okresami
-  private calculateDiff(item)
-  {
-    let previousTotal: number;
-    let previousItemID: string = item.period.split("-")[1] == "01" 
-                        // jesli obecny okres to styczen
-                               ? item.name + "_" + (<number>item.id.split("_")[1]-89).toString()
-                        // dla pozostalych miesiecy
-                               : item.name + "_" + (<number>item.id.split("_")[1]-1).toString();
-
-    this.data.forEach(element => {
-      if(element.id == previousItemID) { previousTotal = element.actualState; return; }
-    })
-
-    item.difference = item.actualState - previousTotal;
-  }
-
-  // Aktualizacja roznic po edycji elementu
-  private updateDifferencesOnEdit(item)
-  {
-    this.calculateDiff(item);
-
-    this.data.forEach(element => 
-      {
-        /* 
-          Po pierwszym wystapieniu przerywamy dzialanie, bo roznica pomiedzy okresami 
-          zmieni sie tylko w 2 przypadkach:
-          - element zedytowanym w porownaniu z poprzednim co jest rozwiazywane na poczatku funkcji
-          - elementem zedytowanym w porownaniu z nastepnym
-        */
-        if(element.name == item.name && <number><any>element.id.split("_")[1] > <number><any>item.id.split("_")[1])
-        { this.calculateDiff(element); return; }
-      })
-  }
-
-  // Dodanie wpisu
+    
+  // Dodawanie wpisu
   addItem(item)
   {
-    item.id = item.name + "_" + item.period.substring(0, 7).replace("-", "");
-    this.calculateDiff(item);
-    console.log(item);
+    item.id = item.category + "_" + item.name;
     this.data.push(item);
   }
-
+  
   // Usuwanie wpisu
   removeItem(item)
   {
     this.data.splice(this.data.indexOf(item), 1);
   }
-
+  
   // Edycja wpisu
   editItem(oldItem, newItem)
   {
-    newItem.id = oldItem.id;
     this.data[this.data.indexOf(oldItem)] = newItem;
-    this.updateDifferencesOnEdit(newItem);
   }
 
   /**
@@ -93,7 +55,7 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<Array<HomeBillingItem>> {
+  connect(): Observable<Array<WerehouseItem>> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -120,7 +82,7 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: Array<HomeBillingItem>) {
+  private getPagedData(data: Array<WerehouseItem>) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -129,7 +91,7 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: Array<HomeBillingItem>) {
+  private getSortedData(data: Array<WerehouseItem>) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }
@@ -138,9 +100,6 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
-        case 'period': return compare(a.name, b.name, isAsc);
-        case 'actualState': return compare(a.name, b.name, isAsc);
-        case 'difference': return compare(a.name, b.name, isAsc);
         default: return 0;
       }
     });

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { UserAuthService } from '../../_services/user-auth-service.service';
+import { UserAuthService } from '../../_02_services/user-auth-service.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({

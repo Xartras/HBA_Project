@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { HomeBillingsDataSource } from './home-billings-datasource';
-import { AddHomeBillingItemDialogComponent } from '../../_modal_dialogs/add-home-billing-item-dialog/add-home-billing-item-dialog.component'
+import { AddHomeBillingItemDialogComponent } from '../../_04_modal_dialogs/add-home-billing-item-dialog/add-home-billing-item-dialog.component'
 
 @Component({
   selector: 'home-billings-data',

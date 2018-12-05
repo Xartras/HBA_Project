@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PeriodicFeeItem } from 'src/app/_models/periodic-fee-item';
+
+import { PeriodicFeeItem } from 'src/app/_01_models/periodic-fee-item';
 import { PeriodicFeesDataSource } from './periodic-fees-datasource';
-import { AddPeriodicFeeDialogComponent } from 'src/app/_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component';
+
+import { AddPeriodicFeeDialogComponent } from 'src/app/_04_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component';
 import { MatDialog} from '@angular/material';
 import { BehaviorSubject } from 'rxjs'
 

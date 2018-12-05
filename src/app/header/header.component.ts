@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterComponent } from '../_modal_dialogs/register/register.component';
+import { UserAuthService } from '../_02_services/user-auth-service.service';
+
+import { RegisterComponent } from '../_04_modal_dialogs/register/register.component';
 import { MatDialog } from '@angular/material';
-import { UserAuthService } from '../_services/user-auth-service.service';
 import { Observable } from 'rxjs';
 
 @Component({

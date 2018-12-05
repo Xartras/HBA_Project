@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { WerehouseDataSource } from './werehouse-datasource';
-import { AddWerehouseItemDialogComponent } from '../../_modal_dialogs/add-werehouse-item-dialog/add-werehouse-item-dialog.component'
+import { AddWerehouseItemDialogComponent } from '../../_04_modal_dialogs/add-werehouse-item-dialog/add-werehouse-item-dialog.component'
 
 @Component({
   selector: 'app-werehouse-data',

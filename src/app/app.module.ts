@@ -28,23 +28,23 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { WerehouseComponent } from './werehouse/werehouse.component';
 
 // Komponenty zawierajace tabele
-import { PeriodicFeesComponent } from './_data_tables/periodic-fees/periodic-fees.component';
-import { BudgetPlanComponent } from './_data_tables/budget-plan/budget-plan.component';
-import { HomeBillingsDataComponent } from './_data_tables/home-billings/home-billings.component';
-import { WerehouseDataComponent } from './_data_tables/werehouse/werehouse.component';
-import { TransactionsDataComponent } from './_data_tables/transactions/transactions-data.component';
+import { PeriodicFeesComponent } from './_03_data_tables/periodic-fees/periodic-fees.component';
+import { BudgetPlanComponent } from './_03_data_tables/budget-plan/budget-plan.component';
+import { HomeBillingsDataComponent } from './_03_data_tables/home-billings/home-billings.component';
+import { WerehouseDataComponent } from './_03_data_tables/werehouse/werehouse.component';
+import { TransactionsDataComponent } from './_03_data_tables/transactions/transactions-data.component';
 
 // Komponenty będące oknami dialogowymi do wprowadzania danych
-import { RegisterComponent } from './_modal_dialogs/register/register.component';
-import { AddPeriodicFeeDialogComponent } from './_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component';
-import { AddBudgetPlanDialogComponent } from './_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
-import { AddTransactionDialogComponent } from './_modal_dialogs/add-transaction-dialog/add-transaction-dialog.component';
-import { AddWerehouseItemDialogComponent } from './_modal_dialogs/add-werehouse-item-dialog/add-werehouse-item-dialog.component';
-import { AddHomeBillingItemDialogComponent } from './_modal_dialogs/add-home-billing-item-dialog/add-home-billing-item-dialog.component';
+import { RegisterComponent } from './_04_modal_dialogs/register/register.component';
+import { AddPeriodicFeeDialogComponent } from './_04_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component';
+import { AddBudgetPlanDialogComponent } from './_04_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
+import { AddTransactionDialogComponent } from './_04_modal_dialogs/add-transaction-dialog/add-transaction-dialog.component';
+import { AddWerehouseItemDialogComponent } from './_04_modal_dialogs/add-werehouse-item-dialog/add-werehouse-item-dialog.component';
+import { AddHomeBillingItemDialogComponent } from './_04_modal_dialogs/add-home-billing-item-dialog/add-home-billing-item-dialog.component';
 
 // Serwisy
-import { UserAuthGuard } from './_services/user-auth-guard.guard';
-import { UserAuthService } from './_services/user-auth-service.service';
+import { UserAuthGuard } from './_02_services/user-auth-guard.guard';
+import { UserAuthService } from './_02_services/user-auth-service.service';
 
 
 const routes : Routes = 

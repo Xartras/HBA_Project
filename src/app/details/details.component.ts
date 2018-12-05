@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UserAuthService } from '../_services/user-auth-service.service'
-import { User } from '../_models/user';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { User } from '../_01_models/user';
+import { UserAuthService } from '../_02_services/user-auth-service.service'
+
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-details',

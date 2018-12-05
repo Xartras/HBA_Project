@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../_models/user';
-import { UserAuthService } from '../_services/user-auth-service.service';
-import { RegisterComponent } from '../_modal_dialogs/register/register.component';
+
+import { User } from '../_01_models/user';
+import { UserAuthService } from '../_02_services/user-auth-service.service';
+
+import { RegisterComponent } from '../_04_modal_dialogs/register/register.component';
 import { MatDialog } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 

@@ -2,7 +2,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-import { TransactionItem } from '../../_models/transaction-item';
+import { TransactionItem } from '../../_01_models/transaction-item';
 
 /**
  * Data source for the TransactionsData view. This class should

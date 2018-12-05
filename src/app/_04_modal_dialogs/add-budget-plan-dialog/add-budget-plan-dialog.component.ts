@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { BudgetPlanItem } from '../../_models/budget-plan-item';
+import { BudgetPlanItem } from '../../_01_models/budget-plan-item';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
