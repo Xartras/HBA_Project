@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { UserAuthService } from '../../_02_services/user-auth-service.service';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +15,7 @@ export class RegisterComponent implements OnInit {
              ,private userAuth: UserAuthService
              ) { }
 
-  user : any = { }
+  private userToBeRegistered = []
   regForm: FormGroup;
   isFormSubmitted = false;
 
@@ -37,12 +37,14 @@ export class RegisterComponent implements OnInit {
   btnAuthRegistration()
   {
     this.isFormSubmitted = true;
-    let isUserCorrect = this.userAuth.validateRegistration(this.user);
 
-    if (isUserCorrect == true)
-    {
-      this.dialogRef.close(this.user);
-    }
+    this.userToBeRegistered[0] = this.regForm.controls.login.value
+    this.userToBeRegistered[1] = this.regForm.controls.password.value
+    this.userToBeRegistered[2] = this.regForm.controls.email.value
+    this.userToBeRegistered[3] = this.regForm.controls.periodBegin.value
+    this.userToBeRegistered[4] = this.regForm.controls.periodEnd.value
+    
+    this.dialogRef.close(this.userToBeRegistered)
   }
 
   // Anulowanie rejestracji uzytkownika

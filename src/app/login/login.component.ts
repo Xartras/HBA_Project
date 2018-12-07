@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     
     dialogRef.afterClosed().subscribe(
       result => {
-                  console.log(result);
+                  this.userAuth.regOn(result);
                 }
             ) 
   }
