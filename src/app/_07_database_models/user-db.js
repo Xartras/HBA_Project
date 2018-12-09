@@ -5,10 +5,10 @@ const Schema = mongoose.Schema;
 
 let UserDB = new Schema(
     {
-        login:      { type: String },
-        password:   { type: String },
-        email:      { type: String },
-        registered: { type: Date }
+        login:        { type: String },
+        password:     { type: String },
+        email:        { type: String },
+        registered:   { type: Date }
 
     },
     {

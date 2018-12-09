@@ -18,8 +18,8 @@ export class UserAuthService {
   private userLogStatus = new BehaviorSubject<Boolean>(false);
   public loggedUser = new BehaviorSubject<User>(null);
   private today = new Date()
-  private allUsers : Array<User> = [new User("admin", "admin", "admin@mail.com")]
-  uri = 'http://localhost:4000/RegisteredUsers';
+  private allUsers : User[]
+  private usersAddress = 'http://localhost:4000/RegisteredUsers';
 
   // Metoda publiczna pozwalajaca na pobranie informacji odnosnie statusu uzytkownika
   get isUserLoggedIn()
@@ -27,44 +27,39 @@ export class UserAuthService {
     return this.userLogStatus.asObservable();
   }
 
+  // Metoda publiczna wykorzystywana w "OnInit" przy starcie aplikacji w celu pobrania danych uzytkownika
+  getUsers()
+  {
+    this.getAllUsers().subscribe((data : User[]) => {this.allUsers = data});
+  }
+  
+  // Metoda prywatna pobierajaca dane o wszystkich uzytkownikach w bazie
+  private getAllUsers()
+  {
+    return this.http.get(`${this.usersAddress}`);
+  }
+
   // Metoda odpowiedzialna za walidacje danych logowania
   // Zwracane wartości: 
   //   - logujący się użytkownik oraz flaga błędu: true => niepoprawny / false => poprawny
 
-  validateLogin(user: User) : any[]
+  validateLogin(user: User): any[]
   {
+    let authorizedUser = []
+    console.log(user);
+
     // pierwszy element to użytkownik, a drugi odpowiada za informacje, czy dane logowania sa poprawne
-    let loginValidation = [];
-    let dbUser : User;
-    
-    // Przy rejestracji sprawdzana jest dlugość loginu i hasła, jeśli podano "zbyt krótkie" dane
-    // wtedy nie ma potrzeby sprawdzania danych logowania
-
-    dbUser = this.getUser(user.login, "log"); // próba pobrania danych użytkownika
-
-    // Jeśli mamy null to znaczy, że użytkownik nie istnieje (zły login) => dalej nie sprawdzamy
-    if(dbUser == null) 
+    for(let i = 0; i < this.allUsers.length; i++)
     {
-      loginValidation[0] = null; 
-      loginValidation[1] = true; 
-    } 
-    else
-    {
-      // Sprawdzamy czy hasło się zgadza, jeśli nie to kończymy działanie
-      if(dbUser.password != user.password)
-      {
-        loginValidation[0] = null; 
-        loginValidation[1] = true;
+      if(this.allUsers[i].login.toLowerCase() == user.login.toLowerCase() && this.allUsers[i].password == user.password)
+      { 
+        authorizedUser[0] = this.allUsers[i];
+        authorizedUser[1] = false;
+        break;
       }
-      else
-      {
-        // Dane poprawne, zwracamy użytkownika oraz ustawiamy flagę błędu na fałsz (użytkownik poprawny)
-        loginValidation[0] = dbUser;
-        loginValidation[1] = false;
-      }
-    }        
+    }
 
-    return loginValidation;
+    return authorizedUser;
   }
 
   // Metoda przenosi użytkownika do głównej aplikacji po popawnym zalogowaniu
@@ -75,6 +70,29 @@ export class UserAuthService {
     this.router.navigate(['/']);
   }
 
+  // Metoda odpowiedzialna za walidacje danych rejestracji
+  validateRegistration(user: any) : boolean
+  {
+    let isUserValid: boolean = false
+    let newUser: User;
+
+    for(let i = 0; i < this.allUsers.length; i++)
+    {
+      if(user[0].toLowerCase() == this.allUsers[i].login.toLowerCase())
+      { isUserValid = false; break; }
+      else
+      { isUserValid = true }
+    }
+
+    if (isUserValid == true) 
+    { 
+      newUser = {id: null, login: user[0], password: user[1], email: user[2], registered: <Date><any>formatDate(this.today, "yyyy-MM-dd", "en-US")}
+      this.allUsers.push(newUser)
+    }
+    return isUserValid;
+  }
+
+  // Metoda odpowiedzialna za wprowadzenie uzytkownika do bazy.
   regOn(user)
   {
     const newUser = 
@@ -85,17 +103,7 @@ export class UserAuthService {
       registered: formatDate(this.today, "yyyy-MM-dd", "en-US")
     };
 
-    this.http.post(`${this.uri}/add`, newUser).subscribe(res => console.log("Done"))
-  }
-
-  // Metoda odpowiedzialna za walidacje danych rejestracji
-  validateRegistration(user: User) : boolean
-  {
-    let checkUser: User = this.getUser(user.login, "reg");
-    let isUserValid: boolean = checkUser == null ? true : false;
-
-    if (isUserValid == true) { this.allUsers.push(user)}
-    return isUserValid;
+    this.http.post(`${this.usersAddress}/add`, newUser).subscribe(res => console.log("Done"))
   }
 
   // Metoda odpowiedzialna za akcje przy wylogowywaniu sie uzytkownika
@@ -105,17 +113,4 @@ export class UserAuthService {
     this.router.navigate(['/login']);
   }
 
-  // Metoda sluzaca do pobrania danych uzytkownika przy logowaniu
-  getUser(login: string, option: string) : User
-  {
-    let selectedUser: User = null;
-
-    let params = new HttpParams();
-    params = params.append('login', login);
-
-
-    this.http.get(`${this.uri}`, { params: params });
-
-    return selectedUser;
-  }
 }

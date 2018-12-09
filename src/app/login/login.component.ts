@@ -5,7 +5,8 @@ import { UserAuthService } from '../_02_services/user-auth-service.service';
 
 import { RegisterComponent } from '../_04_modal_dialogs/register/register.component';
 import { MatDialog } from '@angular/material';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { formatDate } from '@angular/common'
 
 @Component({
   selector: 'app-login',
@@ -16,8 +17,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private userAuth: UserAuthService, public dialog: MatDialog) { }
 
-  user : any = {};
-  loginValidation;
+  user : User;
+  loginValidation = [];
   logForm: FormGroup;
   isFormSubmitted = false;
   isUserIncorrect = false;
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() 
   {
+    this.userAuth.getUsers();
     this.logForm = this.formBuilder.group(
       {
         login: [ '', [Validators.required, Validators.minLength(4)]],
@@ -42,12 +44,11 @@ export class LoginComponent implements OnInit {
     this.isFormSubmitted = true;
     if(this.logForm.invalid) { return }
     else
-    {     
-
+    {  
       let name = this.formInput.login.value == null ? "" : this.formInput.login.value.trim();
       let pass = this.formInput.password.value == null ? "" : this.formInput.password.value.trim();
   
-      this.user = new User(name, pass, "");
+      this.user = {id: 0, login: name, password: pass, email: "", registered: <Date><any>formatDate(Date.now(), "yyyy-MM-dd", "en-US")}
       this.loginValidation = this.userAuth.validateLogin(this.user);
 
       if(this.loginValidation[1] == false)
@@ -62,11 +63,5 @@ export class LoginComponent implements OnInit {
   btnRegOn()
   {
     let dialogRef = this.dialog.open(RegisterComponent);
-    
-    dialogRef.afterClosed().subscribe(
-      result => {
-                  this.userAuth.regOn(result);
-                }
-            ) 
   }
 }

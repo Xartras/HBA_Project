@@ -15,9 +15,10 @@ export class RegisterComponent implements OnInit {
              ,private userAuth: UserAuthService
              ) { }
 
-  private userToBeRegistered = []
+  private userToBeRegistered : any[] = [];
   regForm: FormGroup;
   isFormSubmitted = false;
+  isUserNotValid = true;
 
   get formInput() { return this.regForm.controls }
 
@@ -37,14 +38,20 @@ export class RegisterComponent implements OnInit {
   btnAuthRegistration()
   {
     this.isFormSubmitted = true;
-
+    console.log(this.regForm.controls);
     this.userToBeRegistered[0] = this.regForm.controls.login.value
     this.userToBeRegistered[1] = this.regForm.controls.password.value
     this.userToBeRegistered[2] = this.regForm.controls.email.value
     this.userToBeRegistered[3] = this.regForm.controls.periodBegin.value
     this.userToBeRegistered[4] = this.regForm.controls.periodEnd.value
-    
-    this.dialogRef.close(this.userToBeRegistered)
+
+    this.isUserNotValid = this.userAuth.validateRegistration(this.userToBeRegistered)
+
+    if(this.isUserNotValid)
+    {
+      this.userAuth.regOn(this.userToBeRegistered)
+      this.dialogRef.close()
+    }
   }
 
   // Anulowanie rejestracji uzytkownika
