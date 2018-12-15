@@ -46,7 +46,6 @@ export class UserAuthService {
   validateLogin(user: User): any[]
   {
     let authorizedUser = []
-    console.log(user);
 
     // pierwszy element to użytkownik, a drugi odpowiada za informacje, czy dane logowania sa poprawne
     for(let i = 0; i < this.allUsers.length; i++)

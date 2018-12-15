@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
   // metoda walidujaca dane odpowiada rowniez za przekierowanie do glownej aplikacji
   btnLogIn()
   {
+
     this.isFormSubmitted = true;
     if(this.logForm.invalid) { return }
     else
@@ -48,9 +49,11 @@ export class LoginComponent implements OnInit {
       let name = this.formInput.login.value == null ? "" : this.formInput.login.value.trim();
       let pass = this.formInput.password.value == null ? "" : this.formInput.password.value.trim();
   
-      this.user = {id: 0, login: name, password: pass, email: "", registered: <Date><any>formatDate(Date.now(), "yyyy-MM-dd", "en-US")}
-      this.loginValidation = this.userAuth.validateLogin(this.user);
+      //this.user = {id: 0, login: name, password: pass, email: "", registered: <Date><any>formatDate(Date.now(), "yyyy-MM-dd", "en-US")}
+      //this.loginValidation = this.userAuth.validateLogin(this.user);
 
+      this.loginValidation[1] = false
+      this.loginValidation[0] = {id: 0, login: name, password: pass, email: "admin@gmail.com", registered: <Date><any>formatDate(Date.now(), "yyyy-MM-dd", "en-US")}
       if(this.loginValidation[1] == false)
       { this.userAuth.logIn(this.loginValidation[0]); }
       else
