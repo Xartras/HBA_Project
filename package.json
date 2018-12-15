@@ -27,9 +27,12 @@
     "core-js": "^2.5.4",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.3.14",
     "nodemon": "^1.18.7",
     "npm": "^6.4.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"
   },

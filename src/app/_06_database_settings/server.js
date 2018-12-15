@@ -1,26 +1,31 @@
-const express = require('express'),
-    path = require('path'),
-    bodyParser = require('body-parser'),
-    cors = require('cors'),
-    mongoose = require('mongoose'),
-    config = require('./database');
+/*
+  Konfiguracja serwera 'express'
+*/     
+      
+var express      = require('express');
+var path         = require('path');
+var bodyParser   = require('body-parser');
+var passport     = require('passport');
+var config       = require('./database');
 
-    const app = express();
+require('./passport_config');
+const dbUserRoutes = require('../_08_database_routes/user-route');
 
-    mongoose.Promise = global.Promise;
-    mongoose.connect(config.database).then(
-      () => {console.log('Database is connected') },
-      err => { console.log('Can not connect to the database'+ err)}
-    );
+const app = express();
 
-    const dbUserRoutes = require('../_08_database_routes/user-route');
+mongoose.Promise = global.Promise;
+mongoose.connect(config.database).then(
+                                       () => {console.log('Database is connected') },
+                                       err => { console.log('Can not connect to the database'+ err)}
+                                      );
 
-    app.use(bodyParser.json());
-    app.use(cors());
-    const port = process.env.PORT || 4000;
 
-    app.use('/RegisteredUsers', dbUserRoutes);
+app.use(bodyParser.json());
+app.use(cors());
+const port = process.env.PORT || 4000;
 
-    const server = app.listen(port, function(){
-     console.log('Listening on port ' + port);
-    });
+app.use(passport.initialize())
+app.use('/Project', dbUserRoutes);
+
+const server = app.listen(port, function()
+{ console.log('Listening on port ' + port); });
