@@ -4,12 +4,12 @@
 
 var passport = require('passport');
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
+var User = mongoose.model.User;
 
 // Rejestracja
 module.exports.userRegistration = function(userToBeRegistered, result)
 {
-    var user = new User();
+    var user = User;
 
     user.login      = userToBeRegistered.body.login;
     user.email      = userToBeRegistered.body.email;
@@ -27,7 +27,7 @@ module.exports.userRegistration = function(userToBeRegistered, result)
 
 
 // Logowanie
-module.exports.userLoggingIn = function(usetToBeLoggedIn, result)
+module.exports.userLoggingIn = function(userToBeLoggedIn, result)
 {
     passport.authenticate('local', function(error, user, information)
     {
@@ -45,5 +45,5 @@ module.exports.userLoggingIn = function(usetToBeLoggedIn, result)
             result.status(200);
             result.json( { "token": token } )
         }
-    })(usetToBeLoggedIn, result);
+    })(userToBeLoggedIn, result);
 }

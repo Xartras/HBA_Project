@@ -4,7 +4,7 @@
 
 var pssprt   = require('passport');
 var locStrtg = require('passport-local').Strategy;
-var moongose = requre('moongose');
+var moongose = require('mongoose');
 var User     = moongose.model.User
 
 /* 

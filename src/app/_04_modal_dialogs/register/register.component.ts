@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { UserAuthService } from '../../_02_services/user-auth-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RegisteredToken } from '../../_01_models/user'
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,8 @@ export class RegisterComponent implements OnInit {
              ,private userAuth: UserAuthService
              ) { }
 
-  private userToBeRegistered : any[] = [];
+  private userToBeRegistered : RegisteredToken = { login: "", password: ""}
+
   regForm: FormGroup;
   isFormSubmitted = false;
   isUserNotValid = true;
@@ -38,20 +40,11 @@ export class RegisterComponent implements OnInit {
   btnAuthRegistration()
   {
     this.isFormSubmitted = true;
-    console.log(this.regForm.controls);
-    this.userToBeRegistered[0] = this.regForm.controls.login.value
-    this.userToBeRegistered[1] = this.regForm.controls.password.value
-    this.userToBeRegistered[2] = this.regForm.controls.email.value
-    this.userToBeRegistered[3] = this.regForm.controls.periodBegin.value
-    this.userToBeRegistered[4] = this.regForm.controls.periodEnd.value
 
-    this.isUserNotValid = this.userAuth.validateRegistration(this.userToBeRegistered)
+    this.userToBeRegistered.login = this.regForm.controls.login.value
+    this.userToBeRegistered.password = this.regForm.controls.password.value
 
-    if(this.isUserNotValid)
-    {
-      this.userAuth.regOn(this.userToBeRegistered)
-      this.dialogRef.close()
-    }
+    this.userAuth.regOn(this.userToBeRegistered).subscribe(() => this.dialogRef.close())
   }
 
   // Anulowanie rejestracji uzytkownika

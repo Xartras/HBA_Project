@@ -16,11 +16,12 @@ export class DetailsComponent implements OnInit {
              ,private userAuth: UserAuthService) { }
 
   addPeriodForm: FormGroup
-  private user: User = this.userAuth.loggedUser.value;
+  private user: User = {login: "a", password: "b", email: "e", expTime: 1, id: "1", registered: null}
   get formInput() { return this.addPeriodForm.controls }
 
   ngOnInit() 
   { 
+    //this.userAuth.uploadUser().subscribe(user => {this.user = user}, (error) => {console.log(error)} )
     this.addPeriodForm = this.formBuilder.group(
     {
        cPeriodBegin: new FormControl('')

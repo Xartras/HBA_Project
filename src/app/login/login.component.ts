@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '../_01_models/user';
+import { RegisteredToken } from '../_01_models/user';
 import { UserAuthService } from '../_02_services/user-auth-service.service';
 
 import { RegisterComponent } from '../_04_modal_dialogs/register/register.component';
 import { MatDialog } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { formatDate } from '@angular/common'
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -15,9 +16,9 @@ import { formatDate } from '@angular/common'
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private userAuth: UserAuthService, public dialog: MatDialog) { }
+  constructor(private formBuilder: FormBuilder, private userAuth: UserAuthService, public dialog: MatDialog, private router: Router) { }
 
-  user : User;
+  user : RegisteredToken = {login: "", password: ""}
   loginValidation = [];
   logForm: FormGroup;
   isFormSubmitted = false;
@@ -28,39 +29,23 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() 
   {
-    this.userAuth.getUsers();
     this.logForm = this.formBuilder.group(
       {
         login: [ '', [Validators.required, Validators.minLength(4)]],
         password: [ '', [Validators.required, Validators.minLength(4)]]
       }
     )
+    this.router.navigateByUrl('/')
   }
 
   // metoda odpowiada za obsługę przycisku logowania
   // metoda walidujaca dane odpowiada rowniez za przekierowanie do glownej aplikacji
   btnLogIn()
   {
+    this.user.login = this.logForm.controls.login.value;
+    this.user.password = this.logForm.controls.password.value;
 
-    this.isFormSubmitted = true;
-    if(this.logForm.invalid) { return }
-    else
-    {  
-      let name = this.formInput.login.value == null ? "" : this.formInput.login.value.trim();
-      let pass = this.formInput.password.value == null ? "" : this.formInput.password.value.trim();
-  
-      //this.user = {id: 0, login: name, password: pass, email: "", registered: <Date><any>formatDate(Date.now(), "yyyy-MM-dd", "en-US")}
-      //this.loginValidation = this.userAuth.validateLogin(this.user);
-
-      this.loginValidation[1] = false
-      this.loginValidation[0] = {id: 0, login: name, password: pass, email: "admin@gmail.com", registered: <Date><any>formatDate(Date.now(), "yyyy-MM-dd", "en-US")}
-      if(this.loginValidation[1] == false)
-      { this.userAuth.logIn(this.loginValidation[0]); }
-      else
-      { 
-        this.isUserIncorrect = this.loginValidation[1];
-      }
-    }
+    this.userAuth.logIn(this.user).subscribe(() => this.router.navigateByUrl('/details'))
   }
 
   btnRegOn()

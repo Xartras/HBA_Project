@@ -49,12 +49,12 @@ import { UserAuthService } from './_02_services/user-auth-service.service';
 
 const routes : Routes = 
 [
-  { path: 'details', component: DetailsComponent, canActivate: [UserAuthGuard] },
-  { path: 'transactions', component: TransactionsComponent, canActivate: [UserAuthGuard] },
-  { path: 'homebillings', component: HomeBillingsComponent, canActivate: [UserAuthGuard] },
-  { path: 'werehouse', component: WerehouseComponent, canActivate: [UserAuthGuard] },
-  { path: 'statistics', component: StatisticsComponent, canActivate: [UserAuthGuard] },
-  { path: '', component: DetailsComponent, canActivate: [UserAuthGuard]},
+  { path: 'details', component: DetailsComponent  }, //canActivate: [UserAuthGuard]
+  { path: 'transactions', component: TransactionsComponent }, //, canActivate: [UserAuthGuard]
+  { path: 'homebillings', component: HomeBillingsComponent  }, //canActivate: [UserAuthGuard]
+  { path: 'werehouse', component: WerehouseComponent }, //, canActivate: [UserAuthGuard] 
+  { path: 'statistics', component: StatisticsComponent }, //, canActivate: [UserAuthGuard]
+  { path: '', component: DetailsComponent}, //, canActivate: [UserAuthGuard]
   { path: 'login', component: LoginComponent}
 ]
 

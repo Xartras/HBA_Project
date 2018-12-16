@@ -4,9 +4,21 @@
 
 export interface User 
 {
-    id: number
-    login: string;
+    id:         string
+    login:      string;
+    password:   string;
+    email:      string;
+    registered: Date;
+    expTime:    number;
+}
+  
+export interface TokenResponse 
+{
+    token: string;
+}
+  
+export interface RegisteredToken
+{
+    login:    string;
     password: string;
-    email: string;
-    registered: Date
 }

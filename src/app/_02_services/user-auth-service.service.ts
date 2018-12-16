@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { User } from '../_01_models/user';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { User, RegisteredToken, TokenResponse } from '../_01_models/user';
+import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,97 +21,105 @@ export class UserAuthService {
   public loggedUser = new BehaviorSubject<User>(null);
   private today = new Date()
   private allUsers : User[]
-  private usersAddress = 'http://localhost:4000/RegisteredUsers';
+  private usersAddress = 'http://localhost:4000';
+  private token: string;
 
-  // Metoda publiczna pozwalajaca na pobranie informacji odnosnie statusu uzytkownika
-  get isUserLoggedIn()
-  {
-    return this.userLogStatus.asObservable();
-  }
 
-  // Metoda publiczna wykorzystywana w "OnInit" przy starcie aplikacji w celu pobrania danych uzytkownika
-  getUsers()
-  {
-    this.getAllUsers().subscribe((data : User[]) => {this.allUsers = data});
-  }
-  
-  // Metoda prywatna pobierajaca dane o wszystkich uzytkownikach w bazie
-  private getAllUsers()
-  {
-    return this.http.get(`${this.usersAddress}`);
-  }
-
-  // Metoda odpowiedzialna za walidacje danych logowania
-  // Zwracane wartości: 
-  //   - logujący się użytkownik oraz flaga błędu: true => niepoprawny / false => poprawny
-
-  validateLogin(user: User): any[]
-  {
-    let authorizedUser = []
-
-    // pierwszy element to użytkownik, a drugi odpowiada za informacje, czy dane logowania sa poprawne
-    for(let i = 0; i < this.allUsers.length; i++)
+ // Metoda pobierajaca token uzytkownika z LocalStorage
+ private getToken() : string
+ {
+    if(!this.token)
     {
-      if(this.allUsers[i].login.toLowerCase() == user.login.toLowerCase() && this.allUsers[i].password == user.password)
-      { 
-        authorizedUser[0] = this.allUsers[i];
-        authorizedUser[1] = false;
-        break;
-      }
+      this.token = localStorage.getItem("user-token");
     }
+    return this.token;
+ }
 
-    return authorizedUser;
+ // Metoda zapisujaca token uzytkownika do LocalStorage
+ private saveToken(token: string)
+ {
+  localStorage.setItem('mean-token', token);
+  this.token = token;
+ }
+
+ // Metoda pobierajaca dane uzytkownika
+ public getUser() : User
+ {
+   const token = this.getToken();
+
+   let response;
+
+   if(token)
+   {
+     response = this.token.split(".")[1];
+     response = window.atob(response);
+     return JSON.parse(response);
+   }
+   else
+   {
+     return null;
+   }
+ }
+
+  // Metoda sprawdzajaca czy uzytkownik jest zalogowany
+  public isUserLoggedIn() : boolean
+  {
+    const usr = this.getUser()
+
+    if(usr)
+    {
+      return usr.expTime > Date.now() / 1000;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  // Metoda wysyłająca polecenia do serwera wywoływana przez kolejne metody
+  private sendRequestToDB( method: 'post'|'get', type: 'userLoggingIn'|'userRegistration'|'getUser', user?: RegisteredToken ) : Observable<any>
+  {
+    let query
+
+    if(method === 'post') 
+      { query = this.http.post(`${this.usersAddress}/HBA_Project/${type}`, user) }
+    else
+      { query = this.http.get(`${this.usersAddress}/HBA_Project/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` } }) }
+
+    const pullRequest = query.pipe(
+      map((data: TokenResponse) =>
+      {
+        if(data.token) { this.saveToken(data.token) }
+        return data
+      })
+    );
+
+    return pullRequest
   }
 
   // Metoda przenosi użytkownika do głównej aplikacji po popawnym zalogowaniu
-  logIn(user: User)
+  logIn(user: RegisteredToken) : Observable<any>
   {
-    this.loggedUser.next(user);
-    this.userLogStatus.next(true);
-    this.router.navigate(['/']);
-  }
-
-  // Metoda odpowiedzialna za walidacje danych rejestracji
-  validateRegistration(user: any) : boolean
-  {
-    let isUserValid: boolean = false
-    let newUser: User;
-
-    for(let i = 0; i < this.allUsers.length; i++)
-    {
-      if(user[0].toLowerCase() == this.allUsers[i].login.toLowerCase())
-      { isUserValid = false; break; }
-      else
-      { isUserValid = true }
-    }
-
-    if (isUserValid == true) 
-    { 
-      newUser = {id: null, login: user[0], password: user[1], email: user[2], registered: <Date><any>formatDate(this.today, "yyyy-MM-dd", "en-US")}
-      this.allUsers.push(newUser)
-    }
-    return isUserValid;
+    return this.sendRequestToDB('post', 'userLoggingIn', user);
   }
 
   // Metoda odpowiedzialna za wprowadzenie uzytkownika do bazy.
-  regOn(user)
+  regOn(user: RegisteredToken) : Observable<any>
   {
-    const newUser = 
-    {
-      login: user[0],
-      password: user[1],
-      email: user[2],
-      registered: formatDate(this.today, "yyyy-MM-dd", "en-US")
-    };
+    return this.sendRequestToDB('post', 'userRegistration', user);
+  }
 
-    this.http.post(`${this.usersAddress}/add`, newUser).subscribe(res => console.log("Done"))
+  // Metoda pobierajaca uzytkownika przy logowaniu
+  public uploadUser() : Observable<any>
+  {
+    return this.sendRequestToDB('get', 'getUser');
   }
 
   // Metoda odpowiedzialna za akcje przy wylogowywaniu sie uzytkownika
   signOut()
   {
-    this.userLogStatus.next(false);
+    this.token = '';
+    window.localStorage.removeItem("user-token");
     this.router.navigate(['/login']);
   }
-
 }

@@ -19,9 +19,6 @@ let mdbUserSchema = new Schema(
         registered:      Date,
         hashSupportCode: String,
         hashCode:        String
-    },
-    {
-        collection: 'RegisteredUsers'
     });
 
 
@@ -51,7 +48,7 @@ mdbUserSchema.methods.calculateJWT() = function()
 
     return jwt.sign(
         {
-            _id:     this.id,
+            id:      this.id,
             login:   this.login,
             expTime: parseInt(expirationTime.getTime() / 1000)
         });

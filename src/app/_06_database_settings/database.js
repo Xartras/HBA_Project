@@ -1,4 +1,4 @@
 
 module.exports = {
-    database: 'mongodb://localhost:27017/Project'
+    database: 'mongodb://localhost:27017/HBA_Project'
  };
