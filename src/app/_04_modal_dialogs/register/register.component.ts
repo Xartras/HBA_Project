@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
              ,private userAuth: UserAuthService
              ) { }
 
-  private userToBeRegistered : RegisteredToken = { login: "", password: ""}
+  private userToBeRegistered : RegisteredToken = { login: "", password: "", registered: null, email: null}
 
   regForm: FormGroup;
   isFormSubmitted = false;
@@ -41,10 +41,16 @@ export class RegisterComponent implements OnInit {
   {
     this.isFormSubmitted = true;
 
-    this.userToBeRegistered.login = this.regForm.controls.login.value
-    this.userToBeRegistered.password = this.regForm.controls.password.value
+    this.userToBeRegistered.login = this.regForm.controls.login.value;
+    this.userToBeRegistered.password = this.regForm.controls.password.value;
+    this.userToBeRegistered.email    = this.regForm.controls.email.value;
 
-    this.userAuth.regOn(this.userToBeRegistered).subscribe(() => this.dialogRef.close())
+    this.userAuth.regOn(this.userToBeRegistered).subscribe((error) => 
+    {
+      console.log(error);
+      if(!error)
+      this.dialogRef.close()
+    })
   }
 
   // Anulowanie rejestracji uzytkownika

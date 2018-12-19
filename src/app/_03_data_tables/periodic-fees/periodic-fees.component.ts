@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { PeriodicFeeItem } from 'src/app/_01_models/periodic-fee-item';
 import { PeriodicFeesDataSource } from './periodic-fees-datasource';
+import { PeriodicFeesService } from '../../_02_services/periodic-fees-srvc.service';
 
 import { AddPeriodicFeeDialogComponent } from 'src/app/_04_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component';
 import { MatDialog} from '@angular/material';
@@ -21,7 +22,7 @@ export class PeriodicFeesComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['category', 'name', 'paidUntil', 'paymentPeriod', 'paymentDeadline', 'warnings', 'actions'];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private servicePF: PeriodicFeesService) {}
 
 
   ngOnInit() {
@@ -44,6 +45,7 @@ export class PeriodicFeesComponent implements OnInit {
     result => {
                 if(result != null)
                 {
+                this.servicePF.addBudgetPlan(result);
                 this.dataSource.addItem(this.dataTable, result);
                 this.dataSource.sortData(this.dataTable);
                 this.dataBS.next(this.dataTable);
@@ -55,6 +57,7 @@ export class PeriodicFeesComponent implements OnInit {
   // Usuwanie wpisow
   btnRemoveRow(item: PeriodicFeeItem)
   {
+    this.servicePF.deleteBudgetPlanItem(item.id);
     this.dataSource.removeItem(this.dataTable, item)
     this.dataBS.next(this.dataTable);
   }
@@ -79,6 +82,8 @@ export class PeriodicFeesComponent implements OnInit {
       result => {
                   if(result != null)
                   {
+                    this.servicePF.updateBudgetPlan(result);
+
                     this.dataSource.editItem(this.dataTable, item, result);
 
                     if(item.paidUntil.toLocaleLowerCase() != result.paidUntil.toLocaleLowerCase())

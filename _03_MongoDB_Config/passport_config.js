@@ -5,14 +5,13 @@
 var pssprt   = require('passport');
 var locStrtg = require('passport-local').Strategy;
 var moongose = require('mongoose');
-var User     = moongose.model.User
+var User     = require('../_01_MongoDB_Models/user-db')
 
 /* 
     Walidacja przy uzyciu tego modulu wymaga podania pol "username" i "password".
     W projekcie wykorzystywane bedzie pole 'login' i zmiana tego ustawienia zostala zapisana ponizej
 */
-pssprt.use( 
-            new locStrtg( { usernameField: 'login' },
+pssprt.use( new locStrtg( { usernameField: 'login' },
             function(log, pss, result)
             {
                 // Szukamy uzytkownika o podanym loginie

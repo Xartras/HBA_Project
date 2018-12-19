@@ -38,7 +38,7 @@ export class UserAuthService {
  // Metoda zapisujaca token uzytkownika do LocalStorage
  private saveToken(token: string)
  {
-  localStorage.setItem('mean-token', token);
+  localStorage.setItem('user-token', token);
   this.token = token;
  }
 
@@ -82,9 +82,9 @@ export class UserAuthService {
     let query
 
     if(method === 'post') 
-      { query = this.http.post(`${this.usersAddress}/HBA_Project/${type}`, user) }
+      { query = this.http.post(`${this.usersAddress}/Users/${type}`, user) }
     else
-      { query = this.http.get(`${this.usersAddress}/HBA_Project/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` } }) }
+      { query = this.http.get(`${this.usersAddress}/Users/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` } }) }
 
     const pullRequest = query.pipe(
       map((data: TokenResponse) =>

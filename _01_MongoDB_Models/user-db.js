@@ -11,7 +11,7 @@ const Schema = mongoose.Schema;
 const crypto = require('crypto');      
 const jwt = require('jsonwebtoken');
 
-let mdbUserSchema = new Schema(
+let mdbUser = new Schema(
     {
         login:           String,
         password:        String,
@@ -23,7 +23,7 @@ let mdbUserSchema = new Schema(
 
 
 // Metoda szyfrujaca haslo i wynik ten bedzie zapisywany w bazie
-mdbUserSchema.methods.cryptPassword = function(password)
+mdbUser.methods.cryptPassword = function(password)
 {
     // Generujemy losowy ciag znakow
     this.hashSupportCode = crypto.randomBytes(16).toString('hex');
@@ -33,7 +33,7 @@ mdbUserSchema.methods.cryptPassword = function(password)
 }
 
 // Metoda walidujaca haslo
-mdbUserSchema.methods.validatePassword = function(password)
+mdbUser.methods.validatePassword = function(password)
 {
     // Obliczamy hashCode dla podanych danych
     var hashCodeToBeChecked = crypto.pbkdf2Sync(password, this.hashSupportCode, 1000, 64, 'sha512').toString('hex');
@@ -42,16 +42,17 @@ mdbUserSchema.methods.validatePassword = function(password)
 }
 
 // Generowanie JWT
-mdbUserSchema.methods.calculateJWT() = function()
+mdbUser.methods.calculateJWT = function()
 {
-    var expirationTime = new Date().setDate(getDate() + 30)
+    var expirationTime = new Date()
+    expirationTime.setDate(expirationTime.getDate() + 30)
 
     return jwt.sign(
         {
-            id:      this.id,
+            _id:     this.id,
             login:   this.login,
             expTime: parseInt(expirationTime.getTime() / 1000)
-        });
+        }, "secret");
 }
 
-module.exports = mongoose.model('User', mdbUserSchema);
+module.exports = mongoose.model('mdbUser', mdbUser);

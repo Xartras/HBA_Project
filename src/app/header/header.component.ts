@@ -14,12 +14,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private userAuth: UserAuthService) { }
 
-  isUsrLoggedIn: boolean
-  isUsrLogged: boolean
-  ngOnInit() {
-    this.isUsrLogged = true //!this.userAuth.isUserLoggedIn();
-    this.isUsrLoggedIn = true// this.userAuth.isUserLoggedIn();
-  }
+  ngOnInit() { }
 
   btnRegIn()
   {

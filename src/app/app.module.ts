@@ -45,16 +45,17 @@ import { AddHomeBillingItemDialogComponent } from './_04_modal_dialogs/add-home-
 // Serwisy
 import { UserAuthGuard } from './_02_services/user-auth-guard.guard';
 import { UserAuthService } from './_02_services/user-auth-service.service';
+import { BudgetPlanService } from './_02_services/budget-plan-srvc.service'
 
 
 const routes : Routes = 
 [
-  { path: 'details', component: DetailsComponent  }, //canActivate: [UserAuthGuard]
-  { path: 'transactions', component: TransactionsComponent }, //, canActivate: [UserAuthGuard]
-  { path: 'homebillings', component: HomeBillingsComponent  }, //canActivate: [UserAuthGuard]
-  { path: 'werehouse', component: WerehouseComponent }, //, canActivate: [UserAuthGuard] 
-  { path: 'statistics', component: StatisticsComponent }, //, canActivate: [UserAuthGuard]
-  { path: '', component: DetailsComponent}, //, canActivate: [UserAuthGuard]
+  { path: 'details', component: DetailsComponent, canActivate: [UserAuthGuard] },
+  { path: 'transactions', component: TransactionsComponent, canActivate: [UserAuthGuard] },
+  { path: 'homebillings', component: HomeBillingsComponent, canActivate: [UserAuthGuard] },
+  { path: 'werehouse', component: WerehouseComponent, canActivate: [UserAuthGuard] },
+  { path: 'statistics', component: StatisticsComponent, canActivate: [UserAuthGuard] },
+  { path: '', component: DetailsComponent, canActivate: [UserAuthGuard] },
   { path: 'login', component: LoginComponent}
 ]
 
@@ -87,7 +88,7 @@ const routes : Routes =
     AddWerehouseItemDialogComponent, AddHomeBillingItemDialogComponent
   ]
   ,
-  providers: [UserAuthGuard, UserAuthService],
+  providers: [UserAuthGuard, UserAuthService, BudgetPlanService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

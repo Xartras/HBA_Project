@@ -4,16 +4,16 @@
 
 var passport = require('passport');
 var mongoose = require('mongoose');
-var User = mongoose.model.User;
+var User     = require('../_01_MongoDB_Models/user-db');
 
 // Rejestracja
 module.exports.userRegistration = function(userToBeRegistered, result)
 {
-    var user = User;
+    var user = new User();
 
     user.login      = userToBeRegistered.body.login;
     user.email      = userToBeRegistered.body.email;
-    user.registered = new Date().setDate(getDate());
+    user.registered = userToBeRegistered.body.registered;
     user.cryptPassword(userToBeRegistered.body.password)
 
 
@@ -29,6 +29,8 @@ module.exports.userRegistration = function(userToBeRegistered, result)
 // Logowanie
 module.exports.userLoggingIn = function(userToBeLoggedIn, result)
 {
+    var token;
+    
     passport.authenticate('local', function(error, user, information)
     {
         // Przerywamy dzialanie w wyniku pojawienia sie bledu

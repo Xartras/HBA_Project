@@ -1,7 +1,7 @@
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 import { BudgetPlanItem } from '../../_01_models/budget-plan-item'
-
+import { BudgetPlanService } from '../../_02_services/budget-plan-srvc.service'
 
 /**
  * Data source for the BudgetPlan view. This class should
@@ -10,17 +10,18 @@ import { BudgetPlanItem } from '../../_01_models/budget-plan-item'
  */
 export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> { 
 
-  constructor(private budgetPlan: Observable<BudgetPlanItem[]>) { super(); }
+  constructor(private budgetPlan: Observable<BudgetPlanItem[]>
+             ,private serviceBP: BudgetPlanService) { super(); }
 
   // Pobranie wszystkich danych
   private getData() : BudgetPlanItem[]
   {
-    let budgetPlan: Array<BudgetPlanItem> = [
+    
+    let budgetPlan: BudgetPlanItem[] = [
       new BudgetPlanItem("Zysk_Stałe_Wypłata_1", "Zysk", "Kasa", "Wypłata", "01_2018", 2500.12, "Wypłata za sierpień 2018"),
       new BudgetPlanItem("Koszt_Opłaty_Prąd_1", "Koszt", "Opłaty", "Prąd", "01_2018", 75.92, ""),
       new BudgetPlanItem("Koszt_Opłaty_Gaz_1", "Koszt", "Opłaty", "Gaz", "01_2018", 22.37, "")
     ]
-
     return budgetPlan;
   }
 
@@ -58,15 +59,20 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
   // Aktualizowanie ID podczas usuwania wpisu
   private updateIDs(data: BudgetPlanItem[], item: BudgetPlanItem)
   {
+    let oldID : String;
     data.forEach(element => { 
       if(
         element.type == item.type && element.category == element.category && element.name == item.name 
         &&  parseInt(element.id.split("_")[3]) > parseInt(item.id.split("_")[3])
         )
-        { element.id = element.id.split("_")[0] + "_" + 
+        { 
+          oldID = element.id;
+          element.id = element.id.split("_")[0] + "_" + 
                        element.id.split("_")[1] + "_" + 
                        element.id.split("_")[2] + "_" + 
                        (parseInt(element.id.split("_")[3])-1).toString();
+          this.serviceBP.deleteBudgetPlanItem(oldID);
+          this.serviceBP.addBudgetPlan(element);
         }
     });
   }
@@ -75,12 +81,14 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
   addItem(data: BudgetPlanItem[], item: BudgetPlanItem)
   {
     item.id = this.calculateNewId(data, item);
+    this.serviceBP.addBudgetPlan(item);
     data.push(item);
   }
 
   // Usuwanie wpisu
   removeItem(data: BudgetPlanItem[], item: BudgetPlanItem)
   {
+    this.serviceBP.deleteBudgetPlanItem(item.id);
     this.updateIDs(data, item);
     data.splice(data.indexOf(item), 1);
   }

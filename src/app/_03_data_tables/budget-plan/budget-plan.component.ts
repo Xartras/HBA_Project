@@ -8,7 +8,7 @@ import { AddBudgetPlanDialogComponent } from '../../_04_modal_dialogs/add-budget
 import { MatDialog } from '@angular/material';
 import { BehaviorSubject } from 'rxjs'
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-
+import { BudgetPlanService } from '../../_02_services/budget-plan-srvc.service'
 
 @Component({
   selector: 'budget-plan',
@@ -19,10 +19,11 @@ export class BudgetPlanComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder
              ,public dialog: MatDialog
-             ,private userAuth: UserAuthService) {}
+             ,private userAuth: UserAuthService
+             ,private serviceBP: BudgetPlanService) {}
 
   periodRange = [];
-  dataSource: BudgetPlanDataSource = new BudgetPlanDataSource(null);
+  dataSource: BudgetPlanDataSource = new BudgetPlanDataSource(null, this.serviceBP);
   dataTable: BudgetPlanItem[] = this.dataSource.getFilteredData("01_2018");
   dataBS = new BehaviorSubject(this.dataTable);
 
@@ -47,7 +48,7 @@ export class BudgetPlanComponent implements OnInit {
       }
     )
     this.dataSource.sortData(this.dataTable);
-    this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable());
+    this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable(), this.serviceBP);
     console.log(this.dataSource)
 
     this.periodRange = this.getPeriodRange(this.periods, this.filterPlanForm.controls.cPeriods.value);
@@ -76,7 +77,8 @@ export class BudgetPlanComponent implements OnInit {
   // Usuwanie wpisow
   btnRemoveRow(item: BudgetPlanItem)
   {
-    this.dataSource.removeItem(this.dataTable, item)
+
+    this.dataSource.removeItem(this.dataTable, item);
     this.dataBS.next(this.dataTable);
   }
 

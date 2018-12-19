@@ -1,5 +1,5 @@
 /*
-    Interfejs przedstawiajacy model uzytkownika
+    Interfejs przedstawiajacy model uzytkownika oraz tokenów walidujących
 */
 
 export interface User 
@@ -19,6 +19,8 @@ export interface TokenResponse
   
 export interface RegisteredToken
 {
-    login:    string;
-    password: string;
+    login:       string;
+    password:    string;
+    registered?: Date;
+    email?:      string;
 }
