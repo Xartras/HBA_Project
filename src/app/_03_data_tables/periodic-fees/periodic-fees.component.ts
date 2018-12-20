@@ -45,6 +45,7 @@ export class PeriodicFeesComponent implements OnInit {
     result => {
                 if(result != null)
                 {
+                result.id = this.servicePF.calculateFeeID();
                 this.servicePF.addBudgetPlan(result);
                 this.dataSource.addItem(this.dataTable, result);
                 this.dataSource.sortData(this.dataTable);
@@ -57,6 +58,7 @@ export class PeriodicFeesComponent implements OnInit {
   // Usuwanie wpisow
   btnRemoveRow(item: PeriodicFeeItem)
   {
+    console.log(item.id);
     this.servicePF.deleteBudgetPlanItem(item.id);
     this.dataSource.removeItem(this.dataTable, item)
     this.dataBS.next(this.dataTable);

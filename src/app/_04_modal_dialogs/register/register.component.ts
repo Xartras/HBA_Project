@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { UserAuthService } from '../../_02_services/user-auth-service.service';
+import { PeriodsService } from '../../_02_services/periods-srvc.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegisteredToken } from '../../_01_models/user'
 
@@ -14,6 +15,7 @@ export class RegisterComponent implements OnInit {
   constructor(private formBuilder: FormBuilder
              ,public dialogRef: MatDialogRef<RegisterComponent>
              ,private userAuth: UserAuthService
+             ,private ServicePrds: PeriodsService
              ) { }
 
   private userToBeRegistered : RegisteredToken = { login: "", password: "", registered: null, email: null}
@@ -41,16 +43,13 @@ export class RegisterComponent implements OnInit {
   {
     this.isFormSubmitted = true;
 
-    this.userToBeRegistered.login = this.regForm.controls.login.value;
+    this.userToBeRegistered.login    = this.regForm.controls.login.value;
     this.userToBeRegistered.password = this.regForm.controls.password.value;
     this.userToBeRegistered.email    = this.regForm.controls.email.value;
 
-    this.userAuth.regOn(this.userToBeRegistered).subscribe((error) => 
-    {
-      console.log(error);
-      if(!error)
-      this.dialogRef.close()
-    })
+    this.userAuth.regOn(this.userToBeRegistered).subscribe()
+    this.ServicePrds.addPeriod(this.regForm.controls.periodBegin.value, this.regForm.controls.periodEnd.value, this.regForm.controls.login.value)
+    this.dialogRef.close()
   }
 
   // Anulowanie rejestracji uzytkownika

@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 // Definicja modelu i kolekcji
 let dbPeriodicFeesItem = new Schema(
 {
+    _id:             { type: String },
     category:        { type: String },
     name:            { type: String },
     paidUntil:       { type: String },         

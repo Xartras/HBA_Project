@@ -20,6 +20,7 @@ const express = require('express'),
     // Ustawienie schematow laczenia z baza
     const budgetPlanRoutes   = require('./_02_MongoDB_Routes/budget-plan-item-route');
     const periodicFeesRoutes = require('./_02_MongoDB_Routes/periodic-fee-item-route');
+    const periodsRoutes      = require('./_02_MongoDB_Routes/period-route');
     const userRoutes         = require('./_02_MongoDB_Routes/user-route');
 
     app.use(bodyParser.json());
@@ -32,6 +33,7 @@ const express = require('express'),
     // "Powiedzenie" aplikacji aby korzystala ze zdefiniowanych schematow
     app.use('/BudgetPlan', budgetPlanRoutes);
     app.use('/PeriodicFees', periodicFeesRoutes);
+    app.use('/Periods', periodsRoutes);
     app.use('/Users', userRoutes);
 
 

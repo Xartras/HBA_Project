@@ -11,10 +11,17 @@ export class PeriodicFeesService {
 
   periodicFeesURL = 'http://localhost:4000/PeriodicFees';
 
+  // Ustawienie ID
+  calculateFeeID()
+  {
+    return "abcd"
+  }
+
   // Dodanie planu do bazy
   addBudgetPlan(newItem: PeriodicFeeItem) {
     const obj = 
     {
+      _id:             newItem.id,
       category:        newItem.category,
       name:            newItem.name,
       paidUntil:       newItem.paidUntil,

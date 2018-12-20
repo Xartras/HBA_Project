@@ -44,7 +44,8 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
     else
     {
       this.newFee = new PeriodicFeeItem
-      (''
+      (
+       ""
       ,this.addPeriodicFeeForm.controls.cCategory.value
       ,this.addPeriodicFeeForm.controls.cName.value
       ,this.addPeriodicFeeForm.controls.cPaidUntil.value.toString() + " dnia miesiąca"
@@ -52,7 +53,6 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
       ,this.addPeriodicFeeForm.controls.cPaymentDeadline.value
       ,this.addPeriodicFeeForm.controls.cWarnings.value
       )
-
       this.dialogRef.close(this.newFee);
     }
   }

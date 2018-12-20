@@ -42,10 +42,13 @@ export class LoginComponent implements OnInit {
   // metoda walidujaca dane odpowiada rowniez za przekierowanie do glownej aplikacji
   btnLogIn()
   {
-    this.user.login = this.logForm.controls.login.value;
-    this.user.password = this.logForm.controls.password.value;
-
-    this.userAuth.logIn(this.user).subscribe(() => this.router.navigateByUrl('/details'))
+    if(this.logForm.valid)
+    {
+      this.user.login = this.logForm.controls.login.value;
+      this.user.password = this.logForm.controls.password.value;
+  
+      this.userAuth.logIn(this.user).subscribe(() => this.router.navigateByUrl('/details'))
+    }
   }
 
   btnRegOn()

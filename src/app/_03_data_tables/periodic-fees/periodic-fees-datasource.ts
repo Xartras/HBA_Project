@@ -29,7 +29,6 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
   // Dodawanie wpisu
   addItem(data: PeriodicFeeItem[], item)
   {
-    item.id = item.category + "_" + item.name;
     data.push(item);
   }
 

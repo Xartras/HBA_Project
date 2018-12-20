@@ -24,8 +24,8 @@ dbBudgetPlanRouter.route('/add').post(function (item, result)
 {
   let budgetPlanItem = new dbBudgetPlan(item.body);
   budgetPlanItem.save()
-    .then(game => { result.status(200).json({'adUnit': 'AdUnit in added successfully'}); })
-    .catch(err => { result.status(400).send("unable to save to database"); });
+    .then(game => { result.status(200).json({'budgetPlan': 'Dodano'}); })
+    .catch(err => { result.status(400).send("Nie udalo sie"); });
 });
 
 
@@ -41,7 +41,7 @@ dbBudgetPlanRouter.route('/update/:id').post(function (item, result)
 {
     dbBudgetPlan.findById(item.params.id, function(error, budgetPlanItem) 
     {
-        if (!budgetPlanItem) return next(new Error('Could not load Document'));
+        if (!budgetPlanItem) return next(new Error('Nie udalo sie'));
         else 
         {
             budgetPlanItem._id      = item.body.id;
@@ -53,8 +53,8 @@ dbBudgetPlanRouter.route('/update/:id').post(function (item, result)
             budgetPlanItem.comment  = item.body.comment;
             budgetPlanItem.actions  = item.body.actions
 
-            budgetPlanItem.save().then(item   => { result.json('Update complete'); })
-                                 .catch(error => { result.status(400).send("unable to update the database"); });
+            budgetPlanItem.save().then(item   => { result.json('Zaktualizowano'); })
+                                 .catch(error => { result.status(400).send("Nie udalo sie"); });
         }
     });
 });
@@ -65,7 +65,7 @@ dbBudgetPlanRouter.route('/delete/:id').get(function (item, result)
     dbBudgetPlan.findByIdAndRemove({_id: item.params.id}, function(error, budgetPlanItem)
     {
         if(error) result.json(error);
-        else result.json('Successfully removed');
+        else result.json('Usunieto');
     });
 });
 
