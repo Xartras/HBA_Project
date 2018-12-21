@@ -35,9 +35,11 @@ export class PeriodicFeesService {
   }
 
   // Aktualizacja planu w bazie
-  updateBudgetPlan(updadingItem: PeriodicFeeItem) 
+  updateBudgetPlan(updadingItem: PeriodicFeeItem, id) 
   {
+    console.log(id);
     const obj = {
+      _id:             id,
       category:        updadingItem.category,
       name:            updadingItem.name,
       paidUntil:       updadingItem.paidUntil,
@@ -48,7 +50,7 @@ export class PeriodicFeesService {
     };
     this
       .http
-      .post(`${this.periodicFeesURL}/update/${updadingItem.id}`, obj)
+      .post(`${this.periodicFeesURL}/update/${id}`, obj)
       .subscribe(res => console.log('Done'));
   }
 

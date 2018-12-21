@@ -25,35 +25,38 @@ import { HomeBillingsComponent } from './homebillings/homebillings.component';
 import { MenuComponent } from './menu/menu.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { TransactionsComponent } from './transactions/transactions.component';
-import { WerehouseComponent } from './werehouse/werehouse.component';
+import { PlanningComponent } from './planning/planning.component';
 
 // Komponenty zawierajace tabele
 import { PeriodicFeesComponent } from './_03_data_tables/periodic-fees/periodic-fees.component';
 import { BudgetPlanComponent } from './_03_data_tables/budget-plan/budget-plan.component';
 import { HomeBillingsDataComponent } from './_03_data_tables/home-billings/home-billings.component';
-import { WerehouseDataComponent } from './_03_data_tables/werehouse/werehouse.component';
 import { TransactionsDataComponent } from './_03_data_tables/transactions/transactions-data.component';
+import { SavingPlanComponent } from './_03_data_tables/saving-plan/saving-plan.component';
 
 // Komponenty będące oknami dialogowymi do wprowadzania danych
 import { RegisterComponent } from './_04_modal_dialogs/register/register.component';
 import { AddPeriodicFeeDialogComponent } from './_04_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component';
 import { AddBudgetPlanDialogComponent } from './_04_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
 import { AddTransactionDialogComponent } from './_04_modal_dialogs/add-transaction-dialog/add-transaction-dialog.component';
-import { AddWerehouseItemDialogComponent } from './_04_modal_dialogs/add-werehouse-item-dialog/add-werehouse-item-dialog.component';
 import { AddHomeBillingItemDialogComponent } from './_04_modal_dialogs/add-home-billing-item-dialog/add-home-billing-item-dialog.component';
+import { AddSavingPlanDialogComponent } from './_04_modal_dialogs/add-saving-plan-dialog/add-saving-plan-dialog.component'
 
 // Serwisy
 import { UserAuthGuard } from './_02_services/user-auth-guard.guard';
 import { UserAuthService } from './_02_services/user-auth-service.service';
-import { BudgetPlanService } from './_02_services/budget-plan-srvc.service'
-
+import { BudgetPlanService } from './_02_services/budget-plan-srvc.service';
+import { PeriodicFeesService } from './_02_services/periodic-fees-srvc.service';
+import { PeriodsService } from './_02_services/periods-srvc.service';
+import { SavingPlanService } from './_02_services/saving-plan-srvc.service';
+import { PeriodsComponent } from './_03_data_tables/periods/periods.component';
 
 const routes : Routes = 
 [
   { path: 'details', component: DetailsComponent, canActivate: [UserAuthGuard] },
   { path: 'transactions', component: TransactionsComponent, canActivate: [UserAuthGuard] },
   { path: 'homebillings', component: HomeBillingsComponent, canActivate: [UserAuthGuard] },
-  { path: 'werehouse', component: WerehouseComponent, canActivate: [UserAuthGuard] },
+  { path: 'planning', component: PlanningComponent, canActivate: [UserAuthGuard] },
   { path: 'statistics', component: StatisticsComponent, canActivate: [UserAuthGuard] },
   { path: '', component: DetailsComponent, canActivate: [UserAuthGuard] },
   { path: 'login', component: LoginComponent}
@@ -64,15 +67,15 @@ const routes : Routes =
     AppComponent, MenuComponent, HeaderComponent,
 
     DetailsComponent, HomeBillingsComponent, StatisticsComponent,
-    TransactionsComponent, WerehouseComponent,
+    TransactionsComponent, PlanningComponent,
 
     LoginComponent, RegisterComponent,
 
     PeriodicFeesComponent, BudgetPlanComponent, HomeBillingsDataComponent,
-    WerehouseDataComponent, TransactionsDataComponent, 
+    TransactionsDataComponent, SavingPlanComponent,
     
     AddPeriodicFeeDialogComponent, AddBudgetPlanDialogComponent, AddTransactionDialogComponent, 
-    AddWerehouseItemDialogComponent, AddHomeBillingItemDialogComponent
+    AddHomeBillingItemDialogComponent, AddSavingPlanDialogComponent, PeriodsComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
@@ -85,10 +88,11 @@ const routes : Routes =
   entryComponents: [
     RegisterComponent,
     AddPeriodicFeeDialogComponent, AddBudgetPlanDialogComponent, AddTransactionDialogComponent, 
-    AddWerehouseItemDialogComponent, AddHomeBillingItemDialogComponent
+    AddHomeBillingItemDialogComponent
   ]
   ,
-  providers: [UserAuthGuard, UserAuthService, BudgetPlanService],
+  providers: [UserAuthGuard, UserAuthService, BudgetPlanService
+             ,PeriodicFeesService, PeriodsService, SavingPlanService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

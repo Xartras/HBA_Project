@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Period } from '../_01_models/period';
+    
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,10 @@ export class PeriodsService {
 
 
     // Pobranie Okresow
-
+    getPeriods() 
+    {
+        return this.http.get(`${this.periodsURL}/`);
+    }
 
     // Dodanie Okresu
     addPeriod(from: Date, until: Date, user: String)

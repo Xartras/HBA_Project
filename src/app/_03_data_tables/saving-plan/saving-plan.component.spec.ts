@@ -1,19 +1,19 @@
 
 import { fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WerehouseDataComponent } from './werehouse.component';
+import { SavingPlanComponent } from './saving-plan.component';
 
-describe('WerehouseComponent', () => {
-  let component: WerehouseDataComponent;
-  let fixture: ComponentFixture<WerehouseDataComponent>;
+describe('SavingPlanComponent', () => {
+  let component: SavingPlanComponent;
+  let fixture: ComponentFixture<SavingPlanComponent>;
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ WerehouseDataComponent ]
+      declarations: [ SavingPlanComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(WerehouseDataComponent);
+    fixture = TestBed.createComponent(SavingPlanComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -15,8 +15,8 @@ import { BehaviorSubject } from 'rxjs'
   styleUrls: ['./periodic-fees.component.css']
 })
 export class PeriodicFeesComponent implements OnInit {
-  dataSource: PeriodicFeesDataSource = new PeriodicFeesDataSource(null);
-  dataTable: PeriodicFeeItem[] = this.dataSource.getData();
+  dataSource: PeriodicFeesDataSource = new PeriodicFeesDataSource(null, this.servicePF);
+  dataTable: PeriodicFeeItem[];
   dataBS = new BehaviorSubject(this.dataTable)
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
@@ -25,9 +25,11 @@ export class PeriodicFeesComponent implements OnInit {
   constructor(public dialog: MatDialog, private servicePF: PeriodicFeesService) {}
 
 
-  ngOnInit() {
+  ngOnInit() 
+  {
+    this.dataTable = this.dataSource.getData();
     this.dataSource.sortData(this.dataTable);
-    this.dataSource = new PeriodicFeesDataSource(this.dataBS.asObservable());
+    this.dataSource = new PeriodicFeesDataSource(this.dataBS.asObservable(), this.servicePF);
   }
 
   // Metody odpowiedzialne za dodawanie wpisow planowanego budzetu
@@ -45,7 +47,7 @@ export class PeriodicFeesComponent implements OnInit {
     result => {
                 if(result != null)
                 {
-                result.id = this.servicePF.calculateFeeID();
+                result.id = this.dataSource.calculateFeeID(this.dataTable, result);
                 this.servicePF.addBudgetPlan(result);
                 this.dataSource.addItem(this.dataTable, result);
                 this.dataSource.sortData(this.dataTable);
@@ -67,7 +69,6 @@ export class PeriodicFeesComponent implements OnInit {
   // Edycja wpisow
   btnEditRow(item: PeriodicFeeItem)
   {
-
     let dialogRef = this.dialog.open(AddPeriodicFeeDialogComponent, 
       {
         data: {
@@ -84,7 +85,7 @@ export class PeriodicFeesComponent implements OnInit {
       result => {
                   if(result != null)
                   {
-                    this.servicePF.updateBudgetPlan(result);
+                    this.servicePF.updateBudgetPlan(result, item.id);
 
                     this.dataSource.editItem(this.dataTable, item, result);
 
