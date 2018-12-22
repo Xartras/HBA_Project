@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { BudgetPlanItem } from 'src/app/_01_models/budget-plan-item';
 import { BudgetPlanDataSource } from './budget-plan-datasource';
+import { PeriodsComponent } from '../periods/periods.component';
 import { UserAuthService } from '../../_02_services/user-auth-service.service';
 
 import { AddBudgetPlanDialogComponent } from '../../_04_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
@@ -34,11 +35,8 @@ export class BudgetPlanComponent implements OnInit {
   displayedColumns = ['type', 'category', 'name', 'plannedAmount', 'currentAmount', 'difference', 'comment', 'actions'];
     
   filterPlanForm : FormGroup;
-  periods = [{period: "01_2018", from: "27-09-2018", to: "26-10-2018"}
-            ,{period: "02_2018", from: "27-10-2018", to: "26-11-2018"}
-            ,{period: "03_2018", from: "27-11-2018", to: "26-12-2018"}]
-
-
+  periods = []
+  
   get formInput() { return this.filterPlanForm.controls }
 
   ngOnInit() { 

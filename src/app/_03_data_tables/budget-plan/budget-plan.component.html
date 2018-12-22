@@ -13,7 +13,7 @@
         <label for="period">Okres:</label>
         <select type="text" formControlName = "cPeriods" class = "form-control">
           <option *ngFor="let prd of periods" [value]="prd.period">
-            {{prd.period}}
+            {{prd.id}}
           </option>
         </select>
       </div>

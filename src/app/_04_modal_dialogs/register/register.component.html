@@ -23,43 +23,18 @@
             </div>
 
             <div class="form-group col-sm-6">
-              <label for="periodBegin">Okres od</label>
-              <input type="date" formControlName="periodBegin" class="form-control"/>
-
-              <div *ngIf="formInput.periodBegin.invalid && (formInput.periodBegin.dirty || formInput.periodBegin.touched)">
-                <div *ngIf="formInput.periodBegin.errors.required" class="alert alert-danger">
-                  Pole wymagane!
+                <label for="password">Hasło</label>
+                <input type="password" formControlName="password" class="form-control"/>
+  
+                <div *ngIf="formInput.password.invalid && (formInput.password.dirty || formInput.password.touched)">
+                  <div *ngIf="formInput.password.errors.required" class="alert alert-danger">
+                    Pole wymagane!
+                  </div>
                 </div>
               </div>
-            </div>
           </div>
 
-          <div class="row">
-            <div class="form-group col-sm-6">
-              <label for="password">Hasło</label>
-              <input type="password" formControlName="password" class="form-control"/>
-
-              <div *ngIf="formInput.password.invalid && (formInput.password.dirty || formInput.password.touched)">
-                <div *ngIf="formInput.password.errors.required" class="alert alert-danger">
-                  Pole wymagane!
-                </div>
-              </div>
-            </div>
-          
-            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.periodEnd.invalid }">
-              <label for="periodEnd">Okres do</label>
-              <input type="date" formControlName="periodEnd" class="form-control"/>
-
-              <div *ngIf="formInput.periodEnd.invalid && (formInput.periodEnd.dirty || formInput.periodEnd.touched)">
-                <div *ngIf="formInput.periodEnd.errors.required" class="alert alert-danger">
-                  Pole wymagane!
-                </div>
-              </div>
-            </div>         
-          </div>
-
-          <div class="row">
-            <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.email.invalid }">
+          <div class="form-group col-sm-6" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.email.invalid }">
               <label for="email">Email</label>
               <input type="text" formControlName="email" class="form-control"/>
 
@@ -72,7 +47,6 @@
                 </div>
               </div>
             </div>
-          </div>
         </form>
       </div>
     </div>

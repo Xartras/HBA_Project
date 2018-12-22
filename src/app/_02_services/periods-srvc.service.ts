@@ -20,26 +20,16 @@ export class PeriodsService {
     }
 
     // Dodanie Okresu
-    addPeriod(from: Date, until: Date, user: String)
+    addPeriod(newPeriod: Period)
     {
         const period =
         {
-            _id:        this.calculatePeriodID(from, until, user),
-            periodFrom: from,
-            periodUntil: until,
-            user:        user
+            _id:         newPeriod.id,
+            periodFrom:  newPeriod.from,
+            periodUntil: newPeriod.until,
+            user:        newPeriod.user
         }
 
         this.http.post(`${this.periodsURL}/add`, period).subscribe(res => console.log('Done', res));
-    }
-
-    // Kalkulacja ID
-    private calculatePeriodID(from: Date, until: Date, user: String)
-    {
-        let calculatedID;
-
-        calculatedID = "01_" + from.toString().substring(0,4) + "_" + user;
-
-        return calculatedID;
     }
 }

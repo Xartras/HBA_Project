@@ -1,25 +1,49 @@
+<div>
+  <div>
+    <h4>Okresy rozliczeniowe</h4>
+  </div>
+
+  <form [formGroup]="addPeriodForm" class="form-inline">
+    <button (click)="btnAddPeriod()">Dodaj nowy okres</button>
+
+    <div *ngIf="isFormSubmitted && (!addPeriodForm.valid || areDatesCorrect)" class="alert alert-danger">
+        Obie daty muszą być podane, Koniec okresu musi mieć datę późniejszą niż początek!
+    </div>
+
+    <div>
+      <label for="periodBegin">Od:</label>
+      <input type="date" formControlName = "cPeriodBegin" class = "form-control" name = "periodBegin">
+    </div>
+    <div >
+      <label for="periodEnd">Do:</label>
+      <input type="date" formControlName = "cPeriodEnd" class = "form-control" name = "periodEnd">
+    </div>
+  </form>
+</div>
+
+
 <div class="mat-elevation-z8">
   <table mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
-    <!-- Id Column -->
+
+    <!-- Kolumna z numerem okresu -->
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Numer</th>
+        <td mat-cell *matCellDef="let row">{{row.id.split("_")[0]}}</td>
+      </ng-container>
+
+    <!-- Kolumna z data poczatku okresu -->
+    <ng-container matColumnDef="from">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Początek</th>
+      <td mat-cell *matCellDef="let row">{{row.from}}</td>
     </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let row">{{row.name}}</td>
+    <!-- Kolumna z data konca okresu -->
+    <ng-container matColumnDef="until">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Koniec</th>
+      <td mat-cell *matCellDef="let row">{{row.until}}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-
-  <mat-paginator #paginator
-    [length]="dataSource.data.length"
-    [pageIndex]="0"
-    [pageSize]="50"
-    [pageSizeOptions]="[25, 50, 100, 250]">
-  </mat-paginator>
 </div>

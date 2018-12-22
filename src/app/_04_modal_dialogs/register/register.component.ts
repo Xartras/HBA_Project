@@ -32,9 +32,7 @@ export class RegisterComponent implements OnInit {
       {
         login: ['', Validators.required],
         password: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        periodBegin: ['', Validators.required],
-        periodEnd: ['', Validators.required]
+        email: ['', [Validators.required, Validators.email]]
       })
   }
 
@@ -48,7 +46,6 @@ export class RegisterComponent implements OnInit {
     this.userToBeRegistered.email    = this.regForm.controls.email.value;
 
     this.userAuth.regOn(this.userToBeRegistered).subscribe()
-    this.ServicePrds.addPeriod(this.regForm.controls.periodBegin.value, this.regForm.controls.periodEnd.value, this.regForm.controls.login.value)
     this.dialogRef.close()
   }
 

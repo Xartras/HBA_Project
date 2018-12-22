@@ -1,43 +1,8 @@
 <div class="container">
 <!-- Sekcja z danymi uzytkownika -->
-  <div>
-      <h4>Dane użytkownika</h4>
 
-    <div class="row">
-      <div class="col-sm-6">
-<!-- Dane uzytkownika nie do zmiany -->
-        <div class="col-sm-12">
-          <label for="login">Login</label>
-          <span name="login">{{user.login}}</span>
-        </div>
-  
-        <div class="col-sm-12">
-          <label for="password">Hasło</label>
-          <span name="password">{{user.password}}</span>
-        </div>        
-  
-        <div class="col-sm-12">
-          <label for="email">Email</label>
-          <span name="password">{{user.email}}</span>
-        </div>
-      </div>
+    <periods></periods>
 
-<!-- Dane uzytkownika do zmiany -->
-      <div class="form-group col-sm-6">    
-        <form [formGroup]="addPeriodForm">
-          <button (click)="btnAddPeriod()">Dodaj nowy okres</button>
-          <div class="col-sm-12">
-            <label for="periodBegin">Od:</label>
-            <input type="date" formControlName = "cPeriodBegin" class = "form-control" name = "periodBegin">
-          </div>
-          <div class="col-sm-12">
-            <label for="periodEnd">Do:</label>
-            <input type="date" formControlName = "cPeriodEnd" class = "form-control" name = "periodEnd">
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
 <!-- Sekcja oplat okresowych -->
     <periodic-fees></periodic-fees>
