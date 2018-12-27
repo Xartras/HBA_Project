@@ -16,7 +16,6 @@ let mdbUser = new Schema(
         login:           String,
         password:        String,
         email:           String,
-        registered:      Date,
         hashSupportCode: String,
         hashCode:        String
     });

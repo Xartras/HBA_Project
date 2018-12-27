@@ -52,6 +52,7 @@ export class AddPeriodicFeeDialogComponent implements OnInit {
       ,this.addPeriodicFeeForm.controls.cPaymentPeriod.value
       ,this.addPeriodicFeeForm.controls.cPaymentDeadline.value
       ,this.addPeriodicFeeForm.controls.cWarnings.value
+      ,""
       )
       this.dialogRef.close(this.newFee);
     }

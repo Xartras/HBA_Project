@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { PeriodicFeeItem } from 'src/app/_01_models/periodic-fee-item';
 import { PeriodicFeesDataSource } from './periodic-fees-datasource';
 import { PeriodicFeesService } from '../../_02_services/periodic-fees-srvc.service';
+import { UserAuthService } from '../../_02_services/user-auth-service.service'
 
 import { AddPeriodicFeeDialogComponent } from 'src/app/_04_modal_dialogs/add-periodic-fee-dialog/add-periodic-fee-dialog.component';
 import { MatDialog} from '@angular/material';
@@ -22,7 +23,7 @@ export class PeriodicFeesComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['category', 'name', 'paidUntil', 'paymentPeriod', 'paymentDeadline', 'warnings', 'actions'];
 
-  constructor(public dialog: MatDialog, private servicePF: PeriodicFeesService) {}
+  constructor(public dialog: MatDialog, private servicePF: PeriodicFeesService, private serviceUsr: UserAuthService) {}
 
 
   ngOnInit() 
@@ -47,8 +48,9 @@ export class PeriodicFeesComponent implements OnInit {
     result => {
                 if(result != null)
                 {
+                result.user = this.serviceUsr.usersLogin
                 result.id = this.dataSource.calculateFeeID(this.dataTable, result);
-                this.servicePF.addBudgetPlan(result);
+                this.servicePF.addPeriodicFee(result);
                 this.dataSource.addItem(this.dataTable, result);
                 this.dataSource.sortData(this.dataTable);
                 this.dataBS.next(this.dataTable);
@@ -61,7 +63,7 @@ export class PeriodicFeesComponent implements OnInit {
   btnRemoveRow(item: PeriodicFeeItem)
   {
     console.log(item.id);
-    this.servicePF.deleteBudgetPlanItem(item.id);
+    this.servicePF.deletePeriodicFee(item.id);
     this.dataSource.removeItem(this.dataTable, item)
     this.dataBS.next(this.dataTable);
   }
@@ -85,7 +87,8 @@ export class PeriodicFeesComponent implements OnInit {
       result => {
                   if(result != null)
                   {
-                    this.servicePF.updateBudgetPlan(result, item.id);
+                    result.user = this.serviceUsr.usersLogin
+                    this.servicePF.updatePeriodicFee(result, item.id);
 
                     this.dataSource.editItem(this.dataTable, item, result);
 

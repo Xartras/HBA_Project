@@ -8,7 +8,6 @@ export interface User
     login:      string;
     password:   string;
     email:      string;
-    registered: Date;
     expTime:    number;
 }
   
@@ -21,6 +20,5 @@ export interface RegisteredToken
 {
     login:       string;
     password:    string;
-    registered?: Date;
     email?:      string;
 }

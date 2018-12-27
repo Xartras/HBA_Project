@@ -11,8 +11,9 @@ export class PeriodicFeeItem
     paymentDeadline: string;
     warnings:        string;
     actions:         string;
+    user:            string;
 
-    constructor(i: string, ct: string, n: string, pu: string, pp: string, pd: string, w: string)
+    constructor(i: string, ct: string, n: string, pu: string, pp: string, pd: string, w: string, u: string)
     {
         this.id              = i;
         this.category        = ct.substring(0,1).toUpperCase() + ct.substring(1, ct.length).toLowerCase();
@@ -22,5 +23,6 @@ export class PeriodicFeeItem
         this.paymentDeadline = pd;
         this.warnings        = w;
         this.actions         = "Edytuj;Usuń";
+        this.user            = u;
     }
 }

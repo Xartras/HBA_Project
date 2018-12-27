@@ -48,8 +48,8 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
 
     }
     newID = idNumber > 9 
-    ? idNumber.toString() + "_" + newItem.category + "_" + newItem.name 
-    : "0" + idNumber.toString() + "_" + newItem.category + "_" + newItem.name
+    ? idNumber.toString() + "_" + newItem.category + "_" + newItem.name + "_" + newItem.user
+    : "0" + idNumber.toString() + "_" + newItem.category + "_" + newItem.name + "_" + newItem.user
 
     return newID;
   }
@@ -57,31 +57,31 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
   // Usuwanie wpisu
   removeItem(data: PeriodicFeeItem[], item)
   {
-    this.servicePF.deleteBudgetPlanItem(item.id);
+    this.servicePF.deletePeriodicFee(item.id);
     this.updateIDs(data, item);
     data.splice(data.indexOf(item), 1);
   }
 
-    // Aktualizowanie ID podczas usuwania wpisu
-    private updateIDs(data: PeriodicFeeItem[], item: PeriodicFeeItem)
-    {
-      let oldID : String;
-      data.forEach(element => { 
-        if(
-          element.category == item.category && element.name == element.name
-          &&  parseInt(element.id.split("_")[1]) > parseInt(item.id.split("_")[1])
-          )
-          { 
-            oldID = element.id;
-            element.id = element.id.split("_")[0] + "_" + 
-                         element.id.split("_")[1] + "_" + 
-                         element.id.split("_")[2] + "_" + 
-                         (parseInt(element.id.split("_")[3])-1).toString();
-            this.servicePF.deleteBudgetPlanItem(oldID);
-            this.servicePF.addBudgetPlan(element);
-          }
-      });
-    }
+  // Aktualizowanie ID podczas usuwania wpisu
+  private updateIDs(data: PeriodicFeeItem[], item: PeriodicFeeItem)
+  {
+    let oldID : String;
+    data.forEach(element => { 
+      if(
+        element.category == item.category && element.name == element.name
+        &&  parseInt(element.id.split("_")[1]) > parseInt(item.id.split("_")[1])
+        )
+        { 
+          oldID = element.id;
+          element.id = element.id.split("_")[0] + "_" + 
+                       element.id.split("_")[1] + "_" + 
+                       element.id.split("_")[2] + "_" + 
+                       (parseInt(element.id.split("_")[3])-1).toString();
+          this.servicePF.deletePeriodicFee(oldID);
+          this.servicePF.addPeriodicFee(element);
+        }
+    });
+  }
 
   // Edycja wpisu
   editItem(data: PeriodicFeeItem[], oldItem, newItem)

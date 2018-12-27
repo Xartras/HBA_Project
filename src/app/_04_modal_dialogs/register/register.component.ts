@@ -14,11 +14,9 @@ export class RegisterComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder
              ,public dialogRef: MatDialogRef<RegisterComponent>
-             ,private userAuth: UserAuthService
-             ,private ServicePrds: PeriodsService
-             ) { }
+             ,private userAuth: UserAuthService) { }
 
-  private userToBeRegistered : RegisteredToken = { login: "", password: "", registered: null, email: null}
+  private userToBeRegistered : RegisteredToken = { login: "", password: "", email: null}
 
   regForm: FormGroup;
   isFormSubmitted = false;

@@ -49,7 +49,7 @@ export class PeriodsComponent implements OnInit {
     {
       if( this.dateRangeCheck( this.addPeriodForm.controls.cPeriodBegin.value, this.addPeriodForm.controls.cPeriodEnd.value ) )
       {
-        let newPeriod = new Period("", this.addPeriodForm.controls.cPeriodBegin.value, this.addPeriodForm.controls.cPeriodEnd.value, "a")
+        let newPeriod = new Period("", this.addPeriodForm.controls.cPeriodBegin.value, this.addPeriodForm.controls.cPeriodEnd.value, this.ServiceUsr.usersLogin)
         this.dataSource.addItem(this.dataTable, newPeriod);
         this.dataBS.next(this.dataTable);
         this.isFormSubmitted = false;

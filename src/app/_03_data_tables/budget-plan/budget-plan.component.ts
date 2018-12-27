@@ -47,7 +47,6 @@ export class BudgetPlanComponent implements OnInit {
     )
     this.dataSource.sortData(this.dataTable);
     this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable(), this.serviceBP);
-    console.log(this.dataSource)
 
     this.periodRange = this.getPeriodRange(this.periods, this.filterPlanForm.controls.cPeriods.value);
   }

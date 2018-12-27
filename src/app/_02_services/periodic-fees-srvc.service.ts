@@ -11,14 +11,8 @@ export class PeriodicFeesService {
 
   periodicFeesURL = 'http://localhost:4000/PeriodicFees';
 
-  // Ustawienie ID
-  calculateFeeID()
-  {
-    return "abcd"
-  }
-
-  // Dodanie planu do bazy
-  addBudgetPlan(newItem: PeriodicFeeItem) {
+  // Dodanie oplaty okresowej
+  addPeriodicFee(newItem: PeriodicFeeItem) {
     const obj = 
     {
       _id:             newItem.id,
@@ -28,14 +22,15 @@ export class PeriodicFeesService {
       paymentPeriod:   newItem.paymentPeriod,
       paymentDeadline: newItem.paymentDeadline,
       warnings:        newItem.warnings,
-      actions:         newItem.actions
+      actions:         newItem.actions,
+      user:            newItem.user
 
     };
     this.http.post(`${this.periodicFeesURL}/add`, obj).subscribe(res => console.log('Done'));
   }
 
-  // Aktualizacja planu w bazie
-  updateBudgetPlan(updadingItem: PeriodicFeeItem, id) 
+  // Aktualizacja oplaty okresowej
+  updatePeriodicFee(updadingItem: PeriodicFeeItem, id) 
   {
     console.log(id);
     const obj = {
@@ -46,7 +41,8 @@ export class PeriodicFeesService {
       paymentPeriod:   updadingItem.paymentPeriod,
       paymentDeadline: updadingItem.paymentDeadline,
       warnings:        updadingItem.warnings,
-      actions:         updadingItem.actions
+      actions:         updadingItem.actions,
+      user:            updadingItem.user
     };
     this
       .http
@@ -54,8 +50,8 @@ export class PeriodicFeesService {
       .subscribe(res => console.log('Done'));
   }
 
-  // Usuniecie planu z bazy
-  deleteBudgetPlanItem(itemID) 
+  // Usuniecie oplaty okresowej
+  deletePeriodicFee(itemID) 
   {
     return this.http.get(`${this.periodicFeesURL}/delete/${itemID}`).subscribe(res => console.log('Done'));;
   }

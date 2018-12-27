@@ -47,7 +47,11 @@ export class LoginComponent implements OnInit {
       this.user.login = this.logForm.controls.login.value;
       this.user.password = this.logForm.controls.password.value;
   
-      this.userAuth.logIn(this.user).subscribe(() => this.router.navigateByUrl('/details'))
+      this.userAuth.logIn(this.user).subscribe(() => 
+      {
+        this.router.navigateByUrl('/details')
+        this.userAuth.usersLogin = this.user.login;
+      })
     }
   }
 

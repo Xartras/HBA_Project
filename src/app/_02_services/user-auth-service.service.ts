@@ -14,13 +14,8 @@ export class UserAuthService {
 
   constructor(private router: Router, private http: HttpClient) { }
 
-  // Zmienne odpowiadajaca za monitorowanie statusu uzytkownika: zalogowany (true) lub niezalogowany (false)
-  // oraz za przechowywanie danych o uzytkowniku
-  // BehaviorSubject przechowuje ostatnio zapisana w pamieci Cache wartosc
-  private userLogStatus = new BehaviorSubject<Boolean>(false);
   public loggedUser = new BehaviorSubject<User>(null);
-  private today = new Date()
-  private allUsers : User[]
+  public usersLogin: string;
   private usersAddress = 'http://localhost:4000';
   private token: string;
 

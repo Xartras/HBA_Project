@@ -13,7 +13,8 @@ let dbPeriodicFeesItem = new Schema(
     paymentPeriod:   { type: String },
     paymentDeadline: { type: String },
     warnings:        { type: String },
-    actions:         { type: String }
+    actions:         { type: String },
+    user:            { type: String }
 },
 {
     collection: 'PeriodicFees'
