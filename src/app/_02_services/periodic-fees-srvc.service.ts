@@ -12,7 +12,8 @@ export class PeriodicFeesService {
   periodicFeesURL = 'http://localhost:4000/PeriodicFees';
 
   // Dodanie oplaty okresowej
-  addPeriodicFee(newItem: PeriodicFeeItem) {
+  addPeriodicFee(newItem: PeriodicFeeItem) 
+  {
     const obj = 
     {
       _id:             newItem.id,
