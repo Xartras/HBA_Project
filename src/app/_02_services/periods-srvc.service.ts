@@ -16,7 +16,8 @@ export class PeriodsService {
     // Pobranie Okresow
     getPeriods() 
     {
-        return this.http.get(`${this.periodsURL}/`);
+        console.log("Pobieranie danych");
+        return this.http.get(`${this.periodsURL}`);
     }
 
     // Dodanie Okresu

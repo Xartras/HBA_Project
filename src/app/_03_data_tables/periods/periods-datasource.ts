@@ -13,17 +13,8 @@ export class PeriodsDataSource extends DataSource<Period> {
   data: Period[];
 
   constructor(private periods: Observable<Period[]>
-             ,private servicePrds: PeriodsService) { super(); }
+             ,private ServicePrds: PeriodsService) { super(); }
 
-
-  // Pobranie okresow
-  getPeriods() : Period[]
-  {
-    let allPeriods: Period[] = []
-
-
-    return allPeriods;
-  }
 
   // Pobranie lat
   getYears(data: Period[]) : string
@@ -51,7 +42,7 @@ export class PeriodsDataSource extends DataSource<Period> {
   addItem(data:  Period[], item:  Period)
   {
     item.id = this.calculateNewId(data, item);
-    this.servicePrds.addPeriod(item)
+    this.ServicePrds.addPeriod(item)
     data.push(item);
   }
 

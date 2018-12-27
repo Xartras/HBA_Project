@@ -18,7 +18,8 @@ export class PeriodsComponent implements OnInit {
            , private ServiceUsr: UserAuthService) {}
   
   dataSource: PeriodsDataSource = new PeriodsDataSource(null, this.ServicePrds);
-  dataTable: Period[];
+  dataTable: Period[] = [];
+  datas: Period[]
   dataBS = new BehaviorSubject(this.dataTable)
   isFormSubmitted = false;
   areDatesCorrect = false;
@@ -31,14 +32,17 @@ export class PeriodsComponent implements OnInit {
 
   ngOnInit() 
   {
+    this.dataSource = new PeriodsDataSource(this.dataBS.asObservable(), this.ServicePrds);
+    this.ServicePrds.getPeriods().subscribe((data: any[]) =>
+    {
+      data.forEach(item => this.dataTable.push(new Period(item._id, item.periodFrom, item.periodUntil, item.user)))
+      this.dataSource = new PeriodsDataSource(this.dataBS.asObservable(), this.ServicePrds);
+    })
     this.addPeriodForm = this.formBuilder.group(
       {
          cPeriodBegin: new FormControl( '', Validators.compose([Validators.required]) )
         ,cPeriodEnd:   new FormControl( '', Validators.compose([Validators.required, ]) )
       });
-
-    this.dataTable = this.dataSource.getPeriods();
-    this.dataSource = new PeriodsDataSource(this.dataBS.asObservable(), this.ServicePrds);
   }
 
   btnAddPeriod()
