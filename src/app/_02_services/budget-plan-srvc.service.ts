@@ -11,6 +11,10 @@ export class BudgetPlanService {
 
   constructor(private http: HttpClient) { }
 
+  // Pobranie planu budzetowego
+  getBudgetPlan() { return this.http.get(`${this.budgetPlanURL}`) }
+
+
   // Dodanie planu do bazy
   addBudgetPlan(newItem: BudgetPlanItem) {
     const obj = 
@@ -22,7 +26,8 @@ export class BudgetPlanService {
       period:   newItem.period,
       amount:   newItem.amount,
       comment:  newItem.comment,
-      actions:  newItem.actions
+      actions:  newItem.actions,
+      user:     newItem.user
 
     };
     this.http.post(`${this.budgetPlanURL}/add`, obj).subscribe(res => console.log('Done', res));
@@ -39,7 +44,8 @@ export class BudgetPlanService {
       period:   updadingItem.period,
       amount:   updadingItem.amount,
       comment:  updadingItem.comment,
-      actions:  updadingItem.actions
+      actions:  updadingItem.actions,
+      user:     updadingItem.user
     };
     this
       .http

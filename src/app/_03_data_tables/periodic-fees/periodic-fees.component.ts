@@ -17,7 +17,7 @@ import { BehaviorSubject } from 'rxjs'
 })
 export class PeriodicFeesComponent implements OnInit {
   dataSource: PeriodicFeesDataSource = new PeriodicFeesDataSource(null, this.servicePF);
-  dataTable: PeriodicFeeItem[];
+  dataTable: PeriodicFeeItem[] = []
   dataBS = new BehaviorSubject(this.dataTable)
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
@@ -28,9 +28,13 @@ export class PeriodicFeesComponent implements OnInit {
 
   ngOnInit() 
   {
-    this.dataTable = this.dataSource.getData();
-    this.dataSource.sortData(this.dataTable);
     this.dataSource = new PeriodicFeesDataSource(this.dataBS.asObservable(), this.servicePF);
+    this.servicePF.getPeriodicFees().subscribe((data: any[]) =>
+    {
+      data.forEach(item => this.dataTable.push(new PeriodicFeeItem(item._id, item.category, item.name, item.paidUntil, item.paymentPeriod, item.paymentDeadline, item.warnings, item.usersLogin)))
+      this.dataSource.sortData(this.dataTable);
+      this.dataSource = new PeriodicFeesDataSource(this.dataBS.asObservable(), this.servicePF);
+    })
   }
 
   // Metody odpowiedzialne za dodawanie wpisow planowanego budzetu

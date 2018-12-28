@@ -13,28 +13,6 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
   constructor(private budgetPlan: Observable<BudgetPlanItem[]>
              ,private serviceBP: BudgetPlanService) { super(); }
 
-  // Pobranie wszystkich danych
-  private getData() : BudgetPlanItem[]
-  {
-    
-    let budgetPlan: BudgetPlanItem[] = [
-      new BudgetPlanItem("Zysk_Stałe_Wypłata_1", "Zysk", "Kasa", "Wypłata", "01_2018", 2500.12, "Wypłata za sierpień 2018"),
-      new BudgetPlanItem("Koszt_Opłaty_Prąd_1", "Koszt", "Opłaty", "Prąd", "01_2018", 75.92, ""),
-      new BudgetPlanItem("Koszt_Opłaty_Gaz_1", "Koszt", "Opłaty", "Gaz", "01_2018", 22.37, "")
-    ]
-    return budgetPlan;
-  }
-
-  // Pobranie danych za dany okres
-  getFilteredData(selectedPeriod: string) : BudgetPlanItem[]
-  {
-    let filteredData: BudgetPlanItem[] = this.getData().filter(
-      result => { if(result.period == selectedPeriod) return result }
-    )
-
-    return filteredData;
-  }
-
   // Generowanie ID dla nowego wpisu
   private calculateNewId(data: BudgetPlanItem[], item: BudgetPlanItem) : string
   {

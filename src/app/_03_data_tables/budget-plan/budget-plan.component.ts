@@ -25,7 +25,7 @@ export class BudgetPlanComponent implements OnInit {
 
   periodRange = [];
   dataSource: BudgetPlanDataSource = new BudgetPlanDataSource(null, this.serviceBP);
-  dataTable: BudgetPlanItem[] = this.dataSource.getFilteredData("01_2018");
+  dataTable: BudgetPlanItem[] = [];
   dataBS = new BehaviorSubject(this.dataTable);
 
   dataPivotTable = this.dataSource.calculateReveCost(this.dataTable);
@@ -39,14 +39,20 @@ export class BudgetPlanComponent implements OnInit {
   
   get formInput() { return this.filterPlanForm.controls }
 
-  ngOnInit() { 
+  ngOnInit() 
+  {
+    this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable(), this.serviceBP); 
+    this.serviceBP.getBudgetPlan().subscribe((data: any[]) =>
+    {
+      data.forEach(item => this.dataTable.push(new BudgetPlanItem(item._id, item.type, item.category, item.name, item.period, item.amount, item.comment, item.user)))
+      this.dataSource.sortData(this.dataTable);
+      this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable(), this.serviceBP);
+    })
     this.filterPlanForm = this.formBuilder.group(
       {
         cPeriods: new FormControl('01_2018'),
       }
     )
-    this.dataSource.sortData(this.dataTable);
-    this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable(), this.serviceBP);
 
     this.periodRange = this.getPeriodRange(this.periods, this.filterPlanForm.controls.cPeriods.value);
   }
@@ -64,6 +70,7 @@ export class BudgetPlanComponent implements OnInit {
     result => {
                 if(result != null)
                 {
+                  result.user = this.userAuth.usersLogin;
                   this.dataSource.addItem(this.dataTable, result);
                   this.dataSource.sortData(this.dataTable);
                   this.dataBS.next(this.dataTable);
@@ -99,6 +106,7 @@ export class BudgetPlanComponent implements OnInit {
       result => {
                   if(result != null)
                  {
+                    result.user = this.userAuth.usersLogin;
                     this.dataSource.editItem(this.dataTable, item, result);
 
                     if(item.category.toLocaleLowerCase() != result.category.toLocaleLowerCase() || item.amount != result.amount)
@@ -112,7 +120,6 @@ export class BudgetPlanComponent implements OnInit {
   getFilteredData()
   {
     this.periodRange = this.getPeriodRange(this.periods, this.filterPlanForm.controls.cPeriods.value);
-    this.dataTable = this.dataSource.getFilteredData(this.filterPlanForm.controls.cPeriods.value)
     this.dataBS.next(this.dataTable);
   }
 

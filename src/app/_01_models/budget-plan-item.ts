@@ -12,8 +12,9 @@ export class BudgetPlanItem
     amount:      number;
     comment:     string;
     actions:     string;
+    user:        string;
 
-    constructor(i: string, t: string, ct: string, n: string, p: string, a: number, cm: string)
+    constructor(i: string, t: string, ct: string, n: string, p: string, a: number, cm: string, u: string)
     {
         this.id          = i;
         this.type        = t;
@@ -23,5 +24,6 @@ export class BudgetPlanItem
         this.period      = p;
         this.comment     = cm;
         this.actions     = "Edytuj;Usuń";
+        this.user        = u;
     }
 }

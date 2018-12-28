@@ -11,7 +11,7 @@ let dbBudgetPlan = require('../_01_MongoDB_Models/budget-plan-item-db');
 // Defined get data(index or listing) route
 dbBudgetPlanRouter.route('/').get(function (item, result) 
 {
-    dbBudgetPlanRouter.find(function (error, budgetPlan)
+    dbBudgetPlan.find(function (error, budgetPlan)
     {
         if(error) { console.log(error); }
         else      { result.json(budgetPlan); }
@@ -51,7 +51,8 @@ dbBudgetPlanRouter.route('/update/:id').post(function (item, result)
             budgetPlanItem.period   = item.body.period;
             budgetPlanItem.amount   = item.body.amount;
             budgetPlanItem.comment  = item.body.comment;
-            budgetPlanItem.actions  = item.body.actions
+            budgetPlanItem.actions  = item.body.actions;
+            budgetPlanItem.user     = item.body.user;
 
             budgetPlanItem.save().then(item   => { result.json('Zaktualizowano'); })
                                  .catch(error => { result.status(400).send("Nie udalo sie"); });

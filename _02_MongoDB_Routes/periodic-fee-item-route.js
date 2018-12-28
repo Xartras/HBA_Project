@@ -11,10 +11,10 @@ let dbPeriodicFee = require('../_01_MongoDB_Models/periodic-fee-item-db');
 // Defined get data(index or listing) route
 dbPeriodicFeesRouter.route('/').get(function (item, result) 
 {
-    dbPeriodicFeesRouter.find(function (error, budgetPlan)
+    dbPeriodicFee.find(function (error, periodivFees)
     {
         if(error) { console.log(error); }
-        else      { result.json(budgetPlan); }
+        else      { result.json(periodivFees); }
     });
 });
 
@@ -50,8 +50,9 @@ dbPeriodicFeesRouter.route('/update/:id').post(function (item, result)
             periodicFeeItem.paidUntil        = item.body.paidUntil;
             periodicFeeItem.paymentPeriod    = item.body.paymentPeriod;
             periodicFeeItem.paymentDeadline  = item.body.paymentDeadline;
-            periodicFeeItem.warnings         = item.body.warnings
-            periodicFeeItem.actions          = item.body.actions
+            periodicFeeItem.warnings         = item.body.warnings;
+            periodicFeeItem.actions          = item.body.actions;
+            periodicFeeItem.user             = item.body.user;
 
             periodicFeeItem.save().then(item   => { result.json('Zaktualizowano'); })
                                   .catch(error => { result.status(400).send("Aktualizacja nieudana"); });

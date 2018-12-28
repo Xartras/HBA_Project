@@ -11,6 +11,10 @@ export class PeriodicFeesService {
 
   periodicFeesURL = 'http://localhost:4000/PeriodicFees';
 
+
+  // Pobranie Oplat okresowych
+  getPeriodicFees() { return this.http.get(`${this.periodicFeesURL}`); }
+
   // Dodanie oplaty okresowej
   addPeriodicFee(newItem: PeriodicFeeItem) 
   {

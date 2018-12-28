@@ -15,13 +15,6 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
     super();
   }
 
-  getData() : PeriodicFeeItem[]
-  {
-    let fees : PeriodicFeeItem[] = []
-
-    return fees
-  }
-
   // Dodawanie wpisu
   addItem(data: PeriodicFeeItem[], item)
   {

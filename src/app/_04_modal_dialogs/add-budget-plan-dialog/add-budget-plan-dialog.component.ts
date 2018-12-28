@@ -60,7 +60,8 @@ export class AddBudgetPlanDialogComponent implements OnInit {
           this.addPlanItemForm.controls.cName.value,
           this.addPlanItemForm.controls.cPeriod.value,
           this.addPlanItemForm.controls.cAmount.value,
-          this.addPlanItemForm.controls.cComment.value == null ? "" : this.addPlanItemForm.controls.cComment.value
+          this.addPlanItemForm.controls.cComment.value == null ? "" : this.addPlanItemForm.controls.cComment.value,
+          ""
         )
         
       this.dialogRef.close(this.newBudgetItem);
