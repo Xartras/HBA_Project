@@ -10,7 +10,8 @@ let dbSavingPlanItem = new Schema(
     target:        { type: String },
     plannedAmount: { type: Number },
     currentAmount: { type: Number },
-    getUntil:      { type: Date   },
+    getUntil:      { type: String },
+    comments:      { type: String },
     actions:       { type: String },
     user:          { type: String }
 },
