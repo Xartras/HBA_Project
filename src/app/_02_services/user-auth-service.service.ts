@@ -66,7 +66,7 @@ export class UserAuthService {
       return usr.expTime > Date.now() / 1000;
     }
     else
-    {
+    {   
       return false;
     }
   }

@@ -11,10 +11,8 @@ let dbPeriods = require('../_01_MongoDB_Models/period-item');
 // Pobranie danych
 dbPeriodsRouter.route('/').get(function (item, result) 
 {
-    console.log("db Pobieram")
     dbPeriods.find(function (error, periods)
     {
-        console.log("W funkcji find")
         if(error) { console.log(error); }
         else      { result.json(periods); }
     });

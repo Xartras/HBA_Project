@@ -10,7 +10,6 @@ export class PeriodicFeeItem
     paymentPeriod:   string;
     paymentDeadline: string;
     warnings:        string;
-    actions:         string;
     user:            string;
 
     constructor(i: string, ct: string, n: string, pu: string, pp: string, pd: string, w: string, u: string)
@@ -22,7 +21,6 @@ export class PeriodicFeeItem
         this.paymentPeriod   = pp;
         this.paymentDeadline = pd;
         this.warnings        = w;
-        this.actions         = "Edytuj;Usuń";
         this.user            = u;
     }
 }

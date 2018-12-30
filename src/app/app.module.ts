@@ -88,7 +88,7 @@ const routes : Routes =
   entryComponents: [
     RegisterComponent,
     AddPeriodicFeeDialogComponent, AddBudgetPlanDialogComponent, AddTransactionDialogComponent, 
-    AddHomeBillingItemDialogComponent
+    AddHomeBillingItemDialogComponent, AddSavingPlanDialogComponent
   ]
   ,
   providers: [UserAuthGuard, UserAuthService, BudgetPlanService

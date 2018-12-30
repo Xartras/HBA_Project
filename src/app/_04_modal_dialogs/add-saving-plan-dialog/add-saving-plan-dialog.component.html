@@ -1,3 +1,48 @@
-<p>
-  add-saving-plan-dialog works!
-</p>
+<h2 mat-dialog-title>{{newSavingItemDialog.title}}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="addSavingItemForm">
+      <div class="form-group">
+          <label for="target">Cel</label>
+          <input type = "text" formControlName = "cTarget" class = "form-control" name = "target">
+    
+          <div *ngIf="isFormSubmitted && formInput.cTarget.invalid" class="alert alert-danger">
+            <div *ngIf="formInput.cTarget.errors.required" >
+              Pole wymagane!
+            </div>
+          </div>
+      </div>
+  
+      <div class="form-group">
+          <label for="plannedAmount">Planowana kwota</label>
+          <input type = "number" formControlName = "cPlannedAmount" class = "form-control" name = "plannedAmount">
+    
+          <div *ngIf="isFormSubmitted && formInput.cPlannedAmount.invalid" class="alert alert-danger">
+            <div *ngIf="formInput.cPlannedAmount.errors.required || formInput.cPlannedAmount.errors.min" >
+              Pole wymagane z kwotą większą niż 0!
+            </div>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="getUntil">Termin</label>
+          <input type = "text" formControlName = "cGetUntil" class = "form-control" name = "getUntil">
+    
+          <div *ngIf="isFormSubmitted && formInput.cGetUntil.invalid" class="alert alert-danger">
+            <div *ngIf="formInput.cGetUntil.errors.required" >
+              Pole wymagane!
+            </div>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="comment">Komentarz</label>
+          <input type = "text" formControlName = "cComment" class = "form-control" name = "comment">
+        </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button  mat-reisedbutton (click)="btnSaveNewItem()">Zapisz</button>
+    <button  mat-button (click)="btnCancel()">Anuluj</button>
+  </mat-dialog-actions>

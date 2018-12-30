@@ -27,7 +27,6 @@ export class PeriodicFeesService {
       paymentPeriod:   newItem.paymentPeriod,
       paymentDeadline: newItem.paymentDeadline,
       warnings:        newItem.warnings,
-      actions:         newItem.actions,
       user:            newItem.user
 
     };
@@ -35,24 +34,10 @@ export class PeriodicFeesService {
   }
 
   // Aktualizacja oplaty okresowej
-  updatePeriodicFee(updadingItem: PeriodicFeeItem, id) 
+  updatePeriodicFee(updatingItem: PeriodicFeeItem) 
   {
-    console.log(id);
-    const obj = {
-      _id:             id,
-      category:        updadingItem.category,
-      name:            updadingItem.name,
-      paidUntil:       updadingItem.paidUntil,
-      paymentPeriod:   updadingItem.paymentPeriod,
-      paymentDeadline: updadingItem.paymentDeadline,
-      warnings:        updadingItem.warnings,
-      actions:         updadingItem.actions,
-      user:            updadingItem.user
-    };
-    this
-      .http
-      .post(`${this.periodicFeesURL}/update/${id}`, obj)
-      .subscribe(res => console.log('Done'));
+    this.deletePeriodicFee(updatingItem.id);
+    this.addPeriodicFee(updatingItem)
   }
 
   // Usuniecie oplaty okresowej

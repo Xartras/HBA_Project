@@ -3,6 +3,10 @@
     <div>
       <h4>Planowanie oszczędności</h4>
     </div>
+
+    <div>
+      <button (click)="btnAddSavingPlanItem()">Dodaj</button>
+    </div>
   </nav>
 </div>
 
@@ -45,8 +49,8 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Akcje</th>
       <td mat-cell *matCellDef="let row">
-        <button (click)="btnEditRow(row)">{{row.actions.split(";")[0]}}</button>
-        <button (click)="btnRemoveRow(row)">{{row.actions.split(";")[1]}}</button>
+        <button (click)="btnEditRow(row)">Edytuj</button>
+        <button (click)="btnRemoveRow(row)">Usun</button>
       </td>
     </ng-container>
     

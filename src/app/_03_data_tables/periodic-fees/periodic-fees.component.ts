@@ -91,8 +91,11 @@ export class PeriodicFeesComponent implements OnInit {
       result => {
                   if(result != null)
                   {
-                    result.user = this.serviceUsr.usersLogin
-                    this.servicePF.updatePeriodicFee(result, item.id);
+                    result.id  = item.id;
+                    result.user = this.serviceUsr.usersLogin;
+                    //this.servicePF.deletePeriodicFee(item.id);
+                    //this.servicePF.addPeriodicFee(result);
+                    this.servicePF.updatePeriodicFee(result);
 
                     this.dataSource.editItem(this.dataTable, item, result);
 

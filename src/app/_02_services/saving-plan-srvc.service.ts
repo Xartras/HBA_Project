@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SavingPlanItem } from '../_01_models/saving-plan-item';
+import { updateClassProp, updateStylingMap } from '@angular/core/src/render3/styling';
 
 @Injectable({
   providedIn: 'root'
@@ -21,29 +22,28 @@ export class SavingPlanService {
       plannedAmount: newItem.plannedAmount,
       currentAmount: newItem.currentAmount,
       getUntil:      newItem.getUntil,
-      actions:       newItem.actions,
+      comment:       newItem.comment,
       user:          newItem.user
     };
     this.http.post(`${this.savingPlanURL}/add`, obj).subscribe(res => console.log('Done'));
   }
 
   // Aktualizacja planu oszczednosciowego
-  updateSavingPlan(updadingItem: SavingPlanItem, id) 
+  updateSavingPlan(updatingItem: SavingPlanItem, id) 
   {
     console.log(id);
     const obj = {
       _id:           id,
-      target:        updadingItem.target,
-      plannedAmount: updadingItem.plannedAmount,
-      currentAmount: updadingItem.currentAmount,
-      getUntil:      updadingItem.getUntil,
-      actions:       updadingItem.actions,
-      user:          updadingItem.user
+      target:        updatingItem.target,
+      plannedAmount: updatingItem.plannedAmount,
+      currentAmount: updatingItem.currentAmount,
+      getUntil:      updatingItem.getUntil,
+      commnet:       updatingItem.comment,
+      user:          updatingItem.user
     };
-    this
-      .http
-      .post(`${this.savingPlanURL}/update/${id}`, obj)
-      .subscribe(res => console.log('Done'));
+    console.log(obj);
+    console.log(updatingItem)
+    this.http.post(`${this.savingPlanURL}/update/${id}`, obj).subscribe(res => console.log('Done'));
   }
 
   // Usuniecie planu oszczednosciowego

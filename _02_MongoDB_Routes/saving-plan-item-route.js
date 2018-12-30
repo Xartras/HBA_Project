@@ -11,7 +11,7 @@ let dbSavingPlan = require('../_01_MongoDB_Models/saving-plan-item-db');
 // Defined get data(index or listing) route
 dbSavingPlanRouter.route('/').get(function (item, result) 
 {
-    dbSavingPlanRouter.find(function (error, savingPlan)
+    dbSavingPlan.find(function (error, savingPlan)
     {
         if(error) { console.log(error); }
         else      { result.json(savingPlan); }
@@ -45,11 +45,11 @@ dbSavingPlanRouter.route('/update/:id').post(function (item, result)
         else 
         {
             savingPlanItem._id           = item.body.id;
-            savingPlanItem._target       = item.body.target;
+            savingPlanItem.target        = item.body.target;
             savingPlanItem.plannedAmount = item.body.plannedAmount;
             savingPlanItem.currentAmount = item.body.currentAmount;
             savingPlanItem.getUntil      = item.body.getUntil;
-            savingPlanItem.actions       = item.body.actions;
+            savingPlanItem.comment       = item.body.comment;
             savingPlanItem.user          = item.body.user;
 
             savingPlanItem.save().then(item   => { result.json('Zaktualizowano'); })

@@ -6,7 +6,6 @@ export class SavingPlanItem
     currentAmount:   Number;
     getUntil:        string;
     comment:         string;
-    actions:         string;
     user:            string;
 
     constructor(i: string, t: string, pa: Number, ca: Number, gu: string, c: string, u: string)
@@ -17,7 +16,6 @@ export class SavingPlanItem
         this.currentAmount = ca;
         this.getUntil      = gu;
         this.comment       = c;
-        this.actions       = "Edytuj;Usuń";
         this.user          = u;
     }
 }

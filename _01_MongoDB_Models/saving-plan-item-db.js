@@ -6,13 +6,12 @@ const Schema = mongoose.Schema;
 // Definicja modelu i kolekcji
 let dbSavingPlanItem = new Schema(
 {
-    _id :          { type: String },
+    _id:           { type: String },
     target:        { type: String },
     plannedAmount: { type: Number },
     currentAmount: { type: Number },
     getUntil:      { type: String },
-    comments:      { type: String },
-    actions:       { type: String },
+    comment:       { type: String },
     user:          { type: String }
 },
 {
