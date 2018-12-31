@@ -18,11 +18,14 @@ const express = require('express'),
     );
 
     // Ustawienie schematow laczenia z baza
-    const budgetPlanRoutes   = require('./_02_MongoDB_Routes/budget-plan-item-route');
-    const savingPlanRoutes   = require('./_02_MongoDB_Routes/saving-plan-item-route');
-    const periodicFeesRoutes = require('./_02_MongoDB_Routes/periodic-fee-item-route');
-    const periodsRoutes      = require('./_02_MongoDB_Routes/period-route');
     const userRoutes         = require('./_02_MongoDB_Routes/user-route');
+    const periodsRoutes      = require('./_02_MongoDB_Routes/period-route');
+    const periodicFeesRoutes = require('./_02_MongoDB_Routes/periodic-fee-item-route');
+    const tranasctionsRoutes = require('./_02_MongoDB_Routes/transaction-item-route');
+    const resourcesRoutes    = require('./_02_MongoDB_Routes/home-billing-item-route')
+    const budgetPlanRoutes   = require('./_02_MongoDB_Routes/budget-plan-item-route');
+    const savingPlanRoutes   = require('./_02_MongoDB_Routes/saving-plan-item-route');   
+
 
     app.use(bodyParser.json());
     app.use(cors());
@@ -32,12 +35,13 @@ const express = require('express'),
     app.use(passport.initialize())
 
     // "Powiedzenie" aplikacji aby korzystala ze zdefiniowanych schematow
+    app.use('/Users', userRoutes);
+    app.use('/Periods', periodsRoutes);
+    app.use('/PeriodicFees', periodicFeesRoutes);
+    app.use('/Transaction', tranasctionsRoutes);
+    app.use('/Resources', resourcesRoutes)
     app.use('/BudgetPlan', budgetPlanRoutes);
     app.use('/SavingPlan', savingPlanRoutes);
-    app.use('/PeriodicFees', periodicFeesRoutes);
-    app.use('/Periods', periodsRoutes);
-    app.use('/Users', userRoutes);
-
 
     // Wychwycenie nieautoryzowanej proby dostania sie do aplikacji
     app.use(function (error, req, result, next) 
