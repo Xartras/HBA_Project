@@ -8,7 +8,7 @@ const dbSavingPlanRouter = express.Router();
 let dbSavingPlan = require('../_01_MongoDB_Models/saving-plan-item-db');
 
 
-// Defined get data(index or listing) route
+// Pobranie danych
 dbSavingPlanRouter.route('/').get(function (item, result) 
 {
     dbSavingPlan.find(function (error, savingPlan)
@@ -18,7 +18,6 @@ dbSavingPlanRouter.route('/').get(function (item, result)
     });
 });
 
-
 // Dodawanie nowego planu
 dbSavingPlanRouter.route('/add').post(function (item, result) 
 {
@@ -26,36 +25,6 @@ dbSavingPlanRouter.route('/add').post(function (item, result)
   savingPlanItem.save()
     .then(game => { result.status(200).json({'savingPlan': 'Dodano'}); })
     .catch(err => { result.status(400).send("Nie udalo sie"); });
-});
-
-
-// Edycja planu budzetowego
-dbSavingPlanRouter.route('/edit/:id').get(function (item, result) 
-{
-  let id = item.params.id;
-  dbSavingPlan.findById(id, function (err, savingPlanItem) { result.json(savingPlanItem); });
-});
-
-// Aktualizacja planu budzetowego
-dbSavingPlanRouter.route('/update/:id').post(function (item, result) 
-{
-    dbSavingPlan.findById(item.params.id, function(error, savingPlanItem) 
-    {
-        if (!savingPlanItem) return next(new Error('Nie udalo sie'));
-        else 
-        {
-            savingPlanItem._id           = item.body.id;
-            savingPlanItem.target        = item.body.target;
-            savingPlanItem.plannedAmount = item.body.plannedAmount;
-            savingPlanItem.currentAmount = item.body.currentAmount;
-            savingPlanItem.getUntil      = item.body.getUntil;
-            savingPlanItem.comment       = item.body.comment;
-            savingPlanItem.user          = item.body.user;
-
-            savingPlanItem.save().then(item   => { result.json('Zaktualizowano'); })
-                                 .catch(error => { result.status(400).send("Nie udalo sie"); });
-        }
-    });
 });
 
 // Usuniecie planu budzetowego

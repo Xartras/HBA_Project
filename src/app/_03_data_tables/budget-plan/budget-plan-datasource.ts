@@ -74,6 +74,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
   // Edycja wpisu
   editItem(data: BudgetPlanItem[], oldItem: BudgetPlanItem, newItem: BudgetPlanItem)
   {
+    this.serviceBP.updateBudgetPlan(newItem);
     data[data.indexOf(oldItem)] = newItem;
   }
 

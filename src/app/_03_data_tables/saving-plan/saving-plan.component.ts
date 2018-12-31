@@ -33,6 +33,11 @@ export class SavingPlanComponent implements OnInit {
   ngOnInit() 
   {
     this.dataSource = new SavingPlanDataSource(this.dataBS.asObservable(), this.serviceSP);
+    this.serviceSP.getSavingPlan().subscribe((data: any[]) =>
+    {
+      data.forEach(item => this.dataTable.push(new SavingPlanItem(item._id, item.target, item.plannedAmount, item.currentAmount, item.getUntil, item.comment, item.user)))
+      this.dataSource = new SavingPlanDataSource(this.dataBS.asObservable(), this.serviceSP);
+    })
   }
 
   btnAddSavingPlanItem()
@@ -75,7 +80,6 @@ export class SavingPlanComponent implements OnInit {
                     result.id = item.id;
                     result.user = this.serviceUsr.usersLogin;
                     result.currentAmount = 0;
-                    this.serviceSP.updateSavingPlan(result, item.id);
 
                     this.dataSource.editItem(this.dataTable, item, result);
                     this.dataBS.next(this.dataTable);

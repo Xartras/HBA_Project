@@ -71,6 +71,7 @@ export class SavingPlanDataSource extends DataSource<SavingPlanItem> {
   // Edycja wpisu
   editItem(data: SavingPlanItem[], oldItem: SavingPlanItem, newItem: SavingPlanItem)
   {
+    this.serviceSP.updateSavingPlan(newItem);
     data[data.indexOf(oldItem)] = newItem;
   }
 

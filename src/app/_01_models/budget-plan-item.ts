@@ -11,7 +11,6 @@ export class BudgetPlanItem
     period:      string;
     amount:      number;
     comment:     string;
-    actions:     string;
     user:        string;
 
     constructor(i: string, t: string, ct: string, n: string, p: string, a: number, cm: string, u: string)
@@ -23,7 +22,6 @@ export class BudgetPlanItem
         this.amount      = a;
         this.period      = p;
         this.comment     = cm;
-        this.actions     = "Edytuj;Usuń";
         this.user        = u;
     }
 }

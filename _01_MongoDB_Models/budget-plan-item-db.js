@@ -13,7 +13,6 @@ let dbBudgetPlanItem = new Schema(
     period:   { type: String },
     amount:   { type: Number },
     comment:  { type: String },
-    actions:  { type: String },
     user:     { type: String }
 },
 {

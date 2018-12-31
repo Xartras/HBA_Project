@@ -1,0 +1,13 @@
+.highlightButton
+{
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    background-color: none
+}
+
+.highlightButton:hover
+{
+    -moz-opacity: 1;
+    opacity: 1;
+    background-color: none    
+}

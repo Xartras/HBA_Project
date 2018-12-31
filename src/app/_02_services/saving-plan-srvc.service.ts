@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SavingPlanItem } from '../_01_models/saving-plan-item';
-import { updateClassProp, updateStylingMap } from '@angular/core/src/render3/styling';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +10,9 @@ export class SavingPlanService {
   constructor(private http: HttpClient) { }
 
   savingPlanURL = 'http://localhost:4000/SavingPlan';
+
+  // Pobranie planu oszczednosiowego
+  getSavingPlan() { return this.http.get(`${this.savingPlanURL}`) }
 
   // Dodanie planu oszczednosciowego
   addSavingPlan(newItem: SavingPlanItem) 
@@ -25,30 +27,19 @@ export class SavingPlanService {
       comment:       newItem.comment,
       user:          newItem.user
     };
-    this.http.post(`${this.savingPlanURL}/add`, obj).subscribe(res => console.log('Done'));
+    this.http.post(`${this.savingPlanURL}/add`, obj).subscribe(res => console.log('Dodano plan oszczednosciowy'));
   }
 
   // Aktualizacja planu oszczednosciowego
-  updateSavingPlan(updatingItem: SavingPlanItem, id) 
+  updateSavingPlan(updatingItem: SavingPlanItem) 
   {
-    console.log(id);
-    const obj = {
-      _id:           id,
-      target:        updatingItem.target,
-      plannedAmount: updatingItem.plannedAmount,
-      currentAmount: updatingItem.currentAmount,
-      getUntil:      updatingItem.getUntil,
-      commnet:       updatingItem.comment,
-      user:          updatingItem.user
-    };
-    console.log(obj);
-    console.log(updatingItem)
-    this.http.post(`${this.savingPlanURL}/update/${id}`, obj).subscribe(res => console.log('Done'));
+    this.deleteSavingPlan(updatingItem.id);
+    this.addSavingPlan(updatingItem);
   }
 
   // Usuniecie planu oszczednosciowego
   deleteSavingPlan(itemID) 
   {
-    return this.http.get(`${this.savingPlanURL}/delete/${itemID}`).subscribe(res => console.log('Done'));;
+    return this.http.get(`${this.savingPlanURL}/delete/${itemID}`).subscribe(res => console.log('Usunieto plan oszczednosciowy'));;
   }
 }

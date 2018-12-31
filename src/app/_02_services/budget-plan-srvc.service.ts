@@ -26,36 +26,22 @@ export class BudgetPlanService {
       period:   newItem.period,
       amount:   newItem.amount,
       comment:  newItem.comment,
-      actions:  newItem.actions,
       user:     newItem.user
 
     };
-    this.http.post(`${this.budgetPlanURL}/add`, obj).subscribe(res => console.log('Done', res));
+    this.http.post(`${this.budgetPlanURL}/add`, obj).subscribe(res => console.log('Dodano plan budzetowy', res));
   }
 
   // Aktualizacja planu w bazie
-  updateBudgetPlan(updadingItem: BudgetPlanItem, id) 
+  updateBudgetPlan(updatingItem: BudgetPlanItem) 
   {
-    const obj = {
-      _id:      updadingItem.id,
-      type:     updadingItem.type,
-      category: updadingItem.category,
-      name:     updadingItem.name,
-      period:   updadingItem.period,
-      amount:   updadingItem.amount,
-      comment:  updadingItem.comment,
-      actions:  updadingItem.actions,
-      user:     updadingItem.user
-    };
-    this
-      .http
-      .post(`${this.budgetPlanURL}/update/${id}`, obj)
-      .subscribe(res => console.log('Done'));
+    this.deleteBudgetPlanItem(updatingItem.id);
+    this.addBudgetPlan(updatingItem);
   }
 
   // Usuniecie planu z bazy
   deleteBudgetPlanItem(itemID) 
   {
-    return this.http.get(`${this.budgetPlanURL}/delete/${itemID}`).subscribe(res => console.log('Done'));;
+    return this.http.get(`${this.budgetPlanURL}/delete/${itemID}`).subscribe(res => console.log('Usunieto plan budzetowy'));;
   }
 }

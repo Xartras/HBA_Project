@@ -106,6 +106,7 @@ export class BudgetPlanComponent implements OnInit {
       result => {
                   if(result != null)
                  {
+                    result.id = item.id;
                     result.user = this.userAuth.usersLogin;
                     this.dataSource.editItem(this.dataTable, item, result);
 
