@@ -18,6 +18,7 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
   // Dodawanie wpisu
   addItem(data: PeriodicFeeItem[], item)
   {
+    this.servicePF.addPeriodicFee(item);
     data.push(item);
   }
 
@@ -27,10 +28,7 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
     let newID
     let idNumber = 1
 
-    if(data.length < 1)
-    {
-      newID = "01_" + newItem.category + "_" + newItem.name;
-    }
+    if(data.length < 1) { newID = idNumber.toString() + "_" + newItem.category + "_" + newItem.name + "_" + newItem.user; }
     else
     {
       for(let i = 0; i < data.length; i++)
@@ -39,10 +37,8 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
         { idNumber++ }
       }
 
+      newID = idNumber.toString() + "_" + newItem.category + "_" + newItem.name + "_" + newItem.user;
     }
-    newID = idNumber > 9 
-    ? idNumber.toString() + "_" + newItem.category + "_" + newItem.name + "_" + newItem.user
-    : "0" + idNumber.toString() + "_" + newItem.category + "_" + newItem.name + "_" + newItem.user
 
     return newID;
   }
@@ -59,17 +55,13 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
   private updateIDs(data: PeriodicFeeItem[], item: PeriodicFeeItem)
   {
     let oldID : String;
-    data.forEach(element => { 
-      if(
-        element.category == item.category && element.name == element.name
-        &&  parseInt(element.id.split("_")[1]) > parseInt(item.id.split("_")[1])
-        )
+    data.forEach(element => 
+      { 
+        if( element.category == item.category && element.name == item.name && parseInt(element.id.split("_")[0]) > parseInt(item.id.split("_")[0]) )
         { 
           oldID = element.id;
-          element.id = element.id.split("_")[0] + "_" + 
-                       element.id.split("_")[1] + "_" + 
-                       element.id.split("_")[2] + "_" + 
-                       (parseInt(element.id.split("_")[3])-1).toString();
+          element.id = (parseInt(element.id.split("_")[0]) - 1).toString() + "_" + item.category + "_" + item.name + "_" + item.user
+
           this.servicePF.deletePeriodicFee(oldID);
           this.servicePF.addPeriodicFee(element);
         }
@@ -79,6 +71,7 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
   // Edycja wpisu
   editItem(data: PeriodicFeeItem[], oldItem, newItem)
   {
+    this.servicePF.updatePeriodicFee(newItem);
     data[data.indexOf(oldItem)] = newItem;
   }
 

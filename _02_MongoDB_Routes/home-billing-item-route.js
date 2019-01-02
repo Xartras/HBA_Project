@@ -20,9 +20,9 @@ dbResourcesRouter.route('/').get(function (item, result)
 // Dodawanie nowego zasobu
 dbResourcesRouter.route('/add').post(function (item, result) 
 {
-  let resourceItem = new dbResourcesRouter(item.body);
+  let resourceItem = new dbResourceItem(item.body);
   resourceItem.save()
-    .then(game => { result.status(200).json({'budgetPlan': 'Dodano'}); })
+    .then(game => { result.status(200).json({'Zasob': 'Dodano'}); })
     .catch(err => { result.status(400).send("Nie udalo sie"); });
 });
 

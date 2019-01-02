@@ -14,41 +14,37 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
              ,private serviceBP: BudgetPlanService) { super(); }
 
   // Generowanie ID dla nowego wpisu
-  private calculateNewId(data: BudgetPlanItem[], item: BudgetPlanItem) : string
+  private calculateNewId(data: BudgetPlanItem[], newItem: BudgetPlanItem) : string
   {
-    let newID : string = item.type+"_"+item.category+"_"+item.name+'_';
-    let newIdNum : number = 0;
-  
-    for(let i = 0; i < data.length; i++)
+    let newID
+    let idNumber = 1
+
+    if(data.length < 1) { newID = idNumber.toString() + "_" + newItem.type + "_" + newItem.category + "_" + newItem.name + "_" + newItem.user }
+    else
     {
-      if(data[i].type == item.type && data[i].category == item.category && data[i].name == item.name)
-      { 
-        if(parseInt(data[i].id.split("_")[3])  > newIdNum  )
-        { newIdNum = parseInt(data[i].id.split("_")[3]) }
+      for(let i = 0; i < data.length; i++)
+      {
+        if(data[i].type == newItem.type && data[i].category == newItem.category && data[i].name == newItem.name)
+        { idNumber++ }
       }
-      else
-      { continue; }
-    }  
-  
-    newIdNum++;
-    return newID+newIdNum.toString();
+
+      newID = idNumber.toString() + "_" + newItem.type + "_" + newItem.category + "_" + newItem.name + "_" + newItem.user
+    }
+
+    return newID;
   }
 
   // Aktualizowanie ID podczas usuwania wpisu
   private updateIDs(data: BudgetPlanItem[], item: BudgetPlanItem)
   {
     let oldID : String;
-    data.forEach(element => { 
-      if(
-        element.type == item.type && element.category == element.category && element.name == item.name 
-        &&  parseInt(element.id.split("_")[3]) > parseInt(item.id.split("_")[3])
-        )
+    data.forEach(element => 
+      { 
+        if( element.type == item.type && element.category == item.category && element.name == item.name && parseInt(element.id.split("_")[0]) > parseInt(item.id.split("_")[0]) )
         { 
           oldID = element.id;
-          element.id = element.id.split("_")[0] + "_" + 
-                       element.id.split("_")[1] + "_" + 
-                       element.id.split("_")[2] + "_" + 
-                       (parseInt(element.id.split("_")[3])-1).toString();
+          element.id = (parseInt(element.id.split("_")[0]) - 1).toString() + "_" + item.type + "_" + item.category + "_" + item.name + "_" + item.user;
+
           this.serviceBP.deleteBudgetPlanItem(oldID);
           this.serviceBP.addBudgetPlan(element);
         }

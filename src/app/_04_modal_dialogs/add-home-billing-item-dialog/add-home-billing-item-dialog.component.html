@@ -5,34 +5,41 @@
 
     <div class="form-group">
       <label for="name">Nazwa</label>
-      <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cName.invalid }"
-             formControlName = "cName" class = "form-control" name = "name">
+      <input type = "text" formControlName = "cName" class = "form-control" name = "name">
 
-      <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
-        Pole wymagane!
+      <div *ngIf="isFormSubmitted && formInput.cName.invalid && (formInput.cName.dirty || formInput.cName.touched)">
+        <div *ngIf="formInput.cName.errors.required" class="alert alert-danger">
+          Pole wymagane!
+        </div>
       </div>
     </div>
 
     <div class="form-group">
       <label for="name">Okres</label>
-      <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cPeriod.invalid }"
-             formControlName = "cPeriod" class = "form-control" name = "period">
+      <input type = "text" formControlName = "cPeriod" class = "form-control" name = "period">
 
-      <div *ngIf="isFormSubmitted && formInput.cPeriod.errors.invalid" class="alert alert-danger">
-        Pole wymagane!
+      <div *ngIf="isFormSubmitted && formInput.cPeriod.invalid && (formInput.cPeriod.dirty || formInput.cPeriod.touched)">
+        <div *ngIf="formInput.cPeriod.errors.required" class="alert alert-danger">
+          Pole wymagane!
+        </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="name">Stan aktualny</label>
-      <input type = "text" [ngClass]   = "{ 'is-invalid': isFormSubmitted && formInput.cActualState.invalid }"
-             formControlName = "cActualState" class = "form-control" name = "period">
+      <label for="name">Zużycie</label>
+      <input type = "text" formControlName = "cQuantity" class = "form-control" name = "period">
 
-      <div *ngIf="isFormSubmitted && formInput.cActualState.errors.invalid" class="alert alert-danger">
-        Pole wymagane!
+      <div *ngIf="isFormSubmitted && formInput.cQuantity.invalid && (formInput.cQuantity.dirty || formInput.cQuantity.touched)">
+        <div *ngIf="formInput.cQuantity.errors.required" class="alert alert-danger">
+          Pole wymagane!
+        </div>
       </div>
     </div>
 
+    <div class="form-group">
+      <label for="name">Komentarz</label>
+      <input type = "text" formControlName = "cComment" class = "form-control" name = "comment">
+    </div>
   </form>
 </mat-dialog-content>
 

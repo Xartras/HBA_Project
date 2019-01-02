@@ -25,9 +25,10 @@ export class AddHomeBillingItemDialogComponent implements OnInit {
   {
     this.addHomeBillingItemForm = this.formBuilder.group(
       {
-        cName:        new FormControl(this.newHomeBillingItemDialog.name, Validators.compose([Validators.required])),
-        cPeriod:      new FormControl(this.newHomeBillingItemDialog.period , Validators.compose([Validators.required])),
-        cActualState: new FormControl(this.newHomeBillingItemDialog.actualState, Validators.compose([Validators.required]))
+        cName:     new FormControl(this.newHomeBillingItemDialog.name, Validators.compose([Validators.required])),
+        cPeriod:   new FormControl(this.newHomeBillingItemDialog.period , Validators.compose([Validators.required])),
+        cQuantity: new FormControl(this.newHomeBillingItemDialog.quantity, Validators.compose([Validators.required])),
+        cComment:  new FormControl(this.newHomeBillingItemDialog.comment)
       })
   }
   btnSaveNewItem()
@@ -41,7 +42,9 @@ export class AddHomeBillingItemDialogComponent implements OnInit {
         ('',
           this.addHomeBillingItemForm.controls.cName.value,
           this.addHomeBillingItemForm.controls.cPeriod.value, 
-          this.addHomeBillingItemForm.controls.cActualState.value, 
+          this.addHomeBillingItemForm.controls.cQuantity.value, 
+          this.addHomeBillingItemForm.controls.cComment.value, 
+          ''
         )
         
       this.dialogRef.close(this.newHomeBillingtem);

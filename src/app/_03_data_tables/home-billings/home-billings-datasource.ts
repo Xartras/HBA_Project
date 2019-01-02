@@ -1,8 +1,7 @@
 import { DataSource } from '@angular/cdk/collections';
-import { MatPaginator, MatSort } from '@angular/material';
-import { map } from 'rxjs/operators';
-import { Observable, of as observableOf, merge } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HomeBillingItem } from '../../_01_models/home-billing-item';
+import { HomeBillingsService } from '../../_02_services/home-billings-srvc.service'
 
 /**
  * Data source for the HomeBillings view. This class should
@@ -12,80 +11,90 @@ import { HomeBillingItem } from '../../_01_models/home-billing-item';
 export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
   
 
-  constructor(private paginator: MatPaginator, private sort: MatSort) {
-    super();
-  }
+  constructor(private resources: Observable<HomeBillingItem[]>
+             ,private serviceRes: HomeBillingsService) { super(); }
 
-  data: HomeBillingItem[] = this.getData();
-
-  // Pobranie danych
-  getData() : Array<HomeBillingItem>
-  {
-    let homeBillings: Array<HomeBillingItem> = [
-      new HomeBillingItem("Woda_201810", "Woda", "2018-10-01", 120),
-      new HomeBillingItem("Prąd_201810", "Prąd", "2018-10-01", 130),
-      new HomeBillingItem("Czynsz_201810", "Czynsz", "2018-10-01", 230)
-    ]
-
-    return homeBillings
-  }
-
-  // Obliczanie roznicy pomiedzy okresami
-  private calculateDiff(item)
-  {
-    let previousTotal: number;
-    let previousItemID: string = item.period.split("-")[1] == "01" 
-                        // jesli obecny okres to styczen
-                               ? item.name + "_" + (<number>item.id.split("_")[1]-89).toString()
-                        // dla pozostalych miesiecy
-                               : item.name + "_" + (<number>item.id.split("_")[1]-1).toString();
-
-    this.data.forEach(element => {
-      if(element.id == previousItemID) { previousTotal = element.actualState; return; }
-    })
-
-    item.difference = item.actualState - previousTotal;
-  }
-
-  // Aktualizacja roznic po edycji elementu
-  private updateDifferencesOnEdit(item)
-  {
-    this.calculateDiff(item);
-
-    this.data.forEach(element => 
-      {
-        /* 
-          Po pierwszym wystapieniu przerywamy dzialanie, bo roznica pomiedzy okresami 
-          zmieni sie tylko w 2 przypadkach:
-          - element zedytowanym w porownaniu z poprzednim co jest rozwiazywane na poczatku funkcji
-          - elementem zedytowanym w porownaniu z nastepnym
-        */
-        if(element.name == item.name && <number><any>element.id.split("_")[1] > <number><any>item.id.split("_")[1])
-        { this.calculateDiff(element); return; }
-      })
-  }
 
   // Dodanie wpisu
-  addItem(item)
+  addItem(data: HomeBillingItem[], item)
   {
-    item.id = item.name + "_" + item.period.substring(0, 7).replace("-", "");
-    this.calculateDiff(item);
-    console.log(item);
-    this.data.push(item);
+    item.id = this.calculateResourceID(data, item);
+    this.serviceRes.addResource(item);
+    data.push(item);
+  }
+
+  // Generowanie ID
+  calculateResourceID(data: HomeBillingItem[], newItem) : String
+  {
+    let newID
+    let idNumber = 1
+
+    if(data.length < 1) { newID = idNumber.toString() + "_" + newItem.name + "_" + newItem.user; }
+    else
+    {
+      for(let i = 0; i < data.length; i++)
+      {
+        if(data[i].name == newItem.name)
+        { idNumber++ }
+      }
+
+      newID = idNumber.toString() + "_" + newItem.name + "_" + newItem.user;
+    }
+
+    return newID;
   }
 
   // Usuwanie wpisu
-  removeItem(item)
+  removeItem(data: HomeBillingItem[], item)
   {
-    this.data.splice(this.data.indexOf(item), 1);
+    this.serviceRes.deleteResource(item.id);
+    this.updateIdOnRemove(data, item);
+    data.splice(data.indexOf(item), 1);
   }
 
   // Edycja wpisu
-  editItem(oldItem, newItem)
+  editItem(data: HomeBillingItem[], oldItem, newItem)
   {
-    newItem.id = oldItem.id;
-    this.data[this.data.indexOf(oldItem)] = newItem;
-    this.updateDifferencesOnEdit(newItem);
+    console.log(oldItem.id);
+    if(oldItem.name != newItem.name)
+    newItem.id = this.updateIdOnEdit(data, newItem);
+    
+    this.serviceRes.updateResource(newItem, oldItem.id);
+    data[data.indexOf(oldItem)] = newItem;
+  }
+
+  // Aktualizowanie ID podczas usuwania wpisu
+  private updateIdOnRemove(data: HomeBillingItem[], item: HomeBillingItem)
+  {
+    let oldID : String;
+    data.forEach(element => 
+      { 
+        if( element.name == item.name && parseInt(element.id.split("_")[0]) > parseInt(item.id.split("_")[0]) )
+        { 
+          oldID = element.id;
+          element.id = (parseInt(element.id.split("_")[0]) - 1).toString() + "_" + item.name + "_" + item.user
+  
+          this.serviceRes.deleteResource(oldID);
+          this.serviceRes.addResource(element);
+        }
+      });
+  }
+
+  // Aktualizowanie ID po edycji wpisu
+  private updateIdOnEdit(data: HomeBillingItem[], item: HomeBillingItem) : String
+  {
+    let updtdId = "";
+    let idNumber = 1;
+
+    data.forEach(element =>
+      {
+        if(element.name == item.name)
+        { idNumber++ }
+      })
+    
+      updtdId = idNumber.toString() + "_" + item.name + "_" + item.user;
+
+      return updtdId; 
   }
 
   /**
@@ -93,61 +102,9 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<Array<HomeBillingItem>> {
-    // Combine everything that affects the rendered data into one update
-    // stream for the data-table to consume.
-    const dataMutations = [
-      observableOf(this.data),
-      this.paginator.page,
-      this.sort.sortChange
-    ];
+  connect(): Observable<HomeBillingItem[]> { return this.resources }
 
-    // Set the paginators length
-    this.paginator.length = this.data.length;
-
-    return merge(...dataMutations).pipe(map(() => {
-      return this.getPagedData(this.getSortedData([...this.data]));
-    }));
-  }
-
-  /**
-   *  Called when the table is being destroyed. Use this function, to clean up
-   * any open connections or free any held resources that were set up during connect.
-   */
+  // Metoda do usuwania tabeli
   disconnect() {}
 
-  /**
-   * Paginate the data (client-side). If you're using server-side pagination,
-   * this would be replaced by requesting the appropriate data from the server.
-   */
-  private getPagedData(data: Array<HomeBillingItem>) {
-    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-    return data.splice(startIndex, this.paginator.pageSize);
-  }
-
-  /**
-   * Sort the data (client-side). If you're using server-side sorting,
-   * this would be replaced by requesting the appropriate data from the server.
-   */
-  private getSortedData(data: Array<HomeBillingItem>) {
-    if (!this.sort.active || this.sort.direction === '') {
-      return data;
-    }
-
-    return data.sort((a, b) => {
-      const isAsc = this.sort.direction === 'asc';
-      switch (this.sort.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
-        case 'period': return compare(a.name, b.name, isAsc);
-        case 'actualState': return compare(a.name, b.name, isAsc);
-        case 'difference': return compare(a.name, b.name, isAsc);
-        default: return 0;
-      }
-    });
-  }
-}
-
-/** Simple sort comparator for example ID/Name columns (for client-side sorting). */
-function compare(a, b, isAsc) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

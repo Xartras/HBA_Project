@@ -54,7 +54,7 @@ export class PeriodicFeesComponent implements OnInit {
                 {
                 result.user = this.serviceUsr.usersLogin
                 result.id = this.dataSource.calculateFeeID(this.dataTable, result);
-                this.servicePF.addPeriodicFee(result);
+
                 this.dataSource.addItem(this.dataTable, result);
                 this.dataSource.sortData(this.dataTable);
                 this.dataBS.next(this.dataTable);
@@ -66,8 +66,6 @@ export class PeriodicFeesComponent implements OnInit {
   // Usuwanie wpisow
   btnRemoveRow(item: PeriodicFeeItem)
   {
-    console.log(item.id);
-    this.servicePF.deletePeriodicFee(item.id);
     this.dataSource.removeItem(this.dataTable, item)
     this.dataBS.next(this.dataTable);
   }
@@ -93,9 +91,6 @@ export class PeriodicFeesComponent implements OnInit {
                   {
                     result.id  = item.id;
                     result.user = this.serviceUsr.usersLogin;
-                    //this.servicePF.deletePeriodicFee(item.id);
-                    //this.servicePF.addPeriodicFee(result);
-                    this.servicePF.updatePeriodicFee(result);
 
                     this.dataSource.editItem(this.dataTable, item, result);
 
@@ -104,7 +99,6 @@ export class PeriodicFeesComponent implements OnInit {
 
                     this.dataBS.next(this.dataTable);
                   }
-                }
-            )   
+                })   
   }
 }
