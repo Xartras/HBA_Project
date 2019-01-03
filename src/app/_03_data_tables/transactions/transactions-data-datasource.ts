@@ -1,8 +1,7 @@
 import { DataSource } from '@angular/cdk/collections';
-import { MatPaginator, MatSort } from '@angular/material';
-import { map } from 'rxjs/operators';
-import { Observable, of as observableOf, merge } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TransactionItem } from '../../_01_models/transaction-item';
+import { TransactionsService } from '../../_02_services/transactions-srvc.service'
 
 /**
  * Data source for the TransactionsData view. This class should
@@ -11,39 +10,93 @@ import { TransactionItem } from '../../_01_models/transaction-item';
  */
 export class TransactionsDataDataSource extends DataSource<TransactionItem> {
 
-  constructor(private paginator: MatPaginator, private sort: MatSort) {
-    super();
-  }
-  data: Array<TransactionItem> = this.getData()
+  constructor(private transactions: Observable<TransactionItem[]>
+             ,private serviceTrns: TransactionsService) { super(); }
 
-  // Pobranie danych
-  getData() : Array<TransactionItem>
-  {
-    let periodicFees : Array<TransactionItem> = [
-      new TransactionItem("Zysk", "Kasa", "Wypłata", 2550, "2018-10-27", "2018-10-28", "11", ""),
-      new TransactionItem("Zysk", "Dodatkowe", "Inne", 750, "2018-10-31", "2018-10-31", "11", ""),
-      new TransactionItem("Koszt", "Kasa", "Opłaty", 25, "2018-11-05", "2018-11-05", "11", ""),
-      new TransactionItem("Koszt", "Kasa", "Opłaty", 120, "2018-11-05", "2018-11-05", "11", "")    
-    ]   
 
-    return periodicFees;
-  }
   // Dodawanie wpisu
-  addItem(item)
+  addItem(data: TransactionItem[], item) 
   {
-    this.data.push(item);
+    item.id = this.calculateTransactionID(data, item);
+    this.serviceTrns.addTransaction(item);
+    data.push(item); 
   }
 
-  // Usuwanie wpisu
-  removeItem(item)
+  calculateTransactionID(data: TransactionItem[], item)
   {
-    this.data.splice(this.data.indexOf(item), 1);
+    let newID
+    let idNumber = 1
+
+    if(data.length < 1) { newID = idNumber.toString() + "_" + item.type + "_" + item.subType + "_" + item.category + "_" + item.name + "_" + item.user; }
+    else
+    {
+      for(let i = 0; i < data.length; i++)
+      {
+        if(data[i].type == item.type && data[i].subType == item.subType
+           && data[i].category == item.category && data[i].name == item.name)
+        { idNumber++ }
+      }
+
+      newID = idNumber.toString() + "_" + item.type + "_" + item.subType + "_" + item.category + "_" + item.name + "_" + item.user;
+    }
+
+    return newID;    
   }
 
   // Edycja wpisu
-  editItem(oldItem, newItem)
+  editItem(data: TransactionItem[], oldItem, newItem)
   {
-    this.data[this.data.indexOf(oldItem)] = newItem;
+    if(oldItem.type != newItem.type || oldItem.subType != newItem.subType 
+       || oldItem.category != newItem.category || oldItem.name != newItem.name )
+    newItem.id = this.updateIdOnEdit(data, newItem);
+
+    this.serviceTrns.updateTransaction(newItem, oldItem.id);
+    data[data.indexOf(oldItem)] = newItem;
+  }
+
+  // Usuwanie wpisu
+  removeItem(data: TransactionItem[], item) 
+  {
+    this.serviceTrns.deleteTransaction(item.id);
+    if(data.length > 1) this.updateIdOnRemove(data, item); 
+    data.splice(data.indexOf(item), 1); 
+  }
+
+  // Aktualizowanie ID podczas usuwania wpisu
+  private updateIdOnRemove(data: TransactionItem[], item: TransactionItem)
+  {
+    let oldID : String;
+    data.forEach(element => 
+      { 
+        if( element.type == item.type && element.subType == item.subType 
+            && element.category == item.category && element.name == item.name 
+            && parseInt(element.id.split("_")[0]) > parseInt(item.id.split("_")[0]) )
+        { 
+          oldID = element.id;
+          element.id = (parseInt(element.id.split("_")[0]) - 1).toString() + "_" + item.type + "_" + item.subType + "_" + item.category + "_" + item.name + "_" + item.user;
+  
+          this.serviceTrns.deleteTransaction(oldID);
+          this.serviceTrns.addTransaction(element);
+        }
+      });
+  }
+
+  // Aktualizowanie ID po edycji wpisu
+  private updateIdOnEdit(data: TransactionItem[], item: TransactionItem) : String
+  {
+    let updtdId = "";
+    let idNumber = 1;
+
+    data.forEach(element =>
+      {
+        if(element.type == item.type && element.subType == item.subType 
+           && element.category == item.category && element.name == item.name)
+        { idNumber++ }
+      })
+    
+      updtdId = idNumber.toString() + "_" + item.type + "_" + item.subType + "_" + item.category + "_" + item.name + "_" + item.user;
+
+      return updtdId; 
   }
 
   /**
@@ -51,58 +104,9 @@ export class TransactionsDataDataSource extends DataSource<TransactionItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<Array<TransactionItem>> {
-    // Combine everything that affects the rendered data into one update
-    // stream for the data-table to consume.
-    const dataMutations = [
-      observableOf(this.data),
-      this.paginator.page,
-      this.sort.sortChange
-    ];
+  connect(): Observable<TransactionItem[]> { return this.transactions }
 
-    // Set the paginators length
-    this.paginator.length = this.data.length;
-
-    return merge(...dataMutations).pipe(map(() => {
-      return this.getPagedData(this.getSortedData([...this.data]));
-    }));
-  }
-
-  /**
-   *  Called when the table is being destroyed. Use this function, to clean up
-   * any open connections or free any held resources that were set up during connect.
-   */
+  // Metoda do usuwania tabeli
   disconnect() {}
-
-  /**
-   * Paginate the data (client-side). If you're using server-side pagination,
-   * this would be replaced by requesting the appropriate data from the server.
-   */
-  private getPagedData(data: Array<TransactionItem>) {
-    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-    return data.splice(startIndex, this.paginator.pageSize);
-  }
-
-  /**
-   * Sort the data (client-side). If you're using server-side sorting,
-   * this would be replaced by requesting the appropriate data from the server.
-   */
-  private getSortedData(data: Array<TransactionItem>) {
-    if (!this.sort.active || this.sort.direction === '') {
-      return data;
-    }
-
-    return data.sort((a, b) => {
-      const isAsc = this.sort.direction === 'asc';
-      switch (this.sort.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
-        default: return 0;
-      }
-    });
-  }
 }
 
-/** Simple sort comparator for example ID/Name columns (for client-side sorting). */
-function compare(a, b, isAsc) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-}

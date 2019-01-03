@@ -1,3 +1,119 @@
-<p>
-  add-transaction-dialog works!
-</p>
+<h2 mat-dialog-title>{{newTransactionDialog.title}}</h2>
+
+<mat-dialog-content> 
+  <form [formGroup]="addTransactionForm">
+
+    <div class="form-group">
+      <label for="type">Typ</label>
+      <select type = "text" formControlName = "cType" class = "form-control" name = "type">
+        <option *ngFor="let t of types" [value]="t">
+          {{t}}
+        </option>
+      </select>
+
+      <div *ngIf="isFormSubmitted && formInput.cType.invalid" class="alert alert-danger">
+        <div *ngIf="formInput.cType.errors.required" >
+          Pole wymagane!
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="subType">Rodzaj</label>
+      <input type = "text" formControlName = "cSubType" class = "form-control" name = "subType">
+
+      <div *ngIf="isFormSubmitted && formInput.cSubType.invalid" class="alert alert-danger">
+        <div *ngIf="formInput.cSubType.errors.required" >
+          Pole wymagane!
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Kategoria</label>
+      <input type = "text" formControlName = "cCategory" class = "form-control" name = "category">
+
+      <div *ngIf="isFormSubmitted && formInput.cCategory.invalid" class="alert alert-danger">
+        <div *ngIf="formInput.cCategory.errors.required" >
+          Pole wymagane!
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Nazwa</label>
+      <input type = "text" formControlName = "cName" class = "form-control" name = "name">
+
+      <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
+        <div *ngIf="formInput.cName.errors.required" >
+          Pole wymagane!
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Kwota</label>
+      <input type = "number" formControlName = "cAmount" class = "form-control" name = "amount">
+
+      <div *ngIf="isFormSubmitted && formInput.cAmount.invalid" class="alert alert-danger">
+        <div *ngIf="formInput.cAmount.errors.required" >
+          Pole wymagane!
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Opis</label>
+      <input type = "text" formControlName = "cDescription" class = "form-control" name = "description">
+    </div>
+
+    <div class="form-group">
+      <label for="accounted">Opłacono</label>
+      <input type = "date" formControlName = "cAccounted" class = "form-control" name = "accounted">
+
+      <div *ngIf="isFormSubmitted && formInput.cAccounted.invalid" class="alert alert-danger">
+        <div *ngIf="formInput.cAccounted.errors.required" >
+          Pole wymagane!
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="entered">Wprowadzono</label>
+      <input type = "date" formControlName = "cEntered" class = "form-control" name = "entered">
+
+      <div *ngIf="isFormSubmitted && formInput.cEntered.invalid" class="alert alert-danger">
+        <div *ngIf="formInput.cEntered.errors.required" >
+          Pole wymagane!
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="period">Okres</label>
+      <select type = "text" formControlName = "cPeriod" class = "form-control" name = "period">
+        <option *ngFor="let prd of periods" [value]="prd.period">
+          {{prd.period}}
+        </option>
+      </select>
+
+      <div *ngIf="isFormSubmitted && formInput.cPeriod.invalid" class="alert alert-danger">
+        <div *ngIf="formInput.cPeriod.errors.required" >
+          Pole wymagane!
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="comment">Komentarz</label>
+      <input type = "text" formControlName = "cComment" class = "form-control" name = "comment">
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button  mat-reisedbutton (click)="btnSaveNewItem()">Zapisz</button>
+  <button  mat-button (click)="btnCancel()">Anuluj</button>
+</mat-dialog-actions>

@@ -1,9 +1,27 @@
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div>
+      <h4>Transakcje</h4>
+    </div>
+
+    <div>
+      <button (click)="btnAddTransactionItem()">Dodaj</button>
+    </div>
+  </nav>
+</div>
+
 <div class="mat-elevation-z8">
   <table mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
     <!-- [Typ] -->
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Typ</th>
       <td mat-cell *matCellDef="let row">{{row.type}}</td>
+    </ng-container>
+
+    <!-- [Typ] -->
+    <ng-container matColumnDef="subType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Rodzaj</th>
+      <td mat-cell *matCellDef="let row">{{row.subType}}</td>
     </ng-container>
 
     <!-- [Kategoria] -->
@@ -24,16 +42,22 @@
       <td mat-cell *matCellDef="let row">{{row.amount}}</td>
     </ng-container>
 
+    <!-- [Opis] -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Opis</th>
+      <td mat-cell *matCellDef="let row">{{row.description}}</td>
+    </ng-container>
+
     <!-- [Oplacono] -->
     <ng-container matColumnDef="accounted">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Opłacono</th>
-      <td mat-cell *matCellDef="let row">{{row.accounted}}</td>
+      <td mat-cell *matCellDef="let row">{{row.accounted | date: 'yyyy-MM-dd'}}</td>
     </ng-container>
 
     <!-- [Wprowadzono] -->
     <ng-container matColumnDef="entered">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Wprowadzono</th>
-      <td mat-cell *matCellDef="let row">{{row.entered}}</td>
+      <td mat-cell *matCellDef="let row">{{row.entered | date: 'yyyy-MM-dd'}}</td>
     </ng-container>
 
     <!-- [Okres] -->
@@ -42,29 +66,22 @@
       <td mat-cell *matCellDef="let row">{{row.period}}</td>
     </ng-container>
 
-    <!-- [Opis] -->
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Opis</th>
-      <td mat-cell *matCellDef="let row">{{row.description}}</td>
+    <!-- [Okres] -->
+    <ng-container matColumnDef="comment">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Komentarz</th>
+      <td mat-cell *matCellDef="let row">{{row.comment}}</td>
     </ng-container>
 
     <!-- [Akcje] -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Akcje</th>
       <td mat-cell *matCellDef="let row">
-        <button (click)="btnEditRow(row)">{{row.actions.split(";")[0]}}</button>
-        <button (click)="btnRemoveRow(row)">{{row.actions.split(";")[1]}}</button>
+        <button (click)="btnEditRow(row)"   style="margin: 0; padding: 0; border: none"><img src="http://localhost:4200/src/app/_00_Images/przyciskEdycji.png" style="width: 21.5px; height: 21.5px" class="highlightButton"></button>
+        <button (click)="btnRemoveRow(row)" style="margin: 0; padding: 0; border: none"><img src="http://localhost:4200/src/app/_00_Images/przyciskUsun.jpg" style="width: 21.5px; height: 21.5px" class="highlightButton"></button>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-
-  <mat-paginator #paginator
-    [length]="dataSource.data.length"
-    [pageIndex]="0"
-    [pageSize]="50"
-    [pageSizeOptions]="[25, 50, 100, 250]">
-  </mat-paginator>
 </div>

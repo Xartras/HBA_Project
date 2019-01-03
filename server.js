@@ -38,7 +38,7 @@ const express = require('express'),
     app.use('/Users', userRoutes);
     app.use('/Periods', periodsRoutes);
     app.use('/PeriodicFees', periodicFeesRoutes);
-    app.use('/Transaction', tranasctionsRoutes);
+    app.use('/Transactions', tranasctionsRoutes);
     app.use('/Resources', resourcesRoutes)
     app.use('/BudgetPlan', budgetPlanRoutes);
     app.use('/SavingPlan', savingPlanRoutes);
