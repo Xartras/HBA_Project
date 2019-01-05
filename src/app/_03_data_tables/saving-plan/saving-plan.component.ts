@@ -35,9 +35,16 @@ export class SavingPlanComponent implements OnInit {
     this.dataSource = new SavingPlanDataSource(this.dataBS.asObservable(), this.serviceSP);
     this.serviceSP.getSavingPlan().subscribe((data: any[]) =>
     {
-      data.forEach(item => this.dataTable.push(new SavingPlanItem(item._id, item.target, item.plannedAmount, item.currentAmount, item.getUntil, item.comment, item.user)))
+      data.forEach(item => 
+      { 
+          if(item.user == this.serviceUsr.usersLogin)
+          this.dataTable.push(new SavingPlanItem(item._id, item.target, item.plannedAmount, item.currentAmount, item.getUntil, item.comment, item.user))
+          else
+          data.splice(data.indexOf(item), 1);
+      })
+
       this.dataSource = new SavingPlanDataSource(this.dataBS.asObservable(), this.serviceSP);
-    })
+    })      
   }
 
   btnAddSavingPlanItem()

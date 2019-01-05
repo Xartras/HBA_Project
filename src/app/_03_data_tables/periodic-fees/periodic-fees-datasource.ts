@@ -43,16 +43,26 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
     return newID;
   }
 
+  // Edycja wpisu
+  editItem(data: PeriodicFeeItem[], oldItem, newItem)
+  {
+    if(oldItem.category != newItem.category || oldItem.name != newItem.name)
+    newItem.id = this.updateIdOnEdit(data, newItem);
+
+    this.servicePF.updatePeriodicFee(newItem);
+    data[data.indexOf(oldItem)] = newItem;
+  }
+
   // Usuwanie wpisu
   removeItem(data: PeriodicFeeItem[], item)
   {
     this.servicePF.deletePeriodicFee(item.id);
-    this.updateIDs(data, item);
+    this.updateIdOnRemove(data, item);
     data.splice(data.indexOf(item), 1);
   }
 
   // Aktualizowanie ID podczas usuwania wpisu
-  private updateIDs(data: PeriodicFeeItem[], item: PeriodicFeeItem)
+  private updateIdOnRemove(data: PeriodicFeeItem[], item: PeriodicFeeItem)
   {
     let oldID : String;
     data.forEach(element => 
@@ -68,12 +78,23 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
     });
   }
 
-  // Edycja wpisu
-  editItem(data: PeriodicFeeItem[], oldItem, newItem)
+  // Aktualizowanie ID po edycji wpisu
+  private updateIdOnEdit(data: PeriodicFeeItem[], item: PeriodicFeeItem) : String
   {
-    this.servicePF.updatePeriodicFee(newItem);
-    data[data.indexOf(oldItem)] = newItem;
+    let updtdId = "";
+    let idNumber = 1;
+
+    data.forEach(element =>
+      {
+        if(element.category == item.category && element.name == item.name)
+        { idNumber++ }
+      })
+    
+      updtdId = idNumber.toString() + "_" + item.category + "_" + item.name + "_" + item.user;
+
+      return updtdId; 
   }
+
 
   // Sortowanie danych
   // od opłat, które trzeba dokonać najwcześniej (najmniejszy numer dnia)
@@ -95,10 +116,8 @@ export class PeriodicFeesDataSource extends DataSource<PeriodicFeeItem> {
 
 
   // Metoda zwraca dane, które powinny zostać wyświetlone
-  connect(): Observable<PeriodicFeeItem[]> 
-  { return this.periodicFees; }
+  connect(): Observable<PeriodicFeeItem[]> { return this.periodicFees; }
 
   // Metoda do usuwania tabeli
   disconnect() {}
-
 }

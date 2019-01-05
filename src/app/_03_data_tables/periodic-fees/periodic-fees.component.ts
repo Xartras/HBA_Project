@@ -31,7 +31,13 @@ export class PeriodicFeesComponent implements OnInit {
     this.dataSource = new PeriodicFeesDataSource(this.dataBS.asObservable(), this.servicePF);
     this.servicePF.getPeriodicFees().subscribe((data: any[]) =>
     {
-      data.forEach(item => this.dataTable.push(new PeriodicFeeItem(item._id, item.category, item.name, item.paidUntil, item.paymentPeriod, item.paymentDeadline, item.warnings, item.usersLogin)))
+      data.forEach(item => 
+        {
+          if(item.user == this.serviceUsr.usersLogin)
+          this.dataTable.push(new PeriodicFeeItem(item._id, item.category, item.name, item.paidUntil, item.paymentPeriod, item.paymentDeadline, item.warnings, item.usersLogin))
+          else
+          data.splice(data.indexOf(item), 1);
+        })
       this.dataSource.sortData(this.dataTable);
       this.dataSource = new PeriodicFeesDataSource(this.dataBS.asObservable(), this.servicePF);
     })

@@ -44,23 +44,22 @@ export class HomeBillingsDataSource extends DataSource<HomeBillingItem> {
     return newID;
   }
 
+  // Edycja wpisu
+  editItem(data: HomeBillingItem[], oldItem, newItem)
+  {
+    if(oldItem.name != newItem.name)
+    newItem.id = this.updateIdOnEdit(data, newItem);
+    
+    this.serviceRes.updateResource(newItem, oldItem.id);
+    data[data.indexOf(oldItem)] = newItem;
+  }
+  
   // Usuwanie wpisu
   removeItem(data: HomeBillingItem[], item)
   {
     this.serviceRes.deleteResource(item.id);
     this.updateIdOnRemove(data, item);
     data.splice(data.indexOf(item), 1);
-  }
-
-  // Edycja wpisu
-  editItem(data: HomeBillingItem[], oldItem, newItem)
-  {
-    console.log(oldItem.id);
-    if(oldItem.name != newItem.name)
-    newItem.id = this.updateIdOnEdit(data, newItem);
-    
-    this.serviceRes.updateResource(newItem, oldItem.id);
-    data[data.indexOf(oldItem)] = newItem;
   }
 
   // Aktualizowanie ID podczas usuwania wpisu

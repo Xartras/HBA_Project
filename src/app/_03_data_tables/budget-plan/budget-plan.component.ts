@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { BudgetPlanItem } from 'src/app/_01_models/budget-plan-item';
 import { BudgetPlanDataSource } from './budget-plan-datasource';
-import { PeriodsComponent } from '../periods/periods.component';
 import { UserAuthService } from '../../_02_services/user-auth-service.service';
+
+import { Period } from '../../_01_models/period';
+import { PeriodsService } from '../../_02_services/periods-srvc.service';
 
 import { AddBudgetPlanDialogComponent } from '../../_04_modal_dialogs/add-budget-plan-dialog/add-budget-plan-dialog.component';
 import { MatDialog } from '@angular/material';
@@ -21,7 +23,8 @@ export class BudgetPlanComponent implements OnInit {
   constructor(private formBuilder: FormBuilder
              ,public dialog: MatDialog
              ,private userAuth: UserAuthService
-             ,private serviceBP: BudgetPlanService) {}
+             ,private serviceBP: BudgetPlanService
+             ,private servicePrds: PeriodsService) {}
 
   periodRange = [];
   dataSource: BudgetPlanDataSource = new BudgetPlanDataSource(null, this.serviceBP);
@@ -41,13 +44,32 @@ export class BudgetPlanComponent implements OnInit {
 
   ngOnInit() 
   {
+    this.servicePrds.getPeriods().subscribe((data: any) =>
+    {
+      data.forEach(item =>
+        {
+          if(item.user == this.userAuth.usersLogin)
+          this.periods.push(new Period(item._id, item.periodFrom, item.periodUntil, item.user))
+          else
+          data.splice(data.indexOf(item), 1);
+        })
+    });
+
     this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable(), this.serviceBP); 
     this.serviceBP.getBudgetPlan().subscribe((data: any[]) =>
     {
-      data.forEach(item => this.dataTable.push(new BudgetPlanItem(item._id, item.type, item.category, item.name, item.period, item.amount, item.comment, item.user)))
+      data.forEach(item => 
+        {
+          if(item.user == this.userAuth.usersLogin)
+          this.dataTable.push(new BudgetPlanItem(item._id, item.type, item.category, item.name, item.period, item.amount, item.comment, item.user))
+          else
+          data.splice(data.indexOf(item), 1);
+        })
+      
       this.dataSource.sortData(this.dataTable);
       this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable(), this.serviceBP);
     })
+
     this.filterPlanForm = this.formBuilder.group(
       {
         cPeriods: new FormControl('01_2018'),

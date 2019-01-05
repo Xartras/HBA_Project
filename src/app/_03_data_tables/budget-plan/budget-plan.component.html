@@ -12,7 +12,7 @@
       <div class="form-group">
         <label for="period">Okres:</label>
         <select type="text" formControlName = "cPeriods" class = "form-control">
-          <option *ngFor="let prd of periods" [value]="prd.period">
+          <option *ngFor="let prd of periods" [value]="prd.id">
             {{prd.id}}
           </option>
         </select>
@@ -30,7 +30,7 @@
     <div> 
         <span>Okres od: {{periodRange[0]}}</span>
         <span>Okres do: {{periodRange[1]}}</span>
-      </div>
+    </div>
   </nav>
 
   <div>

@@ -3,15 +3,20 @@ import { Observable } from 'rxjs';
 import { BudgetPlanItem } from '../../_01_models/budget-plan-item'
 import { BudgetPlanService } from '../../_02_services/budget-plan-srvc.service'
 
-/**
- * Data source for the BudgetPlan view. This class should
- * encapsulate all logic for fetching and manipulating the displayed data
- * (including sorting, pagination, and filtering).
- */
+
 export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> { 
 
   constructor(private budgetPlan: Observable<BudgetPlanItem[]>
              ,private serviceBP: BudgetPlanService) { super(); }
+
+
+  // Dodawanie wpisu
+  addItem(data: BudgetPlanItem[], item: BudgetPlanItem)
+  {
+    item.id = this.calculateNewId(data, item);
+    this.serviceBP.addBudgetPlan(item);
+    data.push(item);
+  }
 
   // Generowanie ID dla nowego wpisu
   private calculateNewId(data: BudgetPlanItem[], newItem: BudgetPlanItem) : string
@@ -34,8 +39,26 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
     return newID;
   }
 
-  // Aktualizowanie ID podczas usuwania wpisu
-  private updateIDs(data: BudgetPlanItem[], item: BudgetPlanItem)
+  // Edycja wpisu
+  editItem(data: BudgetPlanItem[], oldItem: BudgetPlanItem, newItem: BudgetPlanItem)
+  {
+    if(oldItem.type != newItem.type || oldItem.category != newItem.category || oldItem.name != newItem.name )
+      newItem.id = this.updateIdOnEdit(data, newItem);
+
+    this.serviceBP.updateBudgetPlan(newItem);
+    data[data.indexOf(oldItem)] = newItem;
+  }
+
+  // Usuwanie wpisu
+  removeItem(data: BudgetPlanItem[], item: BudgetPlanItem)
+  {
+    this.serviceBP.deleteBudgetPlanItem(item.id);
+    this.updateIdOnRemove(data, item);
+    data.splice(data.indexOf(item), 1);
+  }
+
+  // Aktualizowanie ID po usunieciu wpisu
+  private updateIdOnRemove(data: BudgetPlanItem[], item: BudgetPlanItem)
   {
     let oldID : String;
     data.forEach(element => 
@@ -51,28 +74,23 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
     });
   }
 
-  // Dodawanie wpisu
-  addItem(data: BudgetPlanItem[], item: BudgetPlanItem)
+  // Aktualizowanie ID po edycji wpisu
+  private updateIdOnEdit(data: BudgetPlanItem[], item: BudgetPlanItem) : string
   {
-    item.id = this.calculateNewId(data, item);
-    this.serviceBP.addBudgetPlan(item);
-    data.push(item);
+    let updtdId = "";
+    let idNumber = 1;
+
+    data.forEach(element =>
+      {
+        if(element.type == item.type && element.category == item.category && element.name == item.name)
+        { idNumber++ }
+      })
+    
+      updtdId = idNumber.toString() + "_" + item.type + "_" + item.category + "_" + item.name + "_" + item.user;
+
+      return updtdId; 
   }
 
-  // Usuwanie wpisu
-  removeItem(data: BudgetPlanItem[], item: BudgetPlanItem)
-  {
-    this.serviceBP.deleteBudgetPlanItem(item.id);
-    this.updateIDs(data, item);
-    data.splice(data.indexOf(item), 1);
-  }
-
-  // Edycja wpisu
-  editItem(data: BudgetPlanItem[], oldItem: BudgetPlanItem, newItem: BudgetPlanItem)
-  {
-    this.serviceBP.updateBudgetPlan(newItem);
-    data[data.indexOf(oldItem)] = newItem;
-  }
 
   // Sortowanie danych
   // od opłat, które trzeba dokonać najwcześniej (najmniejszy numer dnia)

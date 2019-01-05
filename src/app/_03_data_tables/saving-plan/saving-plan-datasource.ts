@@ -3,17 +3,21 @@ import { Observable } from 'rxjs';
 import { SavingPlanItem } from '../../_01_models/saving-plan-item';
 import { SavingPlanService } from '../../_02_services/saving-plan-srvc.service';
 
-/**
- * Data source for the SavingPlan view. This class should
- * encapsulate all logic for fetching and manipulating the displayed data
- * (including sorting, pagination, and filtering).
- */
+
 export class SavingPlanDataSource extends DataSource<SavingPlanItem> {
 
   constructor(private savingPlan : Observable<SavingPlanItem[]>
              ,private serviceSP: SavingPlanService) { super(); }
 
-      
+             
+  // Dodawanie wpisu
+  addItem(data: SavingPlanItem[], item: SavingPlanItem)
+  {
+    item.id = this.calculateID(data, item);
+    this.serviceSP.addSavingPlan(item);
+    data.push(item);
+  }
+
   // Generowanie ID dla nowego planu oszczednosciowego
   calculateID(data: SavingPlanItem[], item: SavingPlanItem) : string
   {
@@ -35,8 +39,26 @@ export class SavingPlanDataSource extends DataSource<SavingPlanItem> {
     return newID;
   }
 
-  // Aktualizowanie wpisow po usunieciu jednego z planow
-  private updateIDs(data: SavingPlanItem[], item: SavingPlanItem)
+  // Edycja wpisu
+  editItem(data: SavingPlanItem[], oldItem: SavingPlanItem, newItem: SavingPlanItem)
+  {
+    if(oldItem.target != newItem.target)
+      newItem.id = this.updateIdOnEdit(data, newItem);
+      
+    this.serviceSP.updateSavingPlan(newItem);
+    data[data.indexOf(oldItem)] = newItem;
+  }
+
+  // Usuwanie wpisu
+  removeItem(data: SavingPlanItem[], item: SavingPlanItem)
+  {
+    this.serviceSP.deleteSavingPlan(item.id);
+    if(data.length > 1) this.updateIdOnRemove(data, item);
+    data.splice(data.indexOf(item), 1);
+  }
+
+  // Aktualizowanie ID po usunieciu wpisu
+  private updateIdOnRemove(data: SavingPlanItem[], item: SavingPlanItem)
   {
     let oldID : String;
     data.forEach(element => 
@@ -52,30 +74,24 @@ export class SavingPlanDataSource extends DataSource<SavingPlanItem> {
     });
   }
 
-  // Dodawanie wpisu
-  addItem(data: SavingPlanItem[], item: SavingPlanItem)
+  // Aktualizowanie ID po edycji wpisu
+  private updateIdOnEdit(data: SavingPlanItem[], item: SavingPlanItem) : string
   {
-    item.id = this.calculateID(data, item);
-    this.serviceSP.addSavingPlan(item);
-    data.push(item);
+    let updtdId = "";
+    let idNumber = 1;
+
+    data.forEach(element =>
+      {
+        if(element.target == item.target )
+        { idNumber++ }
+      })
+    
+      updtdId = idNumber.toString() + "_" + item.target + "_" + item.user;
+
+      return updtdId; 
   }
 
-  // Usuwanie wpisu
-  removeItem(data: SavingPlanItem[], item: SavingPlanItem)
-  {
-    this.serviceSP.deleteSavingPlan(item.id);
-    if(data.length > 2) this.updateIDs(data, item);
-    data.splice(data.indexOf(item), 1);
-  }
-
-  // Edycja wpisu
-  editItem(data: SavingPlanItem[], oldItem: SavingPlanItem, newItem: SavingPlanItem)
-  {
-    this.serviceSP.updateSavingPlan(newItem);
-    data[data.indexOf(oldItem)] = newItem;
-  }
-
-  // Metoda zwraca dane, które powinny zostać wyświetlone
+  // Metoda zwraca dane, które powinny zostać wyświetlone w przeglądarce
   connect(): Observable<SavingPlanItem[]> { return this.savingPlan }
 
 

@@ -11,9 +11,5 @@ export class DetailsComponent implements OnInit {
   constructor(private serviceUsr: UserAuthService) { }
 
 
-  ngOnInit() 
-  { 
-    if(this.serviceUsr.usersLogin == null || this.serviceUsr.usersLogin == "undefined")
-    this.serviceUsr.signOut();
-  }
+  ngOnInit() { }
 }

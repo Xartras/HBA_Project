@@ -23,18 +23,25 @@ export class AddTransactionDialogComponent implements OnInit {
   types = ["Zysk", "Koszt", ""]
   periods = [{period: "01_2018", from: "27-09-2018", to: "26-10-2018"}, {period: "02_2018", from: "27-10-2018", to: "26-11-2018"}]
 
+  accDt : any
+  accEn : any
+  get formInput() { return this.addTransactionForm.controls }
+
   ngOnInit() 
   {
+    this.accDt = this.newTransactionDialog.accounted != "" ? formatDate(this.newTransactionDialog.accounted, "yyyy-MM-dd", "en-en") : null;
+    this.accEn = this.newTransactionDialog.entered != "" ? formatDate(this.newTransactionDialog.entered, "yyyy-MM-dd", "en-en") : null;
+
     this.addTransactionForm = this.formBuilder.group(
-      {
+      {        
         cType:        new FormControl( this.newTransactionDialog.type,      Validators.compose([Validators.required] )),
         cSubType:     new FormControl( this.newTransactionDialog.subType,   Validators.compose([Validators.required] )),
         cCategory:    new FormControl( this.newTransactionDialog.category,  Validators.compose([Validators.required] )),
         cName:        new FormControl( this.newTransactionDialog.name,      Validators.compose([Validators.required] )),
         cAmount:      new FormControl( this.newTransactionDialog.amount,    Validators.compose([Validators.required] )),
         cDescription: new FormControl( this.newTransactionDialog.description ),
-        cAccounted:   new FormControl( formatDate(this.newTransactionDialog.accounted, "yyyy-MM-dd", "en-en"), Validators.compose([Validators.required] )),
-        cEntered:     new FormControl( formatDate(this.newTransactionDialog.entered, "yyyy-MM-dd", "en-en"),   Validators.compose([Validators.required] )),
+        cAccounted:   new FormControl( this.accDt,                          Validators.compose([Validators.required] )),
+        cEntered:     new FormControl( this.accEn,                          Validators.compose([Validators.required] )),
         cPeriod:      new FormControl( this.newTransactionDialog.period,    Validators.compose([Validators.required] )),
         cComment:     new FormControl( this.newTransactionDialog.comment )
       })  

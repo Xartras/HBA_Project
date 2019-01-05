@@ -13,7 +13,7 @@ export class UserAuthGuard implements CanActivate {
   // Jesli nie, to zostanie przekierowany do strony logowania
   canActivate()
   {
-    if(!this.userAuth.isUserLoggedIn()) 
+    if(!this.userAuth.isUserLoggedIn() || this.userAuth.usersLogin == null) 
     {
       this.router.navigateByUrl('/login');
       return false;

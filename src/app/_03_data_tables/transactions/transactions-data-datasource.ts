@@ -3,11 +3,7 @@ import { Observable } from 'rxjs';
 import { TransactionItem } from '../../_01_models/transaction-item';
 import { TransactionsService } from '../../_02_services/transactions-srvc.service'
 
-/**
- * Data source for the TransactionsData view. This class should
- * encapsulate all logic for fetching and manipulating the displayed data
- * (including sorting, pagination, and filtering).
- */
+
 export class TransactionsDataDataSource extends DataSource<TransactionItem> {
 
   constructor(private transactions: Observable<TransactionItem[]>
@@ -22,6 +18,7 @@ export class TransactionsDataDataSource extends DataSource<TransactionItem> {
     data.push(item); 
   }
 
+  // Generowanie ID transakcji
   calculateTransactionID(data: TransactionItem[], item)
   {
     let newID
@@ -99,11 +96,7 @@ export class TransactionsDataDataSource extends DataSource<TransactionItem> {
       return updtdId; 
   }
 
-  /**
-   * Connect this data source to the table. The table will only update when
-   * the returned stream emits new items.
-   * @returns A stream of the items to be rendered.
-   */
+  // Metoda zwraca dane, które powinny zostać wyświetlone w przeglądarce
   connect(): Observable<TransactionItem[]> { return this.transactions }
 
   // Metoda do usuwania tabeli

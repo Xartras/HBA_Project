@@ -23,7 +23,7 @@ export class UserAuthService {
  // Metoda pobierajaca token uzytkownika z LocalStorage
  private getToken() : string
  {
-    if(!this.token)
+    if(!this.token && this.usersLogin!= null)
     {
       this.token = localStorage.getItem("user-token");
     }
@@ -61,12 +61,13 @@ export class UserAuthService {
   {
     const usr = this.getUser()
 
-    if(usr)
+    if(usr != null)
     {
       return usr.expTime > Date.now() / 1000;
     }
     else
     {   
+      window.localStorage.removeItem("user-token");
       return false;
     }
   }
