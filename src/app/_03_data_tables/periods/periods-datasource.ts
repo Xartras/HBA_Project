@@ -4,11 +4,6 @@ import { Period } from '../../_01_models/period';
 import { PeriodsService } from '../../_02_services/periods-srvc.service';
 
 
-/**
- * Data source for the Periods view. This class should
- * encapsulate all logic for fetching and manipulating the displayed data
- * (including sorting, pagination, and filtering).
- */
 export class PeriodsDataSource extends DataSource<Period> {
   data: Period[];
 
@@ -50,7 +45,7 @@ export class PeriodsDataSource extends DataSource<Period> {
   calculateNewId(data:  Period[], item:  Period)
   {
     let newID : string
-    let year: Number = parseInt(item.from.toString().substring(0, 4))
+    let year: Number = parseInt(item.until.toString().substring(0, 4))
     let idNumber = 1
 
     if( data.length < 1 )

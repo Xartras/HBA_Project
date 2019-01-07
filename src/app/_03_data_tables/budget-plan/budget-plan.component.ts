@@ -16,7 +16,7 @@ import { BudgetPlanService } from '../../_02_services/budget-plan-srvc.service'
 @Component({
   selector: 'budget-plan',
   templateUrl: './budget-plan.component.html',
-  styleUrls: ['./budget-plan.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class BudgetPlanComponent implements OnInit {
 
@@ -26,7 +26,6 @@ export class BudgetPlanComponent implements OnInit {
              ,private serviceBP: BudgetPlanService
              ,private servicePrds: PeriodsService) {}
 
-  periodRange = [];
   dataSource: BudgetPlanDataSource = new BudgetPlanDataSource(null, this.serviceBP);
   dataTable: BudgetPlanItem[] = [];
   dataBS = new BehaviorSubject(this.dataTable);
@@ -39,20 +38,30 @@ export class BudgetPlanComponent implements OnInit {
     
   filterPlanForm : FormGroup;
   periods = []
+
+  initialPeriod = new Period('', null, null, '');
   
   get formInput() { return this.filterPlanForm.controls }
 
   ngOnInit() 
   {
+    this.filterPlanForm = this.formBuilder.group(
+      {
+        cPeriods: new FormControl(this.initialPeriod.id),
+      }
+    )
+
     this.servicePrds.getPeriods().subscribe((data: any) =>
     {
       data.forEach(item =>
         {
           if(item.user == this.userAuth.usersLogin)
-          this.periods.push(new Period(item._id, item.periodFrom, item.periodUntil, item.user))
+          this.periods.push(new Period(item._id.split("_")[0] + "_" + item._id.split("_")[1], item.periodFrom, item.periodUntil, item.user))
           else
           data.splice(data.indexOf(item), 1);
         })
+      this.initialPeriod = this.servicePrds.getCurrentPeriod(this.periods);
+      this.filterPlanForm.controls.cPeriods.setValue(this.initialPeriod.id);
     });
 
     this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable(), this.serviceBP); 
@@ -69,23 +78,17 @@ export class BudgetPlanComponent implements OnInit {
       this.dataSource.sortData(this.dataTable);
       this.dataSource = new BudgetPlanDataSource(this.dataBS.asObservable(), this.serviceBP);
     })
-
-    this.filterPlanForm = this.formBuilder.group(
-      {
-        cPeriods: new FormControl('01_2018'),
-      }
-    )
-
-    this.periodRange = this.getPeriodRange(this.periods, this.filterPlanForm.controls.cPeriods.value);
   }
-
 
   // Dodawanie wpisu
   btnAddBudgetPlanItem()
   {
     let dialogRef = this.dialog.open(AddBudgetPlanDialogComponent, 
       {
-        data: {type: "", category: "", name: "", period: "", amount: 0, comment: "", title: "Dodaj wpis"}
+        data: {
+                type: "", category: "", name: "", period: "", 
+                amount: 0, comment: "", title: "Dodaj wpis", periods: this.periods
+              }
       })
   
     dialogRef.afterClosed().subscribe(
@@ -121,7 +124,8 @@ export class BudgetPlanComponent implements OnInit {
                 period: item.period,
                 amount: item.amount,
                 comment: item.comment,
-                title: "Edytuj wpis"
+                title: "Edytuj wpis",
+                periods: this.periods
               }
       })
     dialogRef.afterClosed().subscribe(
@@ -140,24 +144,14 @@ export class BudgetPlanComponent implements OnInit {
                 })   
   }
 
-  getFilteredData()
+  onPeriodChange(event)
   {
-    this.periodRange = this.getPeriodRange(this.periods, this.filterPlanForm.controls.cPeriods.value);
-    this.dataBS.next(this.dataTable);
-  }
-
-  private getPeriodRange(allPeriods, selectedPeriod: string)
-  {
-    let currentPeriodRange = []
-
-    allPeriods.forEach(element => {
-      if(element.period == selectedPeriod)
-      { 
-        currentPeriodRange[0] = element.from
-        currentPeriodRange[1] = element.to
-      }
-    });
-
-    return currentPeriodRange;
+    this.periods.forEach(prd =>
+      {
+        if(prd.id == event.target.value)
+        {
+          this.initialPeriod = prd
+        }
+      })
   }
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs'
 
 import { SavingPlanDataSource } from './saving-plan-datasource';
@@ -13,12 +12,11 @@ import { MatDialog } from '@angular/material';
 @Component({
   selector: 'saving-plan',
   templateUrl: './saving-plan.component.html',
-  styleUrls: ['./saving-plan.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class SavingPlanComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder
-             ,private serviceUsr: UserAuthService
+  constructor(private serviceUsr: UserAuthService
              ,private serviceSP: SavingPlanService
              ,public dialog: MatDialog) {}
 

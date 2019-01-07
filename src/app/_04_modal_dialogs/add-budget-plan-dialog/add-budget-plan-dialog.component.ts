@@ -23,7 +23,7 @@ export class AddBudgetPlanDialogComponent implements OnInit {
   cType: FormControl;
 
   types = ["Zysk", "Koszt", ""]
-  periods = [{period: "01_2018", from: "27-09-2018", to: "26-10-2018"}, {period: "02_2018", from: "27-10-2018", to: "26-11-2018"}]
+  periods = this.newBudgetItemDialog.periods
   periodFrom: string;
   periodTo: string;
 
@@ -41,9 +41,8 @@ export class AddBudgetPlanDialogComponent implements OnInit {
         cComment:     new FormControl( this.newBudgetItemDialog.comment)
       }      
     )
-
-    this.periodFrom = "27-09-2018"
-    this.periodTo = "26-10-2018";
+  
+    this.periods = this.newBudgetItemDialog.periods;
   }  
  
   btnSaveNewItem()
@@ -71,5 +70,17 @@ export class AddBudgetPlanDialogComponent implements OnInit {
   btnCancel()
   {
     this.dialogRef.close(null);
+  }
+
+  onPeriodChange(event)
+  {
+    this.periods.forEach(prd =>
+      {
+        if(prd.id == event.target.value)
+        {
+          this.periodFrom = "Daty od " + prd.from.toString();
+          this.periodTo   = " do " + prd.until.toString();
+        }
+      })
   }
 }

@@ -11,7 +11,7 @@
     <form [formGroup]="filterPlanForm" class="form-inline">
       <div class="form-group">
         <label for="period">Okres:</label>
-        <select type="text" formControlName = "cPeriods" class = "form-control">
+        <select type="text" formControlName = "cPeriods" class = "form-control" (change) = "onPeriodChange($event)">
           <option *ngFor="let prd of periods" [value]="prd.id">
             {{prd.id}}
           </option>
@@ -28,8 +28,8 @@
     <h6>Podsumowanie</h6>
 
     <div> 
-        <span>Okres od: {{periodRange[0]}}</span>
-        <span>Okres do: {{periodRange[1]}}</span>
+        <span>Okres od: {{initialPeriod.from}}</span>
+        <span>Okres do: {{initialPeriod.until}}</span>
     </div>
   </nav>
 

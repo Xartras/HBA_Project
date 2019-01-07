@@ -45,7 +45,7 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
     if(oldItem.type != newItem.type || oldItem.category != newItem.category || oldItem.name != newItem.name )
       newItem.id = this.updateIdOnEdit(data, newItem);
 
-    this.serviceBP.updateBudgetPlan(newItem);
+    this.serviceBP.updateBudgetPlan(newItem, oldItem.id);
     data[data.indexOf(oldItem)] = newItem;
   }
 

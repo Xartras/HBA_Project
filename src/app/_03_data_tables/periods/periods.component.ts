@@ -6,10 +6,12 @@ import { PeriodsService } from '../../_02_services/periods-srvc.service';
 import { UserAuthService } from '../../_02_services/user-auth-service.service';
 import { BehaviorSubject } from 'rxjs'
 
+
+
 @Component({
   selector: 'periods',
   templateUrl: './periods.component.html',
-  styleUrls: ['./periods.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class PeriodsComponent implements OnInit {
 

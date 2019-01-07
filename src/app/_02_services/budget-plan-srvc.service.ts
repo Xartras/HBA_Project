@@ -33,9 +33,9 @@ export class BudgetPlanService {
   }
 
   // Aktualizacja planu w bazie
-  updateBudgetPlan(updatingItem: BudgetPlanItem) 
+  updateBudgetPlan(updatingItem: BudgetPlanItem, id) 
   {
-    this.deleteBudgetPlanItem(updatingItem.id);
+    this.deleteBudgetPlanItem(id);
     this.addBudgetPlan(updatingItem);
   }
 

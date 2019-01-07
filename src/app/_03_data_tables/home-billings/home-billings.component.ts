@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs'
 @Component({
   selector: 'home-billings-data',
   templateUrl: './home-billings.component.html',
-  styleUrls: ['./home-billings.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class HomeBillingsDataComponent implements OnInit {
   dataSource: HomeBillingsDataSource = new HomeBillingsDataSource(null, this.serviceRes);
@@ -45,9 +45,12 @@ export class HomeBillingsDataComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(
     result => {
-                result.user = this.serviceUsr.usersLogin
-                this.dataSource.addItem(this.dataTable, result);
-                this.dataBS.next(this.dataTable);
+                if( result != null)
+                {
+                  result.user = this.serviceUsr.usersLogin
+                  this.dataSource.addItem(this.dataTable, result);
+                  this.dataBS.next(this.dataTable);
+                }
               })       
   }
 
@@ -66,10 +69,13 @@ export class HomeBillingsDataComponent implements OnInit {
       })
     dialogRef.afterClosed().subscribe(
       result => {
-                  result.id = item.id;
-                  result.user = this.serviceUsr.usersLogin
-                  this.dataSource.editItem(this.dataTable, item, result);
-                  this.dataBS.next(this.dataTable);
+                  if( result != null )
+                  {
+                    result.id = item.id;
+                    result.user = this.serviceUsr.usersLogin
+                    this.dataSource.editItem(this.dataTable, item, result);
+                    this.dataBS.next(this.dataTable);
+                  }
                 })  
   }
 

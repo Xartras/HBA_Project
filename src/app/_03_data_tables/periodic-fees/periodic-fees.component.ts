@@ -13,7 +13,7 @@ import { BehaviorSubject } from 'rxjs'
 @Component({
   selector: 'periodic-fees',
   templateUrl: './periodic-fees.component.html',
-  styleUrls: ['./periodic-fees.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class PeriodicFeesComponent implements OnInit {
   dataSource: PeriodicFeesDataSource = new PeriodicFeesDataSource(null, this.servicePF);

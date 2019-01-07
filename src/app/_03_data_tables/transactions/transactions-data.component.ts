@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-transactions-data',
   templateUrl: './transactions-data.component.html',
-  styleUrls: ['./transactions-data.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class TransactionsDataComponent implements OnInit {
 
@@ -52,9 +52,12 @@ export class TransactionsDataComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(
     result => {
-                result.user = this.serviceUsr.usersLogin
-                this.dataSource.addItem(this.dataTable, result);
-                this.dataBS.next(this.dataTable);
+                if(result != null)
+                {
+                  result.user = this.serviceUsr.usersLogin
+                  this.dataSource.addItem(this.dataTable, result);
+                  this.dataBS.next(this.dataTable);
+                }
               })       
   }
 
