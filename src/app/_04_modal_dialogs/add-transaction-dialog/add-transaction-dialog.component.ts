@@ -21,7 +21,9 @@ export class AddTransactionDialogComponent implements OnInit {
   isFormSubmitted = false;
   cType: FormControl;
   types = ["Zysk", "Koszt", ""]
-  periods = [{period: "01_2018", from: "27-09-2018", to: "26-10-2018"}, {period: "02_2018", from: "27-10-2018", to: "26-11-2018"}]
+  periods = this.newTransactionDialog.periods;
+  periodFrom = "";
+  periodTo = "";
 
   accDt : any
   accEn : any
@@ -29,8 +31,9 @@ export class AddTransactionDialogComponent implements OnInit {
 
   ngOnInit() 
   {
-    this.accDt = this.newTransactionDialog.accounted != "" ? formatDate(this.newTransactionDialog.accounted, "yyyy-MM-dd", "en-en") : null;
-    this.accEn = this.newTransactionDialog.entered != "" ? formatDate(this.newTransactionDialog.entered, "yyyy-MM-dd", "en-en") : null;
+    this.accDt = this.newTransactionDialog.accounted != "" ? formatDate(this.newTransactionDialog.accounted, "yyyy-MM-dd", "en-en") : formatDate(new Date(), "yyyy-MM-dd", "en-en");
+    this.accEn = this.newTransactionDialog.entered != "" ? formatDate(this.newTransactionDialog.entered, "yyyy-MM-dd", "en-en") : formatDate(new Date(), "yyyy-MM-dd", "en-en");
+
 
     this.addTransactionForm = this.formBuilder.group(
       {        
@@ -44,7 +47,9 @@ export class AddTransactionDialogComponent implements OnInit {
         cEntered:     new FormControl( this.accEn,                          Validators.compose([Validators.required] )),
         cPeriod:      new FormControl( this.newTransactionDialog.period,    Validators.compose([Validators.required] )),
         cComment:     new FormControl( this.newTransactionDialog.comment )
-      })  
+      }) 
+    
+    this.periods = this.newTransactionDialog.periods;
   }
 
   btnSaveNewItem()
@@ -76,5 +81,17 @@ export class AddTransactionDialogComponent implements OnInit {
   btnCancel()
   {
     this.dialogRef.close(null);
+  }
+
+  onPeriodChange(event)
+  {
+    this.periods.forEach(prd =>
+      {
+        if(prd.id == event.target.value)
+        {
+          this.periodFrom = "Daty od " + prd.from.toString();
+          this.periodTo   = " do " + prd.until.toString();
+        }
+      })
   }
 }

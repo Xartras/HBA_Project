@@ -7,6 +7,9 @@ import { TransactionsService } from 'src/app/_02_services/transactions-srvc.serv
 import { TransactionItem } from '../../_01_models/transaction-item';
 import { UserAuthService } from '../../_02_services/user-auth-service.service';
 
+import { Period } from '../../_01_models/period';
+import { PeriodsService } from '../../_02_services/periods-srvc.service';
+
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -16,18 +19,36 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class TransactionsDataComponent implements OnInit {
 
+  constructor(public dialog: MatDialog, 
+              private serviceTrns: TransactionsService, 
+              private serviceUsr: UserAuthService,
+              private servicePrds: PeriodsService) {}
+
+
+
   dataSource: TransactionsDataDataSource = new TransactionsDataDataSource(null, this.serviceTrns);
   dataTable: TransactionItem[] = []
   dataBS = new BehaviorSubject(this.dataTable)
-
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+            
   displayedColumns = ['type', 'subType', 'category', 'name', 'amount', 'description', 'accounted', 'entered', 'period', 'comment', 'actions'];
-
-  constructor(public dialog: MatDialog, private serviceTrns: TransactionsService, private serviceUsr: UserAuthService) {}
-
+  periods : Period[] = []
 
   ngOnInit() 
   {
+    this.servicePrds.getPeriods().subscribe((data: any) =>
+    {
+      data.forEach(item =>
+        {
+          if(item.user == this.serviceUsr.usersLogin)
+          this.periods.push(new Period(item._id.split("_")[0] + "_" + item._id.split("_")[1], item.periodFrom, item.periodUntil, item.user))
+          else
+          data.splice(data.indexOf(item), 1);
+        })
+      // do uzycia jesli dodany zostanie filtr na okres
+      //this.initialPeriod = this.servicePrds.getCurrentPeriod(this.periods);
+      //this.filterPlanForm.controls.cPeriods.setValue(this.initialPeriod.id);
+    });
+
     this.dataSource = new TransactionsDataDataSource(this.dataBS.asObservable(), this.serviceTrns);
     this.serviceTrns.getTransactions().subscribe((data: any[]) =>
     {
@@ -46,7 +67,8 @@ export class TransactionsDataComponent implements OnInit {
       {
         data: {
                 type: "", subType: "", category: "", name: "", amount: "",
-                description: "", accounted: "", entered: "", period: "", comment: "", title: "Dodaj wpis"
+                description: "", accounted: "", entered: "", period: "", comment: "", title: "Dodaj wpis",
+                periods: this.periods
               }
       })
   
@@ -72,7 +94,7 @@ export class TransactionsDataComponent implements OnInit {
                 amount:      item.amount,    description: item.description,
                 accounted:   item.accounted, entered:     item.entered,
                 period:      item.period,    comment:     item.comment,
-                title:    "Edytuj wpis"
+                title:    "Edytuj wpis",     periods:     this.periods
               }
       })
     dialogRef.afterClosed().subscribe(

@@ -91,11 +91,12 @@
 
     <div class="form-group">
       <label for="period">Okres</label>
-      <select type = "text" formControlName = "cPeriod" class = "form-control" name = "period">
-        <option *ngFor="let prd of periods" [value]="prd.period">
-          {{prd.period}}
+      <select type = "text" formControlName = "cPeriod" class = "form-control" name = "period" (change) = "onPeriodChange($event)">
+        <option *ngFor="let prd of periods" [value]="prd.id">
+          {{prd.id}}
         </option>
       </select>
+      <span> {{periodFrom}} {{periodTo}} </span>
 
       <div *ngIf="isFormSubmitted && formInput.cPeriod.invalid" class="alert alert-danger">
         <div *ngIf="formInput.cPeriod.errors.required" >
