@@ -26,6 +26,7 @@ export class BudgetPlanComponent implements OnInit {
              ,private serviceBP: BudgetPlanService
              ,private servicePrds: PeriodsService) {}
 
+  wholeData: BudgetPlanItem[] = [];
   dataSource: BudgetPlanDataSource = new BudgetPlanDataSource(null, this.serviceBP);
   dataTable: BudgetPlanItem[] = [];
   dataBS = new BehaviorSubject(this.dataTable);
@@ -69,10 +70,15 @@ export class BudgetPlanComponent implements OnInit {
     {
       data.forEach(item => 
         {
-          if(item.user == this.userAuth.usersLogin)
-          this.dataTable.push(new BudgetPlanItem(item._id, item.type, item.category, item.name, item.period, item.amount, item.comment, item.user))
+          if( item.user != this.userAuth.usersLogin)
+          { data.splice(data.indexOf(item), 1) }
           else
-          data.splice(data.indexOf(item), 1);
+          {
+            this.wholeData.push(new BudgetPlanItem(item._id, item.type, item.category, item.name, item.period, item.amount, item.comment, item.user))
+            
+            if(item.user == this.userAuth.usersLogin && item.period == this.initialPeriod.id)
+            this.dataTable.push(new BudgetPlanItem(item._id, item.type, item.category, item.name, item.period, item.amount, item.comment, item.user))
+          }          
         })
       
       this.dataSource.sortData(this.dataTable);
@@ -96,9 +102,8 @@ export class BudgetPlanComponent implements OnInit {
                 if(result != null)
                 {
                   result.user = this.userAuth.usersLogin;
-                  this.dataSource.addItem(this.dataTable, result);
-                  this.dataSource.sortData(this.dataTable);
-                  this.dataBS.next(this.dataTable);
+                  this.dataSource.addItem(this.wholeData, result);
+                  this.getFilteredData()
                 }
               })        
   }
@@ -134,12 +139,8 @@ export class BudgetPlanComponent implements OnInit {
                  {
                     result.id = item.id;
                     result.user = this.userAuth.usersLogin;
-                    this.dataSource.editItem(this.dataTable, item, result);
-
-                    if(item.category.toLocaleLowerCase() != result.category.toLocaleLowerCase() || item.amount != result.amount)
-                    this.dataSource.sortData(this.dataTable);
-
-                    this.dataBS.next(this.dataTable);
+                    this.dataSource.editItem(this.wholeData, item, result);
+                    this.getFilteredData()
                   }
                 })   
   }
@@ -153,5 +154,21 @@ export class BudgetPlanComponent implements OnInit {
           this.initialPeriod = prd
         }
       })
+  }
+
+  getFilteredData()
+  {
+    let tempTable: BudgetPlanItem[] = [];
+
+    this.wholeData.forEach(item =>
+      {
+        if( item.period ==  this.filterPlanForm.controls.cPeriods.value )
+        tempTable.push(item);
+      })
+
+    this.dataTable = tempTable;
+    this.dataSource.sortData(this.dataTable);
+    this.dataBS.next(this.dataTable);
+    tempTable = []
   }
 }
