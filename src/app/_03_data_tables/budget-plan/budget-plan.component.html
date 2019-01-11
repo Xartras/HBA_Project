@@ -83,13 +83,13 @@
     <!-- [Stan aktualny] -->
     <ng-container matColumnDef="currentAmount">
       <th mat-header-cell *matHeaderCellDef>Stan Aktualny</th>
-      <td mat-cell *matCellDef="let row">{{row.amount- 40}}</td>
+      <td mat-cell *matCellDef="let row">{{row.actualAmount}}</td>
     </ng-container>
 
     <!-- [Roznica pomiedzy planem, a stanem faktycznym] -->
     <ng-container matColumnDef="difference">
       <th mat-header-cell *matHeaderCellDef>Różnica</th>
-      <td mat-cell *matCellDef="let row">{{row.amount - (row.amount - 40)}}</td>
+      <td mat-cell *matCellDef="let row">{{row.difference}}</td>
     </ng-container>
 
     <!-- [Kategoria] -->

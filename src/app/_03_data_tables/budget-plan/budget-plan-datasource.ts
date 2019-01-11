@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { BudgetPlanItem } from '../../_01_models/budget-plan-item'
 import { BudgetPlanService } from '../../_02_services/budget-plan-srvc.service'
 
+import { TransactionItem } from '../../_01_models/transaction-item'
+
 
 export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> { 
 
@@ -11,10 +13,10 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
 
 
   // Dodawanie wpisu
-  addItem(data: BudgetPlanItem[], item: BudgetPlanItem)
+  addItem(data: BudgetPlanItem[], item: BudgetPlanItem, option: number)
   {
     item.id = this.calculateNewId(data, item);
-    this.serviceBP.addBudgetPlan(item);
+    if(option == 1) this.serviceBP.addBudgetPlan(item);
     data.push(item);
   }
 
@@ -40,12 +42,16 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
   }
 
   // Edycja wpisu
-  editItem(data: BudgetPlanItem[], oldItem: BudgetPlanItem, newItem: BudgetPlanItem)
+  editItem(data: BudgetPlanItem[], oldItem: BudgetPlanItem, newItem: BudgetPlanItem, option: number)
   {
-    if(oldItem.type != newItem.type || oldItem.category != newItem.category || oldItem.name != newItem.name )
+    if(option == 1)
+    {
+      if(oldItem.type != newItem.type || oldItem.category != newItem.category || oldItem.name != newItem.name )
       newItem.id = this.updateIdOnEdit(data, newItem);
+  
+      this.serviceBP.updateBudgetPlan(newItem, oldItem.id);
+    }
 
-    this.serviceBP.updateBudgetPlan(newItem, oldItem.id);
     data[data.indexOf(oldItem)] = newItem;
   }
 
@@ -108,11 +114,28 @@ export class BudgetPlanDataSource extends DataSource<BudgetPlanItem> {
   }
 
   // Podsumowanie zyskow i kosztow
-  calculateReveCost(data: BudgetPlanItem[])
+  calculateReveCost(dataBP: BudgetPlanItem[], dataTrn: TransactionItem[], period: string)
+  {
+    let summarizedData = [{type: "Zysk",  plannedTotal: 0, aktualTotal: 0}
+                        , {type: "Koszt", plannedTotal: 0, aktualTotal: 0}]
+    let calcBP = this.summarizeData(dataBP, period);
+    let calcTrn = this.summarizeData(dataTrn, period);
+
+    summarizedData[0].plannedTotal = calcBP.Zysk;
+    summarizedData[0].aktualTotal = calcTrn.Zysk;
+
+    summarizedData[1].plannedTotal = calcBP.Koszt;
+    summarizedData[1].aktualTotal = calcTrn.Koszt;
+
+    return summarizedData;
+  }
+
+  private summarizeData(data: any[], period: string)
   {
     let summarizedPlan = data.reduce(
       (groupedCategories, element) =>
       {
+        if(element.period == period)
         groupedCategories[element.type] += <number>element.amount;
 
         return groupedCategories;
