@@ -8,7 +8,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 @Component({
   selector: 'app-add-budget-plan-dialog',
   templateUrl: './add-budget-plan-dialog.component.html',
-  styleUrls: ['./add-budget-plan-dialog.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class AddBudgetPlanDialogComponent implements OnInit {
 

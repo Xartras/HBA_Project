@@ -1,86 +1,87 @@
-<h2 mat-dialog-title>{{newBudgetItemDialog.title}}</h2>
+<h2 mat-dialog-title style="text-align: center">{{newBudgetItemDialog.title}}</h2>
 
 <mat-dialog-content> 
   <form [formGroup]="addPlanItemForm">
 
-    <div class="form-group">
-      <label for="type">Rodzaj</label>
- <!--    <input type = "text" [ngClass] = "{ 'is-invalid': isFormSubmitted && formInput.cType.errors }"
-             formControlName = "cType" class = "form-control" name = "type" 
-             [value]="newBudgetItemDialog.type"> --> 
-      <select type = "text" formControlName = "cType" class = "form-control" name = "type">
-        <option *ngFor="let t of types" [value]="t">
-          {{t}}
-        </option>
-      </select>
+    <div class="row">    
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="type" style="text-align: center">Rodzaj</label>
 
-      <div *ngIf="isFormSubmitted && formInput.cType.invalid" class="alert alert-danger">
-        <div *ngIf="formInput.cType.errors.required" >
-          Pole wymagane!
+        <select type = "text" formControlName = "cType" class = "form-control" name = "type">
+          <option *ngFor="let t of types" [value]="t">
+            {{t}}
+          </option>
+        </select>
+
+        <div *ngIf="isFormSubmitted && formInput.cType.invalid" class="alert alert-danger">
+          <div *ngIf="formInput.cType.errors.required" >
+            Pole wymagane!
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="category" style="text-align: center">Kategoria</label>
+        <input type = "text" formControlName = "cCategory" class = "form-control" name = "category">
+
+        <div *ngIf="isFormSubmitted && formInput.cCategory.invalid" class="alert alert-danger">
+          <div *ngIf="formInput.cCategory.errors.required" >
+            Pole wymagane!
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="name">Nazwa</label>
+        <input type = "text" formControlName = "cName" class = "form-control" name = "name">
+
+        <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
+          <div *ngIf="formInput.cName.errors.required" >
+            Pole wymagane!
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="category">Kategoria</label>
-      <input type = "text" formControlName = "cCategory" class = "form-control" name = "category">
+    <div class = "row">
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="period">Okres</label>
+        <select type = "text" formControlName = "cPeriod" class = "form-control" name = "period" (change) = "onPeriodChange($event)">
+          <option *ngFor="let prd of periods" [value]="prd.id">
+            {{prd.id}}
+          </option>
+        </select>
+        <div>
+          <span>{{periodFrom}} {{periodTo}}</span>
+        </div>
 
-      <div *ngIf="isFormSubmitted && formInput.cCategory.invalid" class="alert alert-danger">
-        <div *ngIf="formInput.cCategory.errors.required" >
-          Pole wymagane!
+        <div *ngIf="isFormSubmitted && formInput.cPeriod.invalid" class="alert alert-danger">
+          <div *ngIf="formInput.cPeriod.errors.required" >
+            Pole wymagane!
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="name">Nazwa</label>
-      <input type = "text" formControlName = "cName" class = "form-control" name = "name">
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="amount">Kwota</label>
+        <input type = "number" formControlName = "cAmount" class = "form-control" name = "amount">
 
-      <div *ngIf="isFormSubmitted && formInput.cName.invalid" class="alert alert-danger">
-        <div *ngIf="formInput.cName.errors.required" >
-          Pole wymagane!
+        <div *ngIf="isFormSubmitted && formInput.cAmount.invalid" class="alert alert-danger">
+          <div *ngIf="formInput.cAmount.errors.required" >
+            Pole wymagane!
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="period">Okres</label>
-      <select type = "text" formControlName = "cPeriod" class = "form-control" name = "period" (change) = "onPeriodChange($event)">
-        <option *ngFor="let prd of periods" [value]="prd.id">
-          {{prd.id}}
-        </option>
-      </select>
-      <div>
-        <span>{{periodFrom}} {{periodTo}}</span>
-      </div>
-
-      <div *ngIf="isFormSubmitted && formInput.cPeriod.invalid" class="alert alert-danger">
-        <div *ngIf="formInput.cPeriod.errors.required" >
-          Pole wymagane!
-        </div>
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="comment">Komentarz</label>
+        <input type = "text" formControlName = "cComment" class = "form-control" name = "comment">
       </div>
     </div>
-
-    <div class="form-group">
-      <label for="amount">Kwota</label>
-      <input type = "number" formControlName = "cAmount" class = "form-control" name = "amount">
-
-      <div *ngIf="isFormSubmitted && formInput.cAmount.invalid" class="alert alert-danger">
-        <div *ngIf="formInput.cAmount.errors.required" >
-          Pole wymagane!
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="comment">Komentarz</label>
-      <input type = "text" formControlName = "cComment" class = "form-control" name = "comment">
-    </div>
-
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button  mat-reisedbutton (click)="btnSaveNewItem()">Zapisz</button>
-  <button  mat-button (click)="btnCancel()">Anuluj</button>
+  <button  mat-reisedbutton (click)="btnSaveNewItem()" style="margin: auto">Zapisz</button>
+  <button  mat-button (click)="btnCancel()" style="margin: auto">Anuluj</button>
 </mat-dialog-actions>

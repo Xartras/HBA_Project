@@ -7,7 +7,7 @@ import { PeriodicFeeItem } from '../../_01_models/periodic-fee-item';
 @Component({
   selector: 'app-add-periodic-fee-dialog',
   templateUrl: './add-periodic-fee-dialog.component.html',
-  styleUrls: ['./add-periodic-fee-dialog.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class AddPeriodicFeeDialogComponent implements OnInit {
 

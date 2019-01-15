@@ -1,81 +1,84 @@
-<h2 mat-dialog-title>{{newPeriodicFeeDialog.title}}</h2>
+<h2 mat-dialog-title style="text-align: center">{{newPeriodicFeeDialog.title}}</h2>
 
 <mat-dialog-content> 
   <form [formGroup]="addPeriodicFeeForm">
 
-    <div class="form-group">
-      <label for="category">Kategoria</label>
-      <input type = "text" formControlName = "cCategory" class = "form-control" name = "category">
+    <div class = "row">
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="category">Kategoria</label>
+        <input type = "text" formControlName = "cCategory" class = "form-control" name = "category">
       
-      <div *ngIf="isFormSubmitted && formInput.cCategory.invalid && (formInput.cCategory.dirty || formInput.cCategory.touched)">
-        <div *ngIf="formInput.cCategory.errors.required" class="alert alert-danger">
-          Pole wymagane!
+        <div *ngIf="isFormSubmitted && formInput.cCategory.invalid && (formInput.cCategory.dirty || formInput.cCategory.touched)">
+          <div *ngIf="formInput.cCategory.errors.required" class="alert alert-danger">
+            Pole wymagane!
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="name">Nazwa</label>
+        <input type="text" formControlName = "cName" class = "form-control" name = "name">
+
+        <div *ngIf="isFormSubmitted && formInput.cName.invalid && (formInput.cName.dirty || formInput.cName.touched)">
+          <div *ngIf="formInput.cName.errors.required" class="alert alert-danger">
+            Pole wymagane!
+          </div>
+        </div>
+      </div>  
+
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="paidUntil">Płatne do</label>
+        <input type="number" formControlName = "cPaidUntil" class = "form-control" name = "paidUntil">
+
+        <div *ngIf="isFormSubmitted && formInput.cPaidUntil.invalid && (formInput.cPaidUntil.dirty || formInput.cPaidUntil.touched)">
+          <div *ngIf="formInput.cPaidUntil.errors.required" class="alert alert-danger">
+            Pole wymagane!
+          </div>
+          <div *ngIf="formInput.cPaidUntil.errors.min || formInput.cPaidUntil.errors.max" class="alert alert-danger">
+            Należy podać liczbę od 1 do 31!
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="name">Nazwa</label>
-      <input type="text" formControlName = "cName" class = "form-control" name = "name">
-
-      <div *ngIf="isFormSubmitted && formInput.cName.invalid && (formInput.cName.dirty || formInput.cName.touched)">
-        <div *ngIf="formInput.cName.errors.required" class="alert alert-danger">
-          Pole wymagane!
-        </div>
-      </div>
-    </div>  
-
-    <div class="form-group">
-      <label for="paidUntil">Płatne do</label>
-      <input type="number" formControlName = "cPaidUntil" class = "form-control" name = "paidUntil">
-
-      <div *ngIf="isFormSubmitted && formInput.cPaidUntil.invalid && (formInput.cPaidUntil.dirty || formInput.cPaidUntil.touched)">
-        <div *ngIf="formInput.cPaidUntil.errors.required" class="alert alert-danger">
-          Pole wymagane!
-        </div>
-        <div *ngIf="formInput.cPaidUntil.errors.min || formInput.cPaidUntil.errors.max" class="alert alert-danger">
-          Należy podać liczbę od 1 do 31!
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="paymentPeriod">Płatne co</label>
-      <input type="text" formControlName = "cPaymentPeriod" class = "form-control" name = "paymentPeriod">
+    <div class = "row">
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="paymentPeriod">Płatne co</label>
+        <input type="text" formControlName = "cPaymentPeriod" class = "form-control" name = "paymentPeriod">
     
-      <div *ngIf="isFormSubmitted && formInput.cPaymentPeriod.invalid && (formInput.cPaymentPeriod.dirty || formInput.cPaymentPeriod.touched)">
-        <div *ngIf="formInput.cPaymentPeriod.errors.required" class="alert alert-danger">
-          Pole wymagane!
+        <div *ngIf="isFormSubmitted && formInput.cPaymentPeriod.invalid && (formInput.cPaymentPeriod.dirty || formInput.cPaymentPeriod.touched)">
+          <div *ngIf="formInput.cPaymentPeriod.errors.required" class="alert alert-danger">
+            Pole wymagane!
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="paymentDeadline">Termin końcowy</label>
-      <input type="text" formControlName = "cPaymentDeadline" class = "form-control" name = "paymentDeadline">
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="paymentDeadline">Termin końcowy</label>
+        <input type="text" formControlName = "cPaymentDeadline" class = "form-control" name = "paymentDeadline">
     
-      <div *ngIf="isFormSubmitted && formInput.cPaymentDeadline.invalid && (formInput.cPaymentDeadline.dirty || formInput.cPaymentDeadline.touched)">
-        <div *ngIf="formInput.cPaymentDeadline.errors.required" class="alert alert-danger">
-          Pole wymagane!
+        <div *ngIf="isFormSubmitted && formInput.cPaymentDeadline.invalid && (formInput.cPaymentDeadline.dirty || formInput.cPaymentDeadline.touched)">
+          <div *ngIf="formInput.cPaymentDeadline.errors.required" class="alert alert-danger">
+            Pole wymagane!
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="warnings">Uwagi</label>
-      <input type="text" formControlName = "cWarnings" class = "form-control" name = "warnings">
+      <div class="form-group formatFormsFields_PF_BP">
+        <label for="warnings">Uwagi</label>
+        <input type="text" formControlName = "cWarnings" class = "form-control" name = "warnings">
     
-      <div *ngIf="isFormSubmitted && formInput.cWarnings.invalid && (formInput.cWarnings.dirty || formInput.cWarnings.touched)">
-        <div *ngIf="formInput.cWarnings.errors.required" class="alert alert-danger">
-          Pole wymagane!
+        <div *ngIf="isFormSubmitted && formInput.cWarnings.invalid && (formInput.cWarnings.dirty || formInput.cWarnings.touched)">
+          <div *ngIf="formInput.cWarnings.errors.required" class="alert alert-danger">
+            Pole wymagane!
+          </div>
         </div>
       </div>
     </div>
-
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-reisedbutton (click)="btnSaveNewItem()">Zapisz</button>
-  <button mat-button (click)="btnCancel()">Anuluj</button>
+  <button mat-reisedbutton (click)="btnSaveNewItem()" style="margin: auto">Zapisz</button>
+  <button mat-button (click)="btnCancel()" style="margin: auto">Anuluj</button>
 </mat-dialog-actions>
