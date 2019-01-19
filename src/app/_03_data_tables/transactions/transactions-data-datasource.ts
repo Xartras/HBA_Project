@@ -96,6 +96,51 @@ export class TransactionsDataDataSource extends DataSource<TransactionItem> {
       return updtdId; 
   }
 
+    // pobranie typow srodkow
+    summarizeSubtypes(data: TransactionItem[], period: string)
+    {
+      let subtypes = []
+      let newSubtype = false
+      let itemAdded = false
+
+      data.forEach(item =>
+        {
+          if(item.period == period)
+          {
+            if(subtypes.length == 0) 
+            {
+              item.type == "Koszt" 
+                ? subtypes.push({subtype: item.subType, reve: 0, cost: item.amount}) 
+                : subtypes.push({subtype: item.subType, reve: item.amount, cost: 0})
+            }
+            else
+            {
+              subtypes.forEach(subtype => 
+                {
+                  if(item.subType == subtype.subtype)
+                  {
+                    item.type == "Koszt" ? subtype.cost += item.amount : subtype.reve += item.amount;
+                    newSubtype = true;
+                    itemAdded = true;
+                    return;
+                  }
+                  else
+                  {
+                    newSubtype = false;
+                  }
+                })
+              if(newSubtype == false && itemAdded == false) 
+                item.type == "Koszt"
+                  ? subtypes.push({subtype: item.subType, reve: 0, cost: item.amount}) 
+                  : subtypes.push({subtype: item.subType, reve: item.amount, cost: 0})  
+            }
+            itemAdded = false;
+          }
+        })
+
+        return subtypes;
+    }
+
   // Metoda zwraca dane, które powinny zostać wyświetlone w przeglądarce
   connect(): Observable<TransactionItem[]> { return this.transactions }
 

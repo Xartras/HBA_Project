@@ -10,6 +10,31 @@
   </nav>
 </div>
 
+<div>
+  <div>
+    <h2>Podsumowanie kategorii środków pieniężnych</h2>
+  </div>
+
+  <div>
+    <table>
+      <tr>
+        <th>Rodzaj</th>
+        <th>Zysk</th>
+        <th>Koszt</th>
+        <th>Różnica</th>
+      </tr>
+    </table>
+    <table *ngFor="let row of summarizedData">
+      <tr>
+        <th>{{row.subtype}}</th>
+        <th>{{row.reve}}</th>
+        <th>{{row.cost}}</th>
+        <th>{{row.reve - row.cost}}</th>
+      </tr>
+    </table>
+  </div>
+</div>
+
 <div class="mat-elevation-z8">
   <table mat-table #table [dataSource]="dataSource" matSort aria-label="Elements" class = "columnsWidth">
     <!-- [Typ] -->

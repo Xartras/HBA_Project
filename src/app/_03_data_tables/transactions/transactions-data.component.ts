@@ -29,6 +29,8 @@ export class TransactionsDataComponent implements OnInit {
   dataSource: TransactionsDataDataSource = new TransactionsDataDataSource(null, this.serviceTrns);
   dataTable: TransactionItem[] = []
   dataBS = new BehaviorSubject(this.dataTable)
+
+  summarizedData = []
             
   displayedColumns = ['type', 'subType', 'category', 'name', 'amount', 'description', 'accounted', 'entered', 'period', 'comment', 'actions'];
   periods : Period[] = []
@@ -57,6 +59,7 @@ export class TransactionsDataComponent implements OnInit {
          item.accounted, item.entered, item.period, item.comment, item.usersLogin)))
 
       this.dataSource = new TransactionsDataDataSource(this.dataBS.asObservable(), this.serviceTrns);
+      this.summarizedData = this.dataSource.summarizeSubtypes(this.dataTable, "1_2019")
     })
   }
 
