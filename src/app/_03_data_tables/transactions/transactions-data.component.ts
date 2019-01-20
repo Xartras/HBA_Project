@@ -10,7 +10,8 @@ import { UserAuthService } from '../../_02_services/user-auth-service.service';
 import { Period } from '../../_01_models/period';
 import { PeriodsService } from '../../_02_services/periods-srvc.service';
 
-import { BehaviorSubject, iif } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-transactions-data',
@@ -19,7 +20,8 @@ import { BehaviorSubject, iif } from 'rxjs';
 })
 export class TransactionsDataComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, 
+  constructor(private formBuilder: FormBuilder,
+              public dialog: MatDialog, 
               private serviceTrns: TransactionsService, 
               private serviceUsr: UserAuthService,
               private servicePrds: PeriodsService) {}
@@ -33,10 +35,20 @@ export class TransactionsDataComponent implements OnInit {
   summarizedData = []
             
   displayedColumns = ['type', 'subType', 'category', 'name', 'amount', 'description', 'accounted', 'entered', 'period', 'comment', 'actions'];
-  periods : Period[] = []
+  filterTransactionForm : FormGroup;
+  periods = []
+
+  initialPeriod = new Period('', null, null, '');
+  get formInput() { return this.filterTransactionForm.controls }
 
   ngOnInit() 
   {
+    this.filterTransactionForm = this.formBuilder.group(
+      {
+        cPeriods: new FormControl(this.initialPeriod.id),
+      }
+    )
+
     this.servicePrds.getPeriods().subscribe((data: any) =>
     {
       data.forEach(item =>
@@ -46,9 +58,9 @@ export class TransactionsDataComponent implements OnInit {
           else
           data.splice(data.indexOf(item), 1);
         })
-      // do uzycia jesli dodany zostanie filtr na okres
-      //this.initialPeriod = this.servicePrds.getCurrentPeriod(this.periods);
-      //this.filterPlanForm.controls.cPeriods.setValue(this.initialPeriod.id);
+
+      this.initialPeriod = this.servicePrds.getCurrentPeriod(this.periods);
+      this.filterTransactionForm.controls.cPeriods.setValue(this.initialPeriod.id);
     });
 
     this.dataSource = new TransactionsDataDataSource(this.dataBS.asObservable(), this.serviceTrns);
@@ -59,7 +71,7 @@ export class TransactionsDataComponent implements OnInit {
          item.accounted, item.entered, item.period, item.comment, item.usersLogin)))
 
       this.dataSource = new TransactionsDataDataSource(this.dataBS.asObservable(), this.serviceTrns);
-      this.summarizedData = this.dataSource.summarizeSubtypes(this.dataTable, "1_2019")
+      this.summarizedData = this.dataSource.summarizeSubtypes(this.dataTable, this.initialPeriod.id)
     })
   }
 
@@ -123,32 +135,59 @@ export class TransactionsDataComponent implements OnInit {
     this.updateSummarizedData('d', null, item, "1_2019")
   }
 
+  // Aktualizacja podsumowania srodkow pienieznych per zysk/koszt
   private updateSummarizedData(option: 'a'|'e'|'d', oldItem: TransactionItem, newItem: TransactionItem, period: string)
   {
+    let subtypeNotExist = true;
+    // jesli dodajemy nowy wpis
     if(option == 'a')
     {
       this.summarizedData.forEach(subtype =>
         {
+          // jesli znajdziemy typ srodka pienieznego dodajemy wartosc do kosztu lub przychodu
           if(newItem.subType == subtype.subtype)
           {
             newItem.type == 'Koszt' ? subtype.cost += newItem.amount : subtype.reve += newItem.amount;
+            subtypeNotExist = false;
             return;
           }
         })
+      
+      // jesli nie znajdziemy typu to dodajemy nowy wpis do podsumowania
+      if(subtypeNotExist) 
+        newItem.type == "Koszt" 
+          ? this.summarizedData.push({subtype: newItem.subType, reve: 0, cost: newItem.amount})
+          : this.summarizedData.push({subtype: newItem.subType, reve: newItem.amount, cost: 0})
     }
 
+    // w przypadku edycji wpisu
     if(option == 'e')
     {
       this.summarizedData.forEach(subtype =>
         {
+          // aktualizujemy wartosci kosztu/przychodu dla poprzedniego typu
           if(oldItem.subType == subtype.subtype) 
             oldItem.type == 'Koszt' ? subtype.cost -= oldItem.amount : subtype.reve -= oldItem.amount;
 
+          // aktualizujemy wartosci do nowego typu (jesli istnieje)
           if(newItem.subType == subtype.subtype) 
-            newItem.type == 'Koszt' ? subtype.cost += newItem.amount : subtype.reve += newItem.amount;
-        })    
+          {
+            newItem.type == 'Koszt' 
+              ? subtype.cost += newItem.amount 
+              : subtype.reve += newItem.amount;
+            
+              subtypeNotExist = false;
+          }
+        })
+
+        // jesli po edycji wpisu mamy nowy typ, dodajemy do podsumowania
+        if(subtypeNotExist) 
+        newItem.type == "Koszt" 
+          ? this.summarizedData.push({subtype: newItem.subType, reve: 0, cost: newItem.amount})
+          : this.summarizedData.push({subtype: newItem.subType, reve: newItem.amount, cost: 0})
     }
 
+    // aktualizujemy w przypadku usuwania wpisu
     if(option == 'd')
     {
       this.summarizedData.forEach(subtype =>

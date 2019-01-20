@@ -7,6 +7,19 @@
     <div>
       <button (click)="btnAddTransactionItem()">Dodaj</button>
     </div>
+
+    <form [formGroup]="filterTransactionForm" class="form-inline">
+      <div class="form-group">
+        <label for="period">Okres:</label>
+        <select type="text" formControlName = "cPeriods" class = "form-control" (change) = "onPeriodChange($event)">
+          <option *ngFor="let prd of periods" [value]="prd.id">
+            {{prd.id}}
+          </option>
+        </select>
+      </div>
+
+      <button (click)="getFilteredData()">Filtruj</button>
+    </form>
   </nav>
 </div>
 
@@ -15,21 +28,21 @@
     <h2>Podsumowanie kategorii środków pieniężnych</h2>
   </div>
 
-  <div>
-    <table>
-      <tr>
-        <th>Rodzaj</th>
-        <th>Zysk</th>
-        <th>Koszt</th>
-        <th>Różnica</th>
+  <div style="width: 50%; margin: auto">
+    <table style="width: 100%; margin: auto">
+      <tr style="width: 100%">
+        <th style = "width: 25%; margin: auto">Rodzaj</th>
+        <th style = "width: 25%; margin: auto">Zysk</th>
+        <th style = "width: 25%; margin: auto">Koszt</th>
+        <th style = "width: 25%; margin: auto">Różnica</th>
       </tr>
     </table>
-    <table *ngFor="let row of summarizedData">
-      <tr>
-        <th>{{row.subtype}}</th>
-        <th>{{row.reve}}</th>
-        <th>{{row.cost}}</th>
-        <th>{{row.reve - row.cost}}</th>
+    <table *ngFor="let row of summarizedData" style="width: 100%; margin: auto">
+      <tr style="width: 100%">
+        <th style = "width: 25%; margin: auto">{{row.subtype}}</th>
+        <th style = "width: 25%; margin: auto">{{row.reve}}</th>
+        <th style = "width: 25%; margin: auto">{{row.cost}}</th>
+        <th style = "width: 25%; margin: auto">{{row.reve - row.cost}}</th>
       </tr>
     </table>
   </div>
@@ -39,67 +52,67 @@
   <table mat-table #table [dataSource]="dataSource" matSort aria-label="Elements" class = "columnsWidth">
     <!-- [Typ] -->
     <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Typ</th>
+      <th mat-header-cell *matHeaderCellDef>Typ</th>
       <td mat-cell *matCellDef="let row">{{row.type}}</td>
     </ng-container>
 
     <!-- [Typ] -->
     <ng-container matColumnDef="subType">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Rodzaj</th>
+      <th mat-header-cell *matHeaderCellDef>Rodzaj</th>
       <td mat-cell *matCellDef="let row">{{row.subType}}</td>
     </ng-container>
 
     <!-- [Kategoria] -->
     <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Kategoria</th>
+      <th mat-header-cell *matHeaderCellDef>Kategoria</th>
       <td mat-cell *matCellDef="let row">{{row.category}}</td>
     </ng-container>
 
     <!-- [Nazwa] -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazwa</th>
+      <th mat-header-cell *matHeaderCellDef>Nazwa</th>
       <td mat-cell *matCellDef="let row">{{row.name}}</td>
     </ng-container>
 
     <!-- [Kwota] -->
     <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Kwota</th>
+      <th mat-header-cell *matHeaderCellDef>Kwota</th>
       <td mat-cell *matCellDef="let row">{{row.amount}}</td>
     </ng-container>
 
     <!-- [Opis] -->
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Opis</th>
+      <th mat-header-cell *matHeaderCellDef>Opis</th>
       <td mat-cell *matCellDef="let row">{{row.description}}</td>
     </ng-container>
 
     <!-- [Oplacono] -->
     <ng-container matColumnDef="accounted">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Opłacono</th>
+      <th mat-header-cell *matHeaderCellDef>Opłacono</th>
       <td mat-cell *matCellDef="let row">{{row.accounted | date: 'yyyy-MM-dd'}}</td>
     </ng-container>
 
     <!-- [Wprowadzono] -->
     <ng-container matColumnDef="entered">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Wprowadzono</th>
+      <th mat-header-cell *matHeaderCellDef>Wprowadzono</th>
       <td mat-cell *matCellDef="let row">{{row.entered | date: 'yyyy-MM-dd'}}</td>
     </ng-container>
 
     <!-- [Okres] -->
     <ng-container matColumnDef="period">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Okres</th>
+      <th mat-header-cell *matHeaderCellDef>Okres</th>
       <td mat-cell *matCellDef="let row">{{row.period}}</td>
     </ng-container>
 
     <!-- [Okres] -->
     <ng-container matColumnDef="comment">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Komentarz</th>
+      <th mat-header-cell *matHeaderCellDef>Komentarz</th>
       <td mat-cell *matCellDef="let row">{{row.comment}}</td>
     </ng-container>
 
     <!-- [Akcje] -->
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Akcje</th>
+      <th mat-header-cell *matHeaderCellDef>Akcje</th>
       <td mat-cell *matCellDef="let row">
         <button (click)="btnEditRow(row)"   style="margin: 0; padding: 0; border: none"><img src="http://localhost:4200/src/app/_00_Images/przyciskEdycji.png" style="width: 21.5px; height: 21.5px" class="highlightButton"></button>
         <button (click)="btnRemoveRow(row)" style="margin: 0; padding: 0; border: none"><img src="http://localhost:4200/src/app/_00_Images/przyciskUsun.jpg" style="width: 21.5px; height: 21.5px" class="highlightButton"></button>
