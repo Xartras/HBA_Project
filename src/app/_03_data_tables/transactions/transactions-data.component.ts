@@ -10,7 +10,7 @@ import { UserAuthService } from '../../_02_services/user-auth-service.service';
 import { Period } from '../../_01_models/period';
 import { PeriodsService } from '../../_02_services/periods-srvc.service';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, iif } from 'rxjs';
 
 @Component({
   selector: 'app-transactions-data',
@@ -82,6 +82,7 @@ export class TransactionsDataComponent implements OnInit {
                   result.user = this.serviceUsr.usersLogin
                   this.dataSource.addItem(this.dataTable, result);
                   this.dataBS.next(this.dataTable);
+                  this.updateSummarizedData('a', null, result, "1_2019")
                 }
               })       
   }
@@ -109,6 +110,7 @@ export class TransactionsDataComponent implements OnInit {
                     
                     this.dataSource.editItem(this.dataTable, item, result);
                     this.dataBS.next(this.dataTable);
+                    this.updateSummarizedData('e', item, result, "1_2019")
                   }
                 })  
   }
@@ -118,5 +120,42 @@ export class TransactionsDataComponent implements OnInit {
   {
     this.dataSource.removeItem(this.dataTable, item);
     this.dataBS.next(this.dataTable);
+    this.updateSummarizedData('d', null, item, "1_2019")
+  }
+
+  private updateSummarizedData(option: 'a'|'e'|'d', oldItem: TransactionItem, newItem: TransactionItem, period: string)
+  {
+    if(option == 'a')
+    {
+      this.summarizedData.forEach(subtype =>
+        {
+          if(newItem.subType == subtype.subtype)
+          {
+            newItem.type == 'Koszt' ? subtype.cost += newItem.amount : subtype.reve += newItem.amount;
+            return;
+          }
+        })
+    }
+
+    if(option == 'e')
+    {
+      this.summarizedData.forEach(subtype =>
+        {
+          if(oldItem.subType == subtype.subtype) 
+            oldItem.type == 'Koszt' ? subtype.cost -= oldItem.amount : subtype.reve -= oldItem.amount;
+
+          if(newItem.subType == subtype.subtype) 
+            newItem.type == 'Koszt' ? subtype.cost += newItem.amount : subtype.reve += newItem.amount;
+        })    
+    }
+
+    if(option == 'd')
+    {
+      this.summarizedData.forEach(subtype =>
+        {
+          if(newItem.subType == subtype.subtype) 
+            newItem.type == 'Koszt' ? subtype.cost -= newItem.amount : subtype.reve -= newItem.amount;
+        })  
+    }
   }
 }
