@@ -21,12 +21,9 @@ export class PeriodsComponent implements OnInit {
   
   dataSource: PeriodsDataSource = new PeriodsDataSource(null, this.ServicePrds);
   dataTable: Period[] = [];
-  datas: Period[]
   dataBS = new BehaviorSubject(this.dataTable)
   isFormSubmitted = false;
   areDatesCorrect = false;
-
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'from', 'until'];
 
   addPeriodForm: FormGroup
@@ -35,11 +32,24 @@ export class PeriodsComponent implements OnInit {
   ngOnInit() 
   {
     this.dataSource = new PeriodsDataSource(this.dataBS.asObservable(), this.ServicePrds);
+    // Pobranie okresow rozliczeniowych
     this.ServicePrds.getPeriods().subscribe((data: any[]) =>
     {
-      data.forEach(item => this.dataTable.push(new Period(item._id, item.periodFrom, item.periodUntil, item.user)))
-      this.dataSource = new PeriodsDataSource(this.dataBS.asObservable(), this.ServicePrds);
+      data.forEach(item => 
+        {
+          if(item.user == this.ServiceUsr.usersLogin)
+          {
+            this.dataTable.push(new Period(item._id, item.periodFrom, item.periodUntil, item.user))
+          }
+          else
+          {
+            data.splice(data.indexOf(item), 1);
+          }
+        })
+        this.dataSource = new PeriodsDataSource(this.dataBS.asObservable(), this.ServicePrds);        
     })
+
+    // zdefiniowanie formularza
     this.addPeriodForm = this.formBuilder.group(
       {
          cPeriodBegin: new FormControl( '', Validators.compose([Validators.required]) )
