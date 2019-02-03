@@ -2,13 +2,13 @@ export class SavingPlanItem
 {
     id:              string;
     target:          string;
-    plannedAmount:   Number;
-    currentAmount:   Number;
+    plannedAmount:   number;
+    currentAmount:   number;
     getUntil:        string;
     comment:         string;
     user:            string;
 
-    constructor(i: string, t: string, pa: Number, ca: Number, gu: string, c: string, u: string)
+    constructor(i: string, t: string, pa: number, ca: number, gu: string, c: string, u: string)
     {
         this.id            = i;
         this.target        = t;

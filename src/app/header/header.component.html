@@ -5,9 +5,9 @@
   <nav class="navbar navbar-dark bg-primary"  *ngIf="userAuth.isUserLoggedIn()">
       <a routerLink="/details" class="navbar-brand" *ngIf="userAuth.isUserLoggedIn()">Detale użytkownika</a>
       <a routerLink="/transactions" class="navbar-brand" *ngIf="userAuth.isUserLoggedIn()">Transakcje</a>
-      <a routerLink="/homebillings" class="navbar-brand" *ngIf="userAuth.isUserLoggedIn()">Media</a>
+      <a routerLink="/homebillings" class="navbar-brand" *ngIf="userAuth.isUserLoggedIn()">Zasoby</a>
       <a routerLink="/planning" class="navbar-brand" *ngIf="userAuth.isUserLoggedIn()">Planowanie</a>
-      <a routerLink="/statistics" class="navbar-brand" *ngIf="userAuth.isUserLoggedIn()">Analiza budżetu</a>
+      <!--<a routerLink="/statistics" class="navbar-brand" *ngIf="userAuth.isUserLoggedIn()">Analiza budżetu</a>-->
       <button (click)="btnSgnOut()" *ngIf="userAuth.isUserLoggedIn()">Wyloguj się</button>
   </nav>
 </div>

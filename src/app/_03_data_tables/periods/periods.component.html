@@ -27,19 +27,19 @@
 
     <!-- Kolumna z numerem okresu -->
     <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Numer</th>
+        <th mat-header-cell *matHeaderCellDef>Numer</th>
         <td mat-cell *matCellDef="let row">{{row.id.split("_")[0]}}</td>
       </ng-container>
 
     <!-- Kolumna z data poczatku okresu -->
     <ng-container matColumnDef="from">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Początek</th>
+      <th mat-header-cell *matHeaderCellDef>Początek</th>
       <td mat-cell *matCellDef="let row">{{row.from}}</td>
     </ng-container>
 
     <!-- Kolumna z data konca okresu -->
     <ng-container matColumnDef="until">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Koniec</th>
+      <th mat-header-cell *matHeaderCellDef>Koniec</th>
       <td mat-cell *matCellDef="let row">{{row.until}}</td>
     </ng-container>
 

@@ -14,19 +14,19 @@
   <table mat-table #table [dataSource]="dataSource" matSort aria-label="Elements" class = "columnsWidth">
     <!-- [Nazwa] -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazwa</th>
+      <th mat-header-cell *matHeaderCellDef>Nazwa</th>
       <td mat-cell *matCellDef="let row">{{row.name}}</td>
     </ng-container>
 
     <!-- [Okres] -->
     <ng-container matColumnDef="period">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Okres</th>
+      <th mat-header-cell *matHeaderCellDef>Okres</th>
       <td mat-cell *matCellDef="let row">{{row.period}}</td>
     </ng-container>
 
     <!-- [Zuzycie] -->
     <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Zużycie</th>
+      <th mat-header-cell *matHeaderCellDef>Zużycie</th>
       <td mat-cell *matCellDef="let row">{{row.quantity}}</td>
     </ng-container>
 
